@@ -1,0 +1,884 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>HPAC Positive Check-In Roster Prototype</title>
+<style>
+:root{
+  --green-950:#052e22;
+  --green-800:#166534;
+  --gold-600:#d4a500;
+  --bg:#eef3f7;
+  --card:#ffffff;
+  --muted:#64748b;
+  --border:#d9e2ea;
+  --text:#0f172a;
+  --danger:#dc2626;
+  --danger-soft:#fff1f2;
+  --success:#15803d;
+  --success-soft:#ecfdf5;
+  --warning:#f59e0b;
+  --warning-soft:#fff7ed;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(180deg,#edf3f7 0%,#f7fafc 100%);
+  color:var(--text);
+}
+a{text-decoration:none;color:inherit}
+.page{max-width:1500px;margin:0 auto;padding:24px}
+.hero,.panel,.roster-card,.event-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:28px;
+  overflow:hidden;
+  box-shadow:0 8px 24px rgba(15,23,42,.05);
+}
+.hero{margin-bottom:24px}
+.hero-top{
+  position:relative;
+  background:linear-gradient(90deg,var(--green-950) 0%,var(--green-800) 58%,var(--gold-600) 100%);
+  color:#fff;
+  padding:34px 32px;
+}
+.hero-corner-logo{
+  position:absolute; right:28px; top:20px; width:120px; max-width:22vw; height:auto;
+  filter:drop-shadow(0 8px 18px rgba(0,0,0,.18));
+}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.28em;color:rgba(255,255,255,.82)}
+.hero-top h1{margin:8px 0 10px;font-size:clamp(34px,5vw,56px);line-height:1}
+.hero-sub{font-size:19px;color:rgba(255,255,255,.94);max-width:860px}
+.hero-status{
+  margin-top:18px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.hero-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border-radius:999px;
+  padding:9px 13px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.12);
+  font-size:13px;
+  font-weight:800;
+}
+.hero-bottom{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:18px;
+  padding:22px 24px 24px;
+}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.info-card,.quick-card{
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:16px;
+  background:#f8fafc;
+}
+.info-label{font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:#475569;margin-bottom:8px}
+.info-value{font-weight:800;font-size:18px}
+.info-sub{margin-top:6px;color:var(--muted);font-size:14px;line-height:1.45}
+.quick-actions{display:grid;gap:12px}
+.quick-link{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  border:1px solid var(--border);border-radius:16px;background:#fff;padding:14px 16px;
+  font-weight:800;font-size:15px;
+  transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.quick-link:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(15,23,42,.06);border-color:#bfd1de}
+.quick-sub{font-size:12px;color:var(--muted);font-weight:700;margin-top:4px}
+.layout{display:grid;grid-template-columns:minmax(0,1.1fr) 360px;gap:24px;align-items:start}
+.stack{display:grid;gap:24px}
+.panel{padding:22px}
+.panel h2,.panel h3{margin:0 0 14px}
+.panel h2{font-size:32px}
+.panel h3{font-size:24px}
+.panel-sub{margin-top:-4px;margin-bottom:16px;color:var(--muted);font-size:14px;line-height:1.45}
+
+.toolbar{
+  display:grid;
+  grid-template-columns:1.2fr .8fr .8fr auto;
+  gap:12px;
+  align-items:center;
+}
+.input,.select{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:13px 14px;
+  background:#fff;
+  color:var(--text);
+  font-size:14px;
+}
+.secondary-btn,.primary-btn,.ghost-btn{
+  border:none;
+  border-radius:14px;
+  padding:13px 16px;
+  font-size:14px;
+  font-weight:800;
+  cursor:pointer;
+  transition:transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+.primary-btn{
+  background:linear-gradient(135deg,#14532d 0%, #166534 100%);
+  color:#fff;
+  box-shadow:0 8px 18px rgba(15,23,42,.12);
+}
+.secondary-btn{
+  background:#fff8eb;
+  color:#9a3412;
+  border:1px solid #f6c77e;
+}
+.ghost-btn{
+  background:#f8fafc;
+  color:#0f172a;
+  border:1px solid var(--border);
+}
+.primary-btn:hover,.secondary-btn:hover,.ghost-btn:hover{transform:translateY(-1px)}
+
+.summary-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+  margin-top:18px;
+}
+.summary-card{
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:16px;
+  background:#f8fafc;
+}
+.summary-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:#64748b;font-weight:800}
+.summary-value{margin-top:8px;font-size:30px;font-weight:900;line-height:1}
+.summary-help{margin-top:6px;color:var(--muted);font-size:13px;line-height:1.4}
+
+.event-card{overflow:hidden}
+.event-head{
+  padding:18px 22px;
+  background:#f8fafc;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.event-kicker{font-size:12px;text-transform:uppercase;letter-spacing:.18em;color:#166534;font-weight:800}
+.event-title{margin-top:6px;font-size:28px;font-weight:900;line-height:1.15}
+.event-meta{
+  margin-top:12px;
+  display:flex;gap:10px;flex-wrap:wrap;
+}
+.event-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  border:1px solid var(--border);border-radius:999px;padding:8px 12px;
+  background:#fff;font-size:13px;font-weight:800;color:#334155;
+}
+.deadline-box{
+  min-width:240px;
+  border:1px solid #fecaca;
+  background:linear-gradient(135deg,#fff7ed 0%,#fff1f2 100%);
+  border-radius:18px;
+  padding:14px 16px;
+}
+.deadline-label{
+  font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:#b91c1c;font-weight:900
+}
+.deadline-main{margin-top:8px;font-size:18px;font-weight:900}
+.deadline-sub{margin-top:4px;font-size:13px;color:#64748b;line-height:1.35}
+
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse}
+th,td{padding:14px 16px;border-top:1px solid #eef2f7;text-align:left;vertical-align:middle}
+th{
+  border-top:none;
+  font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:#64748b;
+  background:#fff;
+  white-space:nowrap;
+}
+tbody tr:hover td{background:#fafcfd}
+.name-cell strong{display:block;font-size:15px}
+.name-cell span{display:block;font-size:12px;color:#64748b;margin-top:4px}
+.status-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:116px;
+  border-radius:999px;
+  padding:8px 12px;
+  font-size:12px;
+  font-weight:900;
+  border:1px solid;
+}
+.status-pending{background:#fff8eb;border-color:#f6c77e;color:#a16207}
+.status-checked{background:#ecfdf5;border-color:#bbf7d0;color:#166534}
+.status-scratched{background:#fef2f2;border-color:#fecaca;color:#b91c1c}
+.action-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.row-btn{
+  border:none;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:800;cursor:pointer;
+  transition:transform .15s ease,opacity .15s ease,box-shadow .15s ease;
+}
+.row-btn:hover{transform:translateY(-1px)}
+.checkin-btn{background:#166534;color:#fff;box-shadow:0 6px 14px rgba(21,128,61,.2)}
+.undo-btn{background:#fff;border:1px solid var(--border);color:#0f172a}
+.scratch-btn{background:#fff4f5;border:1px solid #fecdd3;color:#be123c}
+.timestamp{font-size:12px;color:#64748b;white-space:nowrap}
+.checked-row td{background:#f7fdf9}
+.scratched-row td{background:#fff7f7}
+.checked-row .name-cell strong{color:#14532d}
+.scratched-row .name-cell strong{color:#991b1b}
+
+.side-stack{display:grid;gap:24px;position:sticky;top:16px}
+.meet-central-brand{
+  display:flex;align-items:center;gap:12px;margin:12px 0 16px;
+  padding:10px 12px;border:1px solid var(--border);border-radius:18px;background:rgba(255,255,255,.72);
+}
+.meet-central-brand img{width:58px;height:auto;display:block}
+.meet-central-brand strong{display:block;font-size:14px;line-height:1.1;color:#0f172a}
+.meet-central-brand span{display:block;font-size:12px;color:#64748b;margin-top:3px}
+.side-metrics{display:grid;gap:12px}
+.side-metric{
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:#f8fafc;
+  padding:14px 16px;
+}
+.side-metric.live{background:linear-gradient(135deg,#fff7ed 0%,#fff1f2 100%);border-color:#fecaca}
+.side-label{font-size:11px;text-transform:uppercase;letter-spacing:.16em;font-weight:900;color:#64748b}
+.side-value{margin-top:8px;font-size:30px;font-weight:900;line-height:1}
+.side-help{margin-top:6px;font-size:13px;color:#64748b;line-height:1.4}
+.qa-links{display:grid;gap:10px}
+.qa-link{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  text-decoration:none;border:1px solid var(--border);border-radius:16px;background:#f8fafc;padding:14px 16px;color:#0f172a;
+  transition:background .15s ease,border-color .15s ease,transform .15s ease
+}
+.qa-link:hover{background:#f1f5f9;border-color:#cbd5e1;transform:translateY(-1px)}
+.qa-text{display:flex;flex-direction:column;gap:2px}
+.qa-text span:first-child{font-weight:800;font-size:16px}
+.qa-sub{font-size:13px;color:#64748b}
+.qa-arrow{font-size:20px;color:#166534;font-weight:800;line-height:1}
+
+.note-list{display:grid;gap:10px}
+.note-item{
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:#f8fafc;
+  padding:12px 14px;
+  font-size:14px;line-height:1.45;
+}
+
+#slugScrollBtn,#liveTrackerBtn,#floatingTopBtn{
+  position:fixed;right:22px;z-index:9999;display:none;
+}
+#slugScrollBtn{
+  bottom:160px;border:none;border-radius:999px;width:52px;height:52px;padding:0;font-size:24px;font-weight:900;color:#0f172a;
+  background:linear-gradient(135deg,#fff59d 0%, #ffe066 55%, #ffd43b 100%);
+  box-shadow:0 10px 24px rgba(15,23,42,.18), inset 0 0 0 2px rgba(15,23,42,.08);
+  cursor:pointer;
+}
+#liveTrackerBtn{
+  bottom:86px;align-items:center;gap:10px;max-width:280px;text-decoration:none;border-radius:16px;padding:12px 14px;
+  background:linear-gradient(135deg,#fff7ed 0%, #fff1f2 100%);color:#0f172a;
+  box-shadow:0 10px 24px rgba(15,23,42,.16), inset 0 0 0 1px rgba(15,23,42,.08);
+}
+#floatingTopBtn{
+  bottom:22px;border:none;border-radius:999px;padding:13px 18px;font-size:14px;font-weight:800;color:#0f172a;
+  background:linear-gradient(135deg,#fff59d 0%, #ffe066 55%, #ffd43b 100%);
+  box-shadow:0 10px 24px rgba(15,23,42,.18), inset 0 0 0 2px rgba(15,23,42,.08);
+  cursor:pointer;
+}
+.live-tracker-dot{width:10px;height:10px;border-radius:999px;background:#dc2626;box-shadow:0 0 0 0 rgba(220,38,38,.45);animation:pulse 1.8s infinite;flex:0 0 auto}
+.live-tracker-copy{display:flex;flex-direction:column;min-width:0}
+.live-tracker-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#b91c1c;font-weight:900}
+.live-tracker-title{margin-top:3px;font-size:13px;font-weight:800;line-height:1.2;color:#0f172a}
+#floatingTopBtn .arrow{margin-right:8px;font-weight:900}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(220,38,38,.45)}
+  70%{box-shadow:0 0 0 8px rgba(220,38,38,0)}
+  100%{box-shadow:0 0 0 0 rgba(220,38,38,0)}
+}
+
+@media (max-width:1180px){
+  .layout,.hero-bottom{grid-template-columns:1fr}
+  .side-stack{position:static}
+}
+@media (max-width:900px){
+  .info-grid,.summary-grid{grid-template-columns:1fr 1fr}
+  .toolbar{grid-template-columns:1fr 1fr}
+}
+@media (max-width:720px){
+  .info-grid,.summary-grid,.toolbar{grid-template-columns:1fr}
+  .event-title{font-size:24px}
+  #slugScrollBtn{right:16px;bottom:146px;width:48px;height:48px;font-size:22px}
+  #liveTrackerBtn{right:16px;bottom:74px;max-width:240px;padding:10px 12px}
+  #floatingTopBtn{right:16px;bottom:16px;padding:12px 16px;font-size:13px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <section class="hero">
+    <div class="hero-top">
+      <img class="hero-corner-logo" src="assets/logos/hpac.png" alt="HPAC Banana Slugs logo" onerror="this.style.display='none'"/>
+      <div class="eyebrow">HPAC Banana Slugs · Digital Check-In Prototype</div>
+      <h1>Positive Check-In Roster</h1>
+      <div class="hero-sub">This is the first digital version of your paper check-in sheet: same event-by-event workflow, but with live status, timestamps, and instant admin visibility.</div>
+      <div class="hero-status">
+        <span class="hero-chip">🔴 Check-In Open</span>
+        <span class="hero-chip">🗂 Events 21 & 22</span>
+        <span class="hero-chip">⏱ Closes at 11:45 AM</span>
+        <span class="hero-chip">📋 Prototype roster workflow</span>
+      </div>
+    </div>
+    <div class="hero-bottom">
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-label">How This Works</div>
+          <div class="info-value">Check in who is present</div>
+          <div class="info-sub">This mirrors your current deck workflow. Checked-in swimmers stay active. Anyone not checked in by the deadline becomes part of the scratch review.</div>
+        </div>
+        <div class="info-card">
+          <div class="info-label">Why This Helps</div>
+          <div class="info-value">No paper handoff</div>
+          <div class="info-sub">The roster updates in place, so admin can immediately see who is in, who is still pending, and who has been scratched.</div>
+        </div>
+        <div class="info-card">
+          <div class="info-label">Prototype Scope</div>
+          <div class="info-value">UI first</div>
+          <div class="info-sub">This version is for workflow testing and design validation. The next stage will be saving real submissions and building the admin report/export layer.</div>
+        </div>
+      </div>
+      <div class="quick-card">
+        <div class="info-label">Quick Links</div>
+        <div class="quick-actions">
+          <a class="quick-link" href="#event-21-roster">
+            <div><div>Girls 400 Free Finals</div><div class="quick-sub">Event 21 roster</div></div>
+            <div>→</div>
+          </a>
+          <a class="quick-link" href="#event-22-roster">
+            <div><div>Boys 400 Free Finals</div><div class="quick-sub">Event 22 roster</div></div>
+            <div>→</div>
+          </a>
+          <a class="quick-link" href="index.html">
+            <div><div>Meet Central</div><div class="quick-sub">Return to homepage</div></div>
+            <div>↗</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="layout">
+    <main class="stack">
+      <section class="panel roster-card">
+        <h2>Check-In Control Desk</h2>
+        <div class="panel-sub">Search, filter, and test the roster workflow before we wire in real saved submissions.</div>
+        <div class="toolbar">
+          <input id="searchInput" class="input" type="text" placeholder="Search swimmer, team, or event"/>
+          <select id="teamFilter" class="select">
+            <option value="all">All teams</option>
+            <option value="WAVE-ST">WAVE-ST</option>
+            <option value="HPAC-ST">HPAC-ST</option>
+            <option value="AQTX-ST">AQTX-ST</option>
+            <option value="MMA-ST">MMA-ST</option>
+            <option value="LIFE-ST">LIFE-ST</option>
+            <option value="BEAQ-ST">BEAQ-ST</option>
+          </select>
+          <select id="statusFilter" class="select">
+            <option value="all">All statuses</option>
+            <option value="pending">Pending only</option>
+            <option value="checked">Checked in only</option>
+            <option value="scratched">Scratched only</option>
+          </select>
+          <button id="resetAllBtn" class="ghost-btn" type="button">Reset View</button>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-card">
+            <div class="summary-kicker">Total Swimmers</div>
+            <div class="summary-value" id="totalCount">15</div>
+            <div class="summary-help">All athletes currently listed across open distance events.</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-kicker">Checked In</div>
+            <div class="summary-value" id="checkedCount">0</div>
+            <div class="summary-help">These swimmers are confirmed present.</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-kicker">Still Pending</div>
+            <div class="summary-value" id="pendingCount">15</div>
+            <div class="summary-help">These are the swimmers you still need a response from.</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-kicker">Marked Scratch</div>
+            <div class="summary-value" id="scratchCount">0</div>
+            <div class="summary-help">Use this for obvious no-shows or manual deck decisions during testing.</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="event-21-roster" class="event-card">
+        <div class="event-head">
+          <div>
+            <div class="event-kicker">Session 1 · Saturday · Event 21</div>
+            <div class="event-title">Girls 400 Free Finals</div>
+            <div class="event-meta">
+              <span class="event-pill">11 entries</span>
+              <span class="event-pill">Distance check-in required</span>
+              <span class="event-pill">Starts at 12:00 PM</span>
+            </div>
+          </div>
+          <div class="deadline-box">
+            <div class="deadline-label">Check-In Deadline</div>
+            <div class="deadline-main">11:45 AM</div>
+            <div class="deadline-sub">Anyone still pending at deadline becomes part of the scratch review for meet admin.</div>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Team</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="roster-row" data-event="21" data-team="WAVE-ST" data-name="Gedminas, Stella R" data-status="pending">
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td class="name-cell"><strong>Gedminas, Stella R</strong><span>Event 21 · Girls 400 Free Finals</span></td>
+                <td>11</td>
+                <td>WAVE-ST</td>
+                <td class="action-wrap"><button class="row-btn checkin-btn">Check In</button><button class="row-btn scratch-btn">Scratch</button><span class="timestamp"></span></td>
+              </tr>
+              <tr class="roster-row" data-event="21" data-team="HPAC-ST" data-name="Gomez-Cisneros, Carlota" data-status="pending">
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td class="name-cell"><strong>Gomez-Cisneros, Carlota</strong><span>Event 21 · Girls 400 Free Finals</span></td>
+                <td>12</td>
+                <td>HPAC-ST</td>
+                <td class="action-wrap"><button class="row-btn checkin-btn">Check In</button><button class="row-btn scratch-btn">Scratch</button><span class="timestamp"></span></td>
+              </tr>
+              <tr class="roster-row" data-event="21" data-team="WAVE-ST" data-name="Holland, Zoe M" data-status="pending">
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td class="name-cell"><strong>Holland, Zoe M</strong><span>Event 21 · Girls 400 Free Finals</span></td>
+                <td>12</td>
+                <td>WAVE-ST</td>
+                <td class="action-wrap"><button class="row-btn checkin-btn">Check In</button><button class="row-btn scratch-btn">Scratch</button><span class="timestamp"></span></td>
+              </tr>
+              <tr class="roster-row" data-event="21" data-team="AQTX-ST" data-name="Huie, Olivia K" data-status="pending">
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td class="name-cell"><strong>Huie, Olivia K</strong><span>Event 21 · Girls 400 Free Finals</span></td>
+                <td>11</td>
+                <td>AQTX-ST</td>
+                <td class="action-wrap"><button class="row-btn checkin-btn">Check In</button><button class="row-btn scratch-btn">Scratch</button><span class="timestamp"></span></td>
+              </tr>
+              <tr class="roster-row" data-event="21" data-team="AQTX-ST" data-name="McKinney, Sienna P" data-status="pending">
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td class="name-cell"><strong>McKinney, Sienna P</strong><span>Event 21 · Girls 400 Free Finals</span></td>
+                <td>11</td>
+                <td>AQTX-ST</td>
+                <td class="action-wrap"><button class="row-btn checkin-btn">Check In</button><button class="row-btn scratch-btn">Scratch</button><span class="timestamp"></span></td>
+              </tr>
+              <tr class="roster-row" data-event="21" data-team="AQTX-ST" data-name="Ritt, Annabelle C" data-status="pending">
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td class="name-cell"><strong>Ritt, Annabelle C</strong><span>Event 21 · Girls 400 Free Finals</span></td>
+                <td>12</td>
+                <td>AQTX-ST</td>
+                <td class="action-wrap"><button class="row-btn checkin-btn">Check In</button><button class="row-btn scratch-btn">Scratch</button><span class="timestamp"></span></td>
+              </tr>
+              <tr class="roster-row" data-event="21" data-team="MMA-ST" data-name="Salinas, Ari" data-status="pending">
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td class="name-cell"><strong>Salinas, Ari</strong><span>Event 21 · Girls 400 Free Finals</span></td>
+                <td>11</td>
+                <td>MMA-ST</td>
+                <td class="action-wrap"><button class="row-btn checkin-btn">Check In</button><button class="row-btn scratch-btn">Scratch</button><span class="timestamp"></span></td>
+              </tr>
+              <tr class="roster-row" data-event="21" data-team="LIFE-ST" data-name="Sharp, Madilyn G" data-status="pending">
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td class="name-cell"><strong>Sharp, Madilyn G</strong><span>Event 21 · Girls 400 Free Finals</span></td>
+                <td>12</td>
+                <td>LIFE-ST</td>
+                <td class="action-wrap"><button class="row-btn checkin-btn">Check In</button><button class="row-btn scratch-btn">Scratch</button><span class="timestamp"></span></td>
+              </tr>
+              <tr class="roster-row" data-event="21" data-team="MMA-ST" data-name="Taylor, Sloan E" data-status="pending">
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td class="name-cell"><strong>Taylor, Sloan E</strong><span>Event 21 · Girls 400 Free Finals</span></td>
+                <td>12</td>
+                <td>MMA-ST</td>
+                <td class="action-wrap"><button class="row-btn checkin-btn">Check In</button><button class="row-btn scratch-btn">Scratch</button><span class="timestamp"></span></td>
+              </tr>
+              <tr class="roster-row" data-event="21" data-team="BEAQ-ST" data-name="Wobser, Milly M" data-status="pending">
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td class="name-cell"><strong>Wobser, Milly M</strong><span>Event 21 · Girls 400 Free Finals</span></td>
+                <td>11</td>
+                <td>BEAQ-ST</td>
+                <td class="action-wrap"><button class="row-btn checkin-btn">Check In</button><button class="row-btn scratch-btn">Scratch</button><span class="timestamp"></span></td>
+              </tr>
+              <tr class="roster-row" data-event="21" data-team="WAVE-ST" data-name="Yazdani, Kyra M" data-status="pending">
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td class="name-cell"><strong>Yazdani, Kyra M</strong><span>Event 21 · Girls 400 Free Finals</span></td>
+                <td>11</td>
+                <td>WAVE-ST</td>
+                <td class="action-wrap"><button class="row-btn checkin-btn">Check In</button><button class="row-btn scratch-btn">Scratch</button><span class="timestamp"></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="event-22-roster" class="event-card">
+        <div class="event-head">
+          <div>
+            <div class="event-kicker">Session 1 · Saturday · Event 22</div>
+            <div class="event-title">Boys 400 Free Finals</div>
+            <div class="event-meta">
+              <span class="event-pill">4 entries</span>
+              <span class="event-pill">Distance check-in required</span>
+              <span class="event-pill">Starts at 12:00 PM</span>
+            </div>
+          </div>
+          <div class="deadline-box">
+            <div class="deadline-label">Check-In Deadline</div>
+            <div class="deadline-main">11:45 AM</div>
+            <div class="deadline-sub">This second roster block mirrors the same layout, so coaches can scan and act quickly by event.</div>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Team</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="roster-row" data-event="22" data-team="WAVE-ST" data-name="Gedminas, Rowan L" data-status="pending">
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td class="name-cell"><strong>Gedminas, Rowan L</strong><span>Event 22 · Boys 400 Free Finals</span></td>
+                <td>12</td>
+                <td>WAVE-ST</td>
+                <td class="action-wrap"><button class="row-btn checkin-btn">Check In</button><button class="row-btn scratch-btn">Scratch</button><span class="timestamp"></span></td>
+              </tr>
+              <tr class="roster-row" data-event="22" data-team="AQTX-ST" data-name="Hernandez, Omar" data-status="pending">
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td class="name-cell"><strong>Hernandez, Omar</strong><span>Event 22 · Boys 400 Free Finals</span></td>
+                <td>12</td>
+                <td>AQTX-ST</td>
+                <td class="action-wrap"><button class="row-btn checkin-btn">Check In</button><button class="row-btn scratch-btn">Scratch</button><span class="timestamp"></span></td>
+              </tr>
+              <tr class="roster-row" data-event="22" data-team="HPAC-ST" data-name="Lopez, Jaden R" data-status="pending">
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td class="name-cell"><strong>Lopez, Jaden R</strong><span>Event 22 · Boys 400 Free Finals</span></td>
+                <td>11</td>
+                <td>HPAC-ST</td>
+                <td class="action-wrap"><button class="row-btn checkin-btn">Check In</button><button class="row-btn scratch-btn">Scratch</button><span class="timestamp"></span></td>
+              </tr>
+              <tr class="roster-row" data-event="22" data-team="MMA-ST" data-name="Ramos, Elijah T" data-status="pending">
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td class="name-cell"><strong>Ramos, Elijah T</strong><span>Event 22 · Boys 400 Free Finals</span></td>
+                <td>12</td>
+                <td>MMA-ST</td>
+                <td class="action-wrap"><button class="row-btn checkin-btn">Check In</button><button class="row-btn scratch-btn">Scratch</button><span class="timestamp"></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <aside class="side-stack">
+      <section class="panel">
+        <h3>Meet Central</h3>
+        <div class="meet-central-brand">
+          <img alt="HPAC Banana Slugs logo" src="assets/logos/hpac.png" onerror="this.style.display='none'"/>
+          <div><strong>HPAC Banana Slugs</strong><span>Digital check-in workflow prototype</span></div>
+        </div>
+        <div class="panel-sub">Use this side rail to mirror the quick operational awareness you need on deck.</div>
+        <div class="side-metrics">
+          <div class="side-metric live">
+            <div class="side-label">Live Roster Status</div>
+            <div class="side-value" id="sidePendingValue">15 pending</div>
+            <div class="side-help">This is the number meet admin would watch most closely as the deadline approaches.</div>
+          </div>
+          <div class="side-metric">
+            <div class="side-label">Current Focus</div>
+            <div class="side-value">Events 21 · 22</div>
+            <div class="side-help">Girls 400 Free Finals and Boys 400 Free Finals are open for positive check-in in this prototype.</div>
+          </div>
+          <div class="side-metric">
+            <div class="side-label">Admin Report Preview</div>
+            <div class="side-value" id="reportPreviewValue">0 confirmed</div>
+            <div class="side-help">Later this becomes the source for unchecked-only and checked-in export reports.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h3>Next Connections</h3>
+        <div class="panel-sub">This roster is the bridge between your current paper sheet and the future admin report/export system.</div>
+        <div class="deep-link-banner" id="deepLinkBanner">⚡ Opened from swimmer profile · Jumped to matching check-in row</div>
+        <div class="qa-links">
+          <a class="qa-link" href="positive-checkin.html">
+            <span class="qa-text"><span>Check-In Landing Page</span><span class="qa-sub">Back to the main positive check-in entry page</span></span>
+            <span class="qa-arrow">→</span>
+          </a>
+          <a class="qa-link" href="timeline.html">
+            <span class="qa-text"><span>Timeline</span><span class="qa-sub">Jump back into the session flow</span></span>
+            <span class="qa-arrow">→</span>
+          </a>
+          <a class="qa-link" href="heat-sheets.html">
+            <span class="qa-text"><span>Heat Sheets</span><span class="qa-sub">Return to lane-by-lane meet view</span></span>
+            <span class="qa-arrow">→</span>
+          </a>
+          <a class="qa-link" href="index.html">
+            <span class="qa-text"><span>Meet Central</span><span class="qa-sub">Go back home</span></span>
+            <span class="qa-arrow">↗</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h3>Why this layout works</h3>
+        <div class="note-list">
+          <div class="note-item">It mirrors your familiar paper report: event header first, swimmer list second, and a simple mark beside the name.</div>
+          <div class="note-item">The difference is that each mark now becomes visible status data you can later filter, export, and send to admin.</div>
+          <div class="note-item">Once we wire real storage, unchecked swimmers at deadline can become the instant scratch review list.</div>
+        </div>
+      </section>
+    </aside>
+  </div>
+</div>
+
+<button aria-label="Scroll to top" id="slugScrollBtn" type="button" title="Scroll to top">🍌</button>
+
+<a href="#event-21-roster" id="liveTrackerBtn" title="Jump to open check-in roster">
+  <span class="live-tracker-dot"></span>
+  <span class="live-tracker-copy">
+    <span class="live-tracker-label">Check-In Live</span>
+    <span class="live-tracker-title">Jump to current roster block</span>
+  </span>
+</a>
+
+<button aria-label="Go home" id="floatingTopBtn" type="button"><span class="arrow">↑</span>Home</button>
+
+<script>
+(function(){
+  const slugBtn = document.getElementById('slugScrollBtn');
+  const liveBtn = document.getElementById('liveTrackerBtn');
+  const homeBtn = document.getElementById('floatingTopBtn');
+
+  function toggleFloating(){
+    const scrolled = window.scrollY || document.documentElement.scrollTop || 0;
+    const show = scrolled > 220;
+    slugBtn.style.display = show ? 'inline-flex' : 'none';
+    liveBtn.style.display = show ? 'flex' : 'none';
+    homeBtn.style.display = show ? 'inline-flex' : 'none';
+  }
+
+  slugBtn.addEventListener('click', function(){
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  homeBtn.addEventListener('click', function(){
+    window.location.href = 'index.html';
+  });
+
+  window.addEventListener('scroll', toggleFloating, {passive:true});
+  window.addEventListener('load', toggleFloating);
+})();
+
+(function(){
+  const rows = Array.from(document.querySelectorAll('.roster-row'));
+  const searchInput = document.getElementById('searchInput');
+  const teamFilter = document.getElementById('teamFilter');
+  const statusFilter = document.getElementById('statusFilter');
+  const resetAllBtn = document.getElementById('resetAllBtn');
+
+  const totalCount = document.getElementById('totalCount');
+  const checkedCount = document.getElementById('checkedCount');
+  const pendingCount = document.getElementById('pendingCount');
+  const scratchCount = document.getElementById('scratchCount');
+  const sidePendingValue = document.getElementById('sidePendingValue');
+  const reportPreviewValue = document.getElementById('reportPreviewValue');
+
+  function timeStamp(){
+    const now = new Date();
+    return now.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+  }
+
+  function applyRowVisualState(row, status){
+    const badge = row.querySelector('.status-badge');
+    const checkBtn = row.querySelector('.checkin-btn');
+    const scratchBtn = row.querySelector('.scratch-btn');
+    const timeEl = row.querySelector('.timestamp');
+
+    row.dataset.status = status;
+    row.classList.remove('checked-row','scratched-row');
+
+    if(status === 'checked'){
+      row.classList.add('checked-row');
+      badge.className = 'status-badge status-checked';
+      badge.textContent = 'Checked In';
+      checkBtn.textContent = 'Undo';
+      checkBtn.className = 'row-btn undo-btn checkin-btn';
+      scratchBtn.style.display = 'none';
+      timeEl.textContent = 'Confirmed ' + timeStamp();
+    } else if(status === 'scratched'){
+      row.classList.add('scratched-row');
+      badge.className = 'status-badge status-scratched';
+      badge.textContent = 'Scratch';
+      checkBtn.textContent = 'Restore';
+      checkBtn.className = 'row-btn undo-btn checkin-btn';
+      scratchBtn.style.display = 'none';
+      timeEl.textContent = 'Marked ' + timeStamp();
+    } else {
+      badge.className = 'status-badge status-pending';
+      badge.textContent = 'Pending';
+      checkBtn.textContent = 'Check In';
+      checkBtn.className = 'row-btn checkin-btn';
+      scratchBtn.style.display = 'inline-flex';
+      timeEl.textContent = '';
+    }
+  }
+
+  function updateCounts(){
+    const allRows = Array.from(document.querySelectorAll('.roster-row'));
+    const checked = allRows.filter(r => r.dataset.status === 'checked').length;
+    const scratched = allRows.filter(r => r.dataset.status === 'scratched').length;
+    const pending = allRows.filter(r => r.dataset.status === 'pending').length;
+    totalCount.textContent = allRows.length;
+    checkedCount.textContent = checked;
+    pendingCount.textContent = pending;
+    scratchCount.textContent = scratched;
+    sidePendingValue.textContent = pending + ' pending';
+    reportPreviewValue.textContent = checked + ' confirmed';
+  }
+
+  function filterRows(){
+    const query = (searchInput.value || '').toLowerCase().trim();
+    const team = teamFilter.value;
+    const status = statusFilter.value;
+
+    rows.forEach(row => {
+      const matchesQuery = !query || (
+        row.dataset.name.toLowerCase().includes(query) ||
+        row.dataset.team.toLowerCase().includes(query) ||
+        row.dataset.event.toLowerCase().includes(query)
+      );
+      const matchesTeam = team === 'all' || row.dataset.team === team;
+      const matchesStatus = status === 'all' || row.dataset.status === status;
+      row.style.display = (matchesQuery && matchesTeam && matchesStatus) ? '' : 'none';
+    });
+  }
+
+  rows.forEach(row => {
+    const checkBtn = row.querySelector('.checkin-btn');
+    const scratchBtn = row.querySelector('.scratch-btn');
+
+    checkBtn.addEventListener('click', function(){
+      const current = row.dataset.status;
+      if(current === 'pending'){
+        applyRowVisualState(row, 'checked');
+      } else {
+        applyRowVisualState(row, 'pending');
+      }
+      updateCounts();
+      filterRows();
+    });
+
+    scratchBtn.addEventListener('click', function(){
+      applyRowVisualState(row, 'scratched');
+      updateCounts();
+      filterRows();
+    });
+  });
+
+  [searchInput, teamFilter, statusFilter].forEach(el => {
+    el.addEventListener('input', filterRows);
+    el.addEventListener('change', filterRows);
+  });
+
+  resetAllBtn.addEventListener('click', function(){
+    searchInput.value = '';
+    teamFilter.value = 'all';
+    statusFilter.value = 'all';
+    filterRows();
+  });
+
+  updateCounts();
+  filterRows();
+})();
+
+
+(function(){
+  function normalizeName(value){
+    return (value || '').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const eventParam = params.get('event');
+  const swimmerParam = params.get('swimmer');
+  const sourceParam = params.get('source');
+  const banner = document.getElementById('deepLinkBanner');
+
+  if(!eventParam && !swimmerParam) return;
+
+  const rows = Array.from(document.querySelectorAll('.roster-row'));
+  const cards = Array.from(document.querySelectorAll('.event-card'));
+  cards.forEach(card => card.classList.remove('deep-link-target'));
+  rows.forEach(row => row.classList.remove('deep-link-row'));
+
+  let targetCard = null;
+  if(eventParam){
+    targetCard = document.getElementById(`event-${eventParam}-roster`);
+  }
+
+  let targetRow = null;
+  if(swimmerParam){
+    const wanted = normalizeName(decodeURIComponent(swimmerParam));
+    targetRow = rows.find(row => normalizeName(row.dataset.name).includes(wanted) || wanted.includes(normalizeName(row.dataset.name)));
+  }
+
+  if(!targetCard && targetRow){
+    targetCard = targetRow.closest('.event-card');
+  }
+
+  if(targetCard){
+    targetCard.classList.add('deep-link-target');
+  }
+  if(targetRow){
+    targetRow.classList.add('deep-link-row');
+  }
+
+  const scrollTarget = targetRow || targetCard;
+  if(scrollTarget){
+    setTimeout(() => {
+      scrollTarget.scrollIntoView({behavior:'smooth', block:'center'});
+    }, 120);
+  }
+
+  if(banner && sourceParam === 'profile'){
+    banner.classList.add('show');
+    if(targetRow){
+      const nameCell = targetRow.querySelector('td:nth-child(2)');
+      banner.textContent = `⚡ Opened from swimmer profile · ${nameCell ? nameCell.textContent.trim() : 'Matching swimmer'} highlighted`; 
+    }
+  }
+})();
+
+</script>
+</body>
+</html>

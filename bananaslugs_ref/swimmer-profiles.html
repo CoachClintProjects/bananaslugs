@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swimmer Profiles</title>
+<style>
+:root {
+  --bg:#edf3f7;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --line:#d9e2ea;
+  --green:#166534;
+  --green-dark:#0b3d2e;
+  --gold:#f0d452;
+  --gold-soft:#fff3bf;
+  --accent:#ecfdf5;
+  --accent-line:#b7e3cc;
+  --danger-bg:#fff5f5;
+  --danger-line:#fecaca;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  color:var(--text);
+  background:linear-gradient(180deg,#edf3f7 0%,#f7fafc 100%);
+}
+.page {
+  display:grid;
+  grid-template-columns: 440px 1fr;
+  min-height:100vh;
+}
+.sidebar {
+  border-right:1px solid var(--line);
+  background:rgba(255,255,255,.35);
+  padding:28px 16px 120px;
+}
+.content {
+  padding:30px 32px 120px;
+}
+.brand {
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  margin-bottom:18px;
+}
+.brand-mark {
+  width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#ffe066,#ffd43b);
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+}
+.brand h1 {
+  margin:0;
+  font-size:28px;
+}
+.brand p {
+  margin:6px 0 0;
+  color:var(--muted);
+  line-height:1.45;
+  font-size:14px;
+}
+.side-note, .filter-card {
+  background:rgba(255,255,255,.72);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:18px;
+  margin-bottom:14px;
+}
+.filter-card select, .search {
+  width:100%;
+  padding:14px 16px;
+  border-radius:18px;
+  border:1px solid #cfd8df;
+  font-size:16px;
+  background:#fff;
+}
+.team-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:14px 0;
+}
+.team-btn {
+  border:1px solid var(--accent-line);
+  background:var(--accent);
+  color:#0b5a3f;
+  border-radius:16px;
+  padding:11px 14px;
+  font-weight:700;
+  cursor:pointer;
+}
+.team-btn.secondary {
+  background:#fff;
+  border-color:#d8e1e8;
+  color:#334155;
+}
+.subtle {
+  color:var(--muted);
+  margin:10px 0 18px;
+}
+.swimmer-list {
+  display:grid;
+  gap:12px;
+}
+.swimmer-row {
+  display:grid;
+  grid-template-columns: 44px 1fr 48px;
+  gap:12px;
+  align-items:center;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:12px;
+  cursor:pointer;
+  transition:.16s ease;
+}
+.swimmer-row.active {
+  background:#eefbf3;
+  border-color:#b7e3cc;
+  box-shadow:0 0 0 3px rgba(183,227,204,.35);
+}
+.swimmer-row:hover { transform:translateY(-1px); }
+.avatar-sm {
+  width:44px;height:44px;border-radius:14px;overflow:hidden;background:#eef3f7;border:1px solid #dde6ee;
+}
+.avatar-sm img, .hero-photo img {
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+.row-name {
+  font-weight:800;font-size:18px;line-height:1.15;
+}
+.row-meta {
+  margin-top:4px;color:var(--muted);font-size:14px;
+}
+.star {
+  width:40px;height:40px;border-radius:14px;
+  border:1px solid #f2e19b;background:#fff7d6;
+  display:flex;align-items:center;justify-content:center;font-size:18px;color:#aa7b00;
+}
+.hero-card, .section-card {
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:28px;
+  overflow:hidden;
+  box-shadow:0 8px 24px rgba(15,23,42,.05);
+}
+.hero-card {
+  padding:24px;
+}
+.hero-top {
+  display:grid;
+  grid-template-columns:100px 1fr;
+  gap:18px;
+  align-items:center;
+}
+.hero-photo {
+  width:100px;height:100px;border-radius:999px;overflow:hidden;border:1px solid var(--line);background:#f8fafc;
+}
+.title-row {
+  display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.title-stack h2 {
+  margin:0;font-size:34px;line-height:1.02;
+}
+.title-sub {
+  margin-top:8px;color:var(--muted);font-size:18px;
+}
+.mode-pills {
+  display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;
+}
+.mode-pill {
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:10px 14px;border-radius:999px;border:1px solid #dbe7f4;
+  text-decoration:none;font-weight:800;font-size:14px;background:#fff;color:#0f172a;
+}
+.mode-pill.active {
+  background:linear-gradient(135deg,#fff59d 0%, #ffe066 55%, #ffd43b 100%);
+  border-color:#f0d452;
+}
+.mode-pill.card-mode {
+  background:linear-gradient(135deg,#166534,#0b3d2e);
+  color:#ffffff;
+  border-color:#0b3d2e;
+}
+.badge {
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid #dbe7f4;border-radius:999px;padding:10px 14px;
+  font-weight:800;background:#fff;color:#0f172a;margin-top:14px;
+}
+.checkin {
+  margin-top:18px;
+  border:1px solid var(--danger-line);
+  background:var(--danger-bg);
+  border-radius:24px;
+  padding:20px;
+}
+.check-chip {
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid #fda4af;border-radius:999px;padding:8px 14px;
+  font-weight:900;color:#b91c1c;background:#fff;font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+}
+.checkin h3 {
+  margin:16px 0 10px;font-size:26px;color:#9a3412;
+}
+.checkin p {
+  margin:0 0 16px;color:#9a3412;font-size:16px;line-height:1.45;
+}
+.check-meta {
+  display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;
+}
+.check-meta span {
+  display:inline-flex;align-items:center;padding:10px 14px;border-radius:999px;border:1px solid #fdba74;background:#fff;font-weight:800;color:#9a3412;
+}
+.check-btn {
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:245px;padding:16px 20px;border-radius:16px;
+  background:linear-gradient(135deg,#6ee7b7,#22c55e);
+  color:#0f172a;font-weight:900;font-size:18px;text-decoration:none;
+}
+.section-card {
+  margin-top:18px;padding:20px;
+}
+.section-card h3 {
+  margin:0 0 14px;font-size:22px;
+}
+.bio-box {
+  background:#f8fafc;border:1px solid var(--line);border-radius:22px;padding:18px;
+  font-size:16px;line-height:1.5;color:#334155;
+}
+.bio-btn {
+  display:inline-flex;margin-top:14px;padding:11px 16px;border-radius:14px;background:#e6eefc;color:#0f172a;font-weight:800;text-decoration:none;
+}
+.events-table {
+  width:100%;border-collapse:collapse;overflow:hidden;
+}
+.events-table th, .events-table td {
+  padding:14px 16px;border-top:1px solid #e8eef4;text-align:left;
+}
+.events-table th {
+  border-top:none;color:#64748b;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+}
+.floating-home {
+  position:fixed;right:22px;bottom:22px;border:none;border-radius:999px;padding:13px 18px;
+  font-size:14px;font-weight:800;letter-spacing:.02em;color:#0f172a;
+  background:linear-gradient(135deg,#fff59d 0%, #ffe066 55%, #ffd43b 100%);
+  box-shadow:0 10px 24px rgba(15,23,42,.18), inset 0 0 0 2px rgba(15,23,42,.08);
+  cursor:pointer;
+}
+.live-pill {
+  position:fixed;right:22px;bottom:96px;border-radius:18px;background:#fff1f2;border:1px solid #fecdd3;
+  box-shadow:0 10px 24px rgba(15,23,42,.12);padding:16px 18px;max-width:270px;
+}
+.live-kicker {
+  color:#b91c1c;font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;
+}
+.live-title {
+  margin-top:6px;font-size:16px;font-weight:900;
+}
+@media (max-width: 1100px) {
+  .page { grid-template-columns:1fr; }
+  .sidebar { border-right:none; border-bottom:1px solid var(--line); }
+}
+@media (max-width: 700px) {
+  .content { padding:18px 14px 120px; }
+  .sidebar { padding:18px 14px 20px; }
+  .hero-top { grid-template-columns:1fr; }
+  .title-stack h2 { font-size:28px; }
+}
+</style>
+<script src="data/stx-meet-data.js"></script>
+</head>
+<body>
+<div class="page">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">🪪</div>
+      <div>
+        <h1>Swimmer Profiles</h1>
+        <p>Search swimmers, mark favorites, and use this page as the future home for bios, event lists, seed times, results, placing, and heat/lane details.</p>
+      </div>
+    </div>
+
+    <div class="side-note">Click a swimmer from the list below to view their profile, entered events, seeded heat/lane information, and later their live results progression.</div>
+
+    <div class="filter-card">
+      <select>
+        <option>All Teams</option>
+        <option>HPAC</option>
+        <option>CCAT</option>
+      </select>
+    </div>
+
+    <div class="team-actions">
+      <button class="team-btn">Highlight Team Across Meet</button>
+      <button class="team-btn secondary">Clear Team Highlight</button>
+    </div>
+
+    <div class="subtle">Team highlight: HPAC</div>
+
+    <input class="search" id="searchBox" placeholder="Search swimmer name..." />
+
+    <div class="swimmer-list" id="swimmerList"></div>
+  </aside>
+
+  <main class="content">
+    <section class="hero-card">
+      <div class="hero-top">
+        <div class="hero-photo"><img id="heroPhoto" src="" alt=""></div>
+        <div>
+          <div class="title-row">
+            <div class="title-stack">
+              <h2 id="heroName"></h2>
+              <div class="title-sub" id="heroMeta"></div>
+              <div class="mode-pills" id="modePills"></div>
+              <div style="margin-top:10px;">
+                <button id="viewHeatSheetsBtn" type="button" style="padding:12px 16px;border-radius:14px;border:1px solid #dbe7f4;background:linear-gradient(135deg,#e0f2fe,#bae6fd);font-weight:800;cursor:pointer;color:#0f172a;">View in Heat Sheets</button>
+              </div>
+              <div class="badge" id="heroBadge"></div>
+            </div>
+            <div style="width:56px;height:56px;border-radius:14px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+              <img src="profiles/images/hpac-logo.svg" style="width:100%;height:100%;object-fit:contain;" alt="HPAC logo">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkin" id="checkinBox">
+        <div class="check-chip">• Positive Check-In Required</div>
+        <h3 id="checkHeadline"></h3>
+        <p>This swimmer has a check-in event open in the current prototype flow. Use the direct link below to jump straight to the correct roster row.</p>
+        <div class="check-meta">
+          <span id="checkEvent"></span>
+          <span id="checkClose"></span>
+        </div>
+        <a class="check-btn" href="positive-checkin.html">Check In Now</a>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <h3>Bio</h3>
+      <div class="bio-box">
+        <div id="bioText"></div>
+        <a class="bio-btn" href="#">View Full Bio</a>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <h3>Events</h3>
+      <table class="events-table">
+        <thead>
+          <tr><th>Event</th><th>Seed Time</th><th>Result Time</th><th>Place</th></tr>
+        </thead>
+        <tbody id="eventsBody"></tbody>
+      </table>
+    </section>
+  </main>
+</div>
+
+<div class="live-pill">
+  <div class="live-kicker">Now Swimming</div>
+  <div class="live-title">Event 1 · Girls 50 Free</div>
+</div>
+
+<button class="floating-home" onclick="window.location.href='index.html'">🏠 Home</button>
+
+<script>
+const swimmers = [
+    {
+        "id":"hpac_001",
+        "name":"Carlota Gomez-Cisneros",
+        "age":15,
+        "gender":"Female",
+        "team":"HPAC",
+        "photo":"https://dummyimage.com/160x160/ccd7df/0f172a&text=CG",
+        "badge":"Favorite-ready athlete profile",
+        "headline":"Girls 400 Free Finals",
+        "checkin":true,
+        "event":"Event 21",
+        "close":"Closes at 12:40 PM",
+        "bio":"Strong all-around athlete and future spotlight profile example. Carlota is the kind of swimmer profile this system is being built for: a clean athlete page with bio, photos, event list, seeded information, results, and eventually clickable access from anywhere in the meet portal.",
+        "events":[
+            ["Girls 400 Free Finals","4:58.22","",""],
+            ["Girls 200 IM","2:31.10","",""],
+            ["Girls 100 Free","1:00.44","",""]
+        ]
+    },
+    {
+        "id":"hpac_002",
+        "name":"John Smith",
+        "age":16,
+        "gender":"Male",
+        "team":"CCAT",
+        "photo":"https://dummyimage.com/160x160/dde5eb/0f172a&text=JS",
+        "badge":"Starter profile",
+        "headline":"No active check-in",
+        "checkin":false,
+        "event":"",
+        "close":"",
+        "bio":"Starter profile example for testing the list-style hub. This page is meant to populate instantly as swimmers are selected from the left rail.",
+        "events":[
+            ["Boys 100 Free","54.21","",""],
+            ["Boys 200 Free","1:58.11","",""]
+        ]
+    },
+    {
+        "id":"hpac_003",
+        "name":"Emily Johnson",
+        "age":14,
+        "gender":"Female",
+        "team":"HPAC",
+        "photo":"https://dummyimage.com/160x160/d8e2cf/0f172a&text=EJ",
+        "badge":"Starter profile",
+        "headline":"No active check-in",
+        "checkin":false,
+        "event":"",
+        "close":"",
+        "bio":"Starter profile example with the same right-side population behavior. This makes the page fast to browse while still giving the option to jump into card view.",
+        "events":[
+            ["Girls 200 Back","2:26.55","",""],
+            ["Girls 100 Back","1:08.30","",""]
+        ]
+    }
+];
+let current = swimmers[0];
+
+function saveHeatSheetJump(swimmer) {
+  if (!swimmer) return;
+  const payload = {
+    id: swimmer.id || swimmer.uss || '',
+    uss: swimmer.uss || '',
+    name: swimmer.displayName || swimmer.name || '',
+    team: swimmer.abbr || swimmer.team || '',
+    ts: Date.now()
+  };
+  try {
+    localStorage.setItem('hpac_heat_sheet_jump', JSON.stringify(payload));
+    localStorage.setItem('hpac_selected_swimmer', payload.name);
+  } catch (e) {}
+}
+
+
+function renderList(items) {
+  const list = document.getElementById('swimmerList');
+  list.innerHTML = '';
+  items.forEach(swimmer => {
+    const row = document.createElement('div');
+    row.className = 'swimmer-row' + (swimmer.id === current.id ? ' active' : '');
+    row.innerHTML = `
+      <div class="avatar-sm"><img src="${swimmer.photo}" alt="${swimmer.name}"></div>
+      <div>
+        <div class="row-name">${swimmer.name}</div>
+        <div class="row-meta">${swimmer.team} • ${swimmer.age} • ${swimmer.gender}</div>
+      </div>
+      <div class="star">⭐</div>
+    `;
+    row.addEventListener('click', () => {
+      current = swimmer;
+      render();
+    });
+    list.appendChild(row);
+  });
+}
+
+function renderRight() {
+  document.getElementById('heroPhoto').src = current.photo;
+  document.getElementById('heroName').textContent = current.name;
+  document.getElementById('heroMeta').textContent = `${current.team} • ${current.age} • ${current.gender}`;
+  document.getElementById('heroBadge').textContent = '⭐ ' + current.badge;
+
+  document.getElementById('modePills').innerHTML = `
+    <span class="mode-pill active">List View</span>
+    <a class="mode-pill card-mode" href="profiles/swimmer.html?id=${encodeURIComponent(current.id)}&mode=card">Card View</a>
+  `;
+
+  const checkin = document.getElementById('checkinBox');
+  if (current.checkin) {
+    checkin.style.display = 'block';
+    document.getElementById('checkHeadline').textContent = current.headline;
+    document.getElementById('checkEvent').textContent = current.event;
+    document.getElementById('checkClose').textContent = current.close;
+  } else {
+    checkin.style.display = 'none';
+  }
+
+  document.getElementById('bioText').textContent = current.bio;
+
+  const body = document.getElementById('eventsBody');
+  body.innerHTML = '';
+  current.events.forEach(ev => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${ev[0]}</td><td>${ev[1]}</td><td>${ev[2]}</td><td>${ev[3]}</td>`;
+    body.appendChild(tr);
+  });
+
+  const heatBtn = document.getElementById('viewHeatSheetsBtn');
+  if (heatBtn) {
+    heatBtn.onclick = function() {
+      saveHeatSheetJump(current);
+      window.location.href = 'heat-sheets.html';
+    };
+  }
+}
+
+function render() {
+  const q = document.getElementById('searchBox').value.trim().toLowerCase();
+  const filtered = swimmers.filter(s => s.name.toLowerCase().includes(q));
+  if (!filtered.find(s => s.id === current.id)) current = filtered[0] || swimmers[0];
+  renderList(filtered);
+  renderRight();
+}
+
+document.getElementById('searchBox').addEventListener('input', render);
+render();
+</script>
+
+<!-- HPAC SHARED MEET HEADER SYNC START -->
+<script>
+(function() {
+  const PAGE_LABEL = "Swimmer Profiles";
+
+  function setText(selector, text) {
+    document.querySelectorAll(selector).forEach(function(el) {
+      if (el) el.textContent = text;
+    });
+  }
+
+  function runMeetHeaderSync() {
+    const cfg = window.HPAC_MEET_CONFIG;
+    if (!cfg) return;
+
+    const meetName = cfg.meetName || "HPAC Meet Suite";
+    const location = cfg.location || "";
+    const dates = cfg.dates || "";
+    const subtitle = [location, dates].filter(Boolean).join(" · ");
+    const fullTitle = PAGE_LABEL ? `${meetName} — ${PAGE_LABEL}` : meetName;
+
+    // Browser tab title
+    document.title = fullTitle;
+
+    // Main page header/title
+    const mainTitle = document.getElementById("meetName") || document.querySelector(".hero h1, h1");
+    if (mainTitle) mainTitle.textContent = fullTitle;
+
+    // Main page subtitle area
+    const mainSub = document.getElementById("meetSub") || document.querySelector(".hero-sub, .sub, .title-sub");
+    if (mainSub && subtitle) mainSub.textContent = subtitle;
+
+    // Meet Central / dashboard identity cards
+    setText(".meet-central-meetname", meetName);
+    setText(".meet-central-meetsub", subtitle || meetName);
+
+    // Common logo hooks
+    document.querySelectorAll(".hero-corner-logo, .meet-central-brand img").forEach(function(img) {
+      if (cfg.logo && img && !img.dataset.keepLogo) img.src = cfg.logo;
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", runMeetHeaderSync);
+  } else {
+    runMeetHeaderSync();
+  }
+})();
+</script>
+<!-- HPAC SHARED MEET HEADER SYNC END -->
+</body>
+</html>

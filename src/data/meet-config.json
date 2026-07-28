@@ -1,0 +1,45 @@
+{
+  "meetName": "2026 ST HPAC STX Champs South",
+  "sessionName": "All Sessions",
+  "location": "Corpus Christi Natatorium",
+  "dates": "2/13/2026 to 2/15/2026",
+  "startTime": "",
+  "host": "High Performance Aquatic Club",
+  "logo": "assets/logos/hpac.png",
+  "generatedFrom": [
+    "Athlete List HTML",
+    "Meet Program CSV"
+  ],
+  "sessions": [
+    {
+      "key": "all",
+      "label": "All Sessions",
+      "type": "all"
+    },
+    {
+      "key": "fri-distance",
+      "label": "Friday Night Distance (Timed Finals)",
+      "type": "timed-finals"
+    },
+    {
+      "key": "sat-prelims",
+      "label": "Saturday Morning Prelims",
+      "type": "prelims"
+    },
+    {
+      "key": "sat-finals",
+      "label": "Saturday Night Finals",
+      "type": "finals"
+    },
+    {
+      "key": "sun-prelims",
+      "label": "Sunday Morning Prelims",
+      "type": "prelims"
+    },
+    {
+      "key": "sun-finals",
+      "label": "Sunday Night Finals",
+      "type": "finals"
+    }
+  ]
+}

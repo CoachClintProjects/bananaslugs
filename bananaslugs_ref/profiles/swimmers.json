@@ -1,0 +1,211 @@
+[
+  {
+    "id": "hpac_001",
+    "displayName": "Carlota Gomez-Cisneros",
+    "firstName": "Carlota",
+    "lastName": "Gomez-Cisneros",
+    "age": 13,
+    "gender": "F",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/carlota-gomez-cisneros.svg",
+    "bio": "Focused, competitive swimmer with a strong all-around foundation and great long-term upside."
+  },
+  {
+    "id": "hpac_002",
+    "displayName": "Corina Gomez-Cisneros",
+    "firstName": "Corina",
+    "lastName": "Gomez-Cisneros",
+    "age": 11,
+    "gender": "F",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/corina-gomez-cisneros.svg",
+    "bio": "Developing athlete with great energy, growing confidence, and a strong base for future progress."
+  },
+  {
+    "id": "hpac_003",
+    "displayName": "Kennly Bockholt",
+    "firstName": "Kennly",
+    "lastName": "Bockholt",
+    "age": 11,
+    "gender": "F",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/kennly-bockholt.svg",
+    "bio": "Young HPAC swimmer building technique, race confidence, and consistency across training and competition."
+  },
+  {
+    "id": "hpac_004",
+    "displayName": "Anika Brashars",
+    "firstName": "Anika",
+    "lastName": "Brashars",
+    "age": 15,
+    "gender": "F",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/anika-brashars.svg",
+    "bio": "Experienced competitor who brings maturity, poise, and leadership presence to the HPAC lineup."
+  },
+  {
+    "id": "hpac_005",
+    "displayName": "Jeremiah Dejos",
+    "firstName": "Jeremiah",
+    "lastName": "Dejos",
+    "age": 8,
+    "gender": "M",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/jeremiah-dejos.svg",
+    "bio": "Early-stage swimmer with exciting potential and a strong opportunity to grow through race experience."
+  },
+  {
+    "id": "hpac_006",
+    "displayName": "Felipe Escobar",
+    "firstName": "Felipe",
+    "lastName": "Escobar",
+    "age": 13,
+    "gender": "M",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/felipe-escobar.svg",
+    "bio": "Hard-working athlete developing strong racing habits and a dependable competitive mindset."
+  },
+  {
+    "id": "hpac_007",
+    "displayName": "Isabella Escobar",
+    "firstName": "Isabella",
+    "lastName": "Escobar",
+    "age": 14,
+    "gender": "F",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/isabella-escobar.svg",
+    "bio": "Confident racer with a balanced foundation and great potential as her profile grows."
+  },
+  {
+    "id": "hpac_008",
+    "displayName": "Raiden Everett",
+    "firstName": "Raiden",
+    "lastName": "Everett",
+    "age": 14,
+    "gender": "M",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/raiden-everett.svg",
+    "bio": "Competitive swimmer building momentum with strong effort, developing detail work, and race toughness."
+  },
+  {
+    "id": "hpac_009",
+    "displayName": "Michael Fan",
+    "firstName": "Michael",
+    "lastName": "Fan",
+    "age": 10,
+    "gender": "M",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/michael-fan.svg",
+    "bio": "Promising young swimmer growing quickly through disciplined training and strong fundamentals."
+  },
+  {
+    "id": "hpac_010",
+    "displayName": "Gavin Lopez",
+    "firstName": "Gavin",
+    "lastName": "Lopez",
+    "age": 17,
+    "gender": "M",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/gavin-lopez.svg",
+    "bio": "Senior swimmer with experience, maturity, and the ability to set a strong tone for the team."
+  },
+  {
+    "id": "hpac_011",
+    "displayName": "Levi McCloy",
+    "firstName": "Levi",
+    "lastName": "McCloy",
+    "age": 10,
+    "gender": "M",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/levi-mccloy.svg",
+    "bio": "Developing swimmer with a great runway for progress as confidence and race reps continue to build."
+  },
+  {
+    "id": "hpac_012",
+    "displayName": "Liam Mccloy",
+    "firstName": "Liam",
+    "lastName": "Mccloy",
+    "age": 13,
+    "gender": "M",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/liam-mccloy.svg",
+    "bio": "Versatile athlete building race awareness, speed, and consistency across multiple events."
+  },
+  {
+    "id": "hpac_013",
+    "displayName": "Audie Meucci",
+    "firstName": "Audie",
+    "lastName": "Meucci",
+    "age": 16,
+    "gender": "F",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/audie-meucci.svg",
+    "bio": "Experienced swimmer bringing competitiveness, composure, and strong representation for HPAC."
+  },
+  {
+    "id": "hpac_014",
+    "displayName": "Remington Morgan",
+    "firstName": "Remington",
+    "lastName": "Morgan",
+    "age": 14,
+    "gender": "M",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/remington-morgan.svg",
+    "bio": "Athlete with strong upside and a solid base to grow into a very complete competitor."
+  },
+  {
+    "id": "hpac_015",
+    "displayName": "Zian Roggow",
+    "firstName": "Zian",
+    "lastName": "Roggow",
+    "age": 15,
+    "gender": "M",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/zian-roggow.svg",
+    "bio": "Strong racing presence with the maturity and drive to keep pushing the standard higher."
+  },
+  {
+    "id": "hpac_016",
+    "displayName": "Masha Tsvetkova",
+    "firstName": "Masha",
+    "lastName": "Tsvetkova",
+    "age": 15,
+    "gender": "F",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/masha-tsvetkova.svg",
+    "bio": "Talented HPAC swimmer with a polished competitive profile and strong potential for featured athlete status."
+  },
+  {
+    "id": "hpac_017",
+    "displayName": "Sasha Tsvetkova",
+    "firstName": "Sasha",
+    "lastName": "Tsvetkova",
+    "age": 8,
+    "gender": "F",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/sasha-tsvetkova.svg",
+    "bio": "Young swimmer gaining valuable experience early and building a strong technical foundation."
+  },
+  {
+    "id": "hpac_018",
+    "displayName": "Barrett Waddles",
+    "firstName": "Barrett",
+    "lastName": "Waddles",
+    "age": 17,
+    "gender": "M",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/barrett-waddles.svg",
+    "bio": "Senior athlete who adds stability, race intelligence, and veteran presence to the HPAC group."
+  },
+  {
+    "id": "hpac_019",
+    "displayName": "Denis Yazvin",
+    "firstName": "Denis",
+    "lastName": "Yazvin",
+    "age": 12,
+    "gender": "M",
+    "team": "High Performance Aquatic Club",
+    "photo": "images/denis-yazvin.svg",
+    "bio": "Developing swimmer with a lot of room to grow as skills, confidence, and race experience expand."
+  }
+]

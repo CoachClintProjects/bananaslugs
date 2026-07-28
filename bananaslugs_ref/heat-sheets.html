@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>HPAC Meet Suite — STX Heat Sheets Test</title>
+<style>
+:root {
+  --green-950:#052e22;--green-800:#166534;--gold-600:#d4a500;--bg:#eef3f7;--card:#fff;--muted:#64748b;--border:#d9e2ea;--text:#0f172a;
+  --highlight-color:#fff3a6;--highlight-border:#d4a500;
+}
+*{box-sizing:border-box;scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#edf3f7 0%,#f7fafc 100%);color:var(--text)}
+a{color:inherit;text-decoration:none}
+.page{max-width:1500px;margin:0 auto;padding:24px}
+.hero,.panel,.event-card{background:#fff;border:1px solid var(--border);border-radius:28px;overflow:hidden;box-shadow:0 8px 24px rgba(15,23,42,.05)}
+.hero{margin-bottom:24px}
+.hero-top{position:relative;background:linear-gradient(90deg,var(--green-950) 0%,var(--green-800) 58%,var(--gold-600) 100%);color:#fff;padding:28px 32px 30px!important;padding-right:32px!important}
+.hero-flex{display:grid!important;grid-template-columns:minmax(0,1fr) 340px!important;align-items:start!important;gap:26px!important}
+.hero-main-copy{min-width:0}
+.hero-main-copy h1{max-width:980px}
+.hero-side{display:flex!important;flex-direction:column!important;align-items:flex-end!important;gap:14px!important;padding-top:2px!important}
+.hero-side .hero-corner-logo{position:static!important;width:118px!important;max-width:150px!important;height:auto!important;filter:drop-shadow(0 8px 18px rgba(0,0,0,.18))}
+.status-chip.session-status{width:100%!important;max-width:330px!important;min-width:0!important;background:rgba(255,255,255,.14)!important;border:1px solid rgba(255,255,255,.28)!important;border-radius:18px!important;padding:14px 16px!important;color:#fff!important;backdrop-filter:blur(2px);box-shadow:none!important}
+.status-label{font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:rgba(255,255,255,.82)}
+.session-select-mini{margin-top:8px;width:100%;border:none;border-radius:12px;padding:9px 11px;font-size:14px;font-weight:900;color:#0f172a;background:#fff;outline:none}
+.session-status-help{margin-top:7px;font-size:12px;line-height:1.25;color:rgba(255,255,255,.86)}
+.event-empty-state{border:1px dashed var(--border,#d9e2ea);border-radius:20px;padding:22px;background:#f8fafc;color:#64748b;font-weight:800;text-align:center;margin-bottom:24px}
+@media(max-width:1050px){.hero-flex{grid-template-columns:1fr!important}.hero-side{align-items:flex-start!important}.hero-side .session-status{max-width:420px!important}}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.28em;color:rgba(255,255,255,.8)}
+h1{margin:8px 0 10px;font-size:clamp(34px,5vw,58px);line-height:1}
+.hero-sub{font-size:20px;color:rgba(255,255,255,.92)}
+.command-bar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding:18px 24px 24px}
+.info-card{display:block;border:1px solid var(--border);border-radius:18px;padding:16px;background:#f8fafc;text-decoration:none;color:inherit;transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease}
+.info-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(15,23,42,.08);border-color:#cbd5e1}
+.info-label{font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:#475569;margin-bottom:8px}
+.info-value{font-size:18px;font-weight:800}
+.info-sub{margin-top:6px;color:var(--muted);font-size:14px;line-height:1.45}
+.print-report-card{background:linear-gradient(135deg,#fffdf0 0%,#fff7c2 55%,#ffe066 100%);border-color:#f0d452}
+.print-report-cta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;border-radius:14px;padding:10px 12px;background:linear-gradient(135deg,#0b3d2e,#166534);color:#fff;font-size:13px;font-weight:900;box-shadow:0 8px 18px rgba(15,23,42,.14)}
+.controls{display:grid;grid-template-columns:minmax(260px,1.45fr) minmax(160px,.75fr) minmax(150px,.7fr) minmax(145px,.65fr) minmax(150px,.7fr) minmax(145px,.65fr) auto;gap:12px;margin-bottom:18px;align-items:end}
+.control-box{background:#fff;border:1px solid var(--border);border-radius:18px;padding:14px}
+.search-control{position:relative}
+.search-row{display:flex;gap:8px;align-items:center}
+.search-row input{flex:1}
+.search-action{border:0;border-radius:12px;padding:11px 14px;background:linear-gradient(135deg,#0b3d2e,#166534);color:#fff;font-weight:900;cursor:pointer;white-space:nowrap}
+.search-action:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(15,23,42,.14)}
+.selected-search-note{font-size:12px;color:#64748b;margin-top:6px;line-height:1.25}
+.selected-event-list{display:none;margin-top:10px;gap:8px;flex-wrap:wrap}
+.selected-event-list.open{display:flex}
+.selected-event-list button{border:1px solid #cbd5e1;background:#fff;color:#0f172a;border-radius:999px;padding:8px 10px;font-size:12px;font-weight:900}
+.selected-event-list button:hover{background:#ecfdf5;border-color:#86efac}
+.color-swatch-wrap{margin-top:8px;display:flex;align-items:center;gap:8px;font-size:12px;color:#64748b;font-weight:800}
+.color-swatch{width:42px;height:22px;border-radius:999px;border:2px solid #cbd5e1;background:var(--highlight-color,#fff3a6);box-shadow:inset 0 0 0 3px #fff}
+.color-pick-row{display:flex;align-items:center;gap:10px}
+.color-pick-row input[type="color"]{width:54px!important;height:42px!important;min-width:54px;padding:3px!important;border-radius:12px;cursor:pointer;background:#fff}
+.color-pick-row .color-help{font-size:12px;line-height:1.25;color:#64748b;font-weight:800}
+.color-presets{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px;max-width:100%}
+.color-preset{height:26px;border-radius:999px;border:2px solid #fff;box-shadow:0 0 0 1px #cbd5e1;cursor:pointer}
+.color-preset:hover{transform:translateY(-1px);box-shadow:0 0 0 2px #0b5a42}
+.color-preset.active{box-shadow:0 0 0 3px #0b5a42}
+.search-suggestions{position:absolute;left:14px;right:14px;top:calc(100% - 6px);z-index:1000;background:#fff;border:1px solid #cbd5e1;border-radius:14px;box-shadow:0 14px 34px rgba(15,23,42,.16);max-height:320px;overflow:auto;display:none;padding:6px}
+.search-suggestions.open{display:block}
+.search-suggestion{width:100%;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;text-align:left;background:#fff;border:0;border-radius:10px;padding:10px 11px;color:#0f172a;font-weight:800;cursor:pointer}
+.search-suggestion:hover,.search-suggestion.active{background:#f1f5f9}
+.sugg-main{display:flex;flex-direction:column;gap:2px;min-width:0}
+.sugg-title{font-size:14px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sugg-sub{font-size:12px;color:#64748b;font-weight:700;line-height:1.25}
+.sugg-type{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:#166534;background:#ecfdf5;border:1px solid #bbf7d0;border-radius:999px;padding:4px 7px;white-space:nowrap}
+.control-box label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:#475569;font-weight:900;margin-bottom:8px}
+select,input[type="search"],input[type="color"]{width:100%;border:1px solid #cbd5e1;border-radius:12px;padding:11px 12px;font-size:14px;background:#fff}
+.profile-btn{display:flex;align-items:center;justify-content:center;width:100%;border-radius:12px;padding:11px 12px;background:linear-gradient(135deg,#0b3d2e,#166534);color:#fff;font-size:13px;font-weight:900;text-align:center;box-shadow:0 8px 18px rgba(15,23,42,.12)}
+.profile-btn.disabled{background:#e2e8f0;color:#64748b;box-shadow:none;pointer-events:none}
+.session-note{font-size:12px;color:#64748b;line-height:1.25;margin-top:6px}
+button{border:0;border-radius:12px;padding:11px 14px;font-weight:900;cursor:pointer}
+.btn-green{background:#166534;color:#fff}
+.btn-gold{background:#ffe066;color:#0f172a}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:24px;align-items:start}
+.sidebar{display:flex;flex-direction:column;gap:10px;position:relative;align-self:start}
+.panel{padding:20px}
+.panel h3{margin:0 0 12px;font-size:22px}
+.jump-list{display:grid;gap:8px;max-height:520px;overflow:auto;padding-right:4px}
+.jump-list a{border:1px solid var(--border);border-radius:14px;padding:10px 12px;background:#f8fafc}
+.jump-list strong{display:block;color:#166534;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.jump-list span{display:block;margin-top:3px;font-weight:800;font-size:13px;line-height:1.2}
+.event-card{margin-bottom:24px}
+.event-top{display:flex;justify-content:space-between;gap:16px;padding:18px 22px;background:#f8fafc;border-bottom:1px solid var(--border)}
+.kicker{font-size:12px;text-transform:uppercase;letter-spacing:.18em;color:#166534;font-weight:900}
+.event-top h2{margin:5px 0 0;font-size:28px;line-height:1.1}
+.badge{align-self:start;border:1px solid #b7e3cc;background:#ecfdf5;color:#065f46;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:900;white-space:nowrap}
+.event-meta{padding:14px 22px;border-bottom:1px solid #eef2f7;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.meta-pill{border:1px solid var(--border);border-radius:14px;background:#fff;padding:10px 12px;font-size:13px;color:#334155}
+.meta-pill strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#64748b;margin-bottom:4px}
+.heats-wrap{padding:22px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.heat-card{border:1px solid var(--border);border-radius:20px;overflow:hidden;background:#fff}
+.heat-head{display:flex;justify-content:space-between;gap:8px;background:#f1f5f9;border-bottom:1px solid var(--border);padding:12px 14px;font-weight:900;color:#0b5a42}
+.heat-head small{color:#64748b;font-style:italic;font-weight:700}
+table{width:100%;border-collapse:collapse}
+th,td{padding:9px 10px;border-top:1px solid #eef2f7;text-align:left;white-space:nowrap;font-size:13px}
+th{border-top:none;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#64748b;background:#fff}
+td.seed{text-align:right;font-weight:800}
+td.swimmer button{padding:0;background:transparent;color:#0f172a;font-weight:900;text-align:left}
+td.swimmer button:hover{color:#166534;text-decoration:underline}
+tr.highlighted td{background:var(--row-highlight-color,var(--highlight-color))!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+tr.highlighted td:first-child{box-shadow:inset 5px 0 0 var(--row-highlight-border,var(--highlight-border,#d4a500))}
+
+tr.hpac-jump-focus td{
+  animation: hpacJumpPulse 1.45s ease-in-out 0s 2;
+  outline: 3px solid rgba(240,212,82,.95);
+  outline-offset: -3px;
+}
+@keyframes hpacJumpPulse{
+  0%{filter:brightness(1);box-shadow:inset 5px 0 0 var(--row-highlight-border,var(--highlight-border,#d4a500)),0 0 0 0 rgba(240,212,82,.70)}
+  45%{filter:brightness(1.06);box-shadow:inset 5px 0 0 var(--row-highlight-border,var(--highlight-border,#d4a500)),0 0 0 7px rgba(240,212,82,.35)}
+  100%{filter:brightness(1);box-shadow:inset 5px 0 0 var(--row-highlight-border,var(--highlight-border,#d4a500)),0 0 0 0 rgba(240,212,82,0)}
+}
+.debug{font-size:12px;line-height:1.45;color:#334155;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:14px;padding:12px;max-height:180px;overflow:auto;white-space:pre-wrap}
+@media(max-width:1100px){.layout,.controls{grid-template-columns:1fr}.sidebar{position:static}.command-bar,.event-meta,.heats-wrap{grid-template-columns:1fr}}
+@media print{.no-print{display:none!important} body{background:white} .page{padding:0;max-width:none}}
+.live-panel {
+  padding:0;
+  overflow:visible;
+  display:flex;
+  flex-direction:column;
+}
+.live-head{padding:18px 20px;background:linear-gradient(110deg,#0b1620 0%,#143324 58%,#2e2610 100%);color:#fff}
+.live-kicker{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.76);font-weight:800}
+.live-title{margin-top:8px;font-size:28px;font-weight:900}
+.live-sub{margin-top:8px;font-size:14px;line-height:1.45;color:rgba(255,255,255,.82)}
+.live-body{padding:18px 14px 120px 20px;display:flex;flex-direction:column;gap:14px;overflow:visible}.live-body::-webkit-scrollbar{width:10px}
+.live-body::-webkit-scrollbar-thumb{background:#cdd8e3;border-radius:999px}
+.live-body::-webkit-scrollbar-track{background:transparent}
+.live-status-grid{display:grid;gap:12px}
+.live-status{border:1px solid var(--border);border-radius:18px;background:#f8fafc;padding:14px 14px 12px}
+.live-label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:900}
+.live-label.now{color:#b91c1c}
+.live-label.next{color:#92400e}
+.live-label.deck{color:#1d4ed8}
+.live-event{margin-top:6px;font-size:19px;font-weight:900;line-height:1.2}
+.live-meta{margin-top:4px;color:var(--muted);font-size:13px}
+.results-card{border:1px solid var(--border);border-radius:18px;background:#fff;padding:14px}
+.results-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px}
+.results-title{font-size:16px;font-weight:900;line-height:1.2}
+.results-jump{text-decoration:none;color:#166534;font-size:13px;font-weight:800;white-space:nowrap}
+.podium{display:grid;gap:10px}
+.podium-row{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;border:1px solid #e8eef4;border-radius:14px;padding:10px 12px;background:#f8fafc}
+.podium-rank{width:42px;height:42px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;background:#fff;border:1px solid var(--border)}
+.podium-rank.gold{background:#fff7d6}
+.podium-rank.silver{background:#f4f7fb}
+.podium-rank.bronze{background:#fdf1e8}
+.podium-name{font-weight:900}
+.podium-team{margin-top:2px;font-size:12px;color:var(--muted)}
+.podium-time{text-align:right}
+.podium-time strong{display:block;font-size:16px}
+.podium-time span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.live-actions{display:grid;gap:10px}
+.live-panel{padding:0;overflow:visible;display:flex;flex-direction:column}.live-follow-note{font-size:12px;color:var(--muted);margin-top:-4px}
+.live-action{display:flex;justify-content:space-between;align-items:center;text-decoration:none;border:1px solid var(--border);border-radius:16px;background:#f8fafc;padding:12px 14px;color:var(--text);font-weight:800}
+
+/* =========================
+   CLEAN RIGHT RAIL SYSTEM
+   Single source of truth
+   ========================= */
+
+/* Compact Meet Central buttons */
+.compact-meet-central {
+  padding: 14px !important;
+}
+
+.compact-meet-central h3 {
+  margin: 0 0 10px !important;
+  font-size: 18px !important;
+}
+
+.meet-central-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 8px !important;
+}
+
+.meet-central-tile {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 9px 10px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+  background: #f8fafc !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+}
+
+/* Keep right rail clean */
+.sidebar {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  position: relative !important;
+  align-self: stretch !important;
+}
+
+/* Hide lower debug/navigation panels for this right-rail version */
+.sidebar > .panel:not(:first-child):not(#running-results-rail):not(#event-jump-panel) {
+  display: none !important;
+}
+
+#event-jump-panel {
+  padding: 14px !important;
+}
+
+#event-jump-panel h3 {
+  font-size: 18px !important;
+  margin-bottom: 10px !important;
+}
+
+#event-jump {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+#event-jump a {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #f8fafc;
+  padding: 9px 10px;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+#event-jump a strong {
+  display: block;
+  color: #166534;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+#event-jump a span {
+  display: block;
+  margin-top: 3px;
+}
+
+/* Running Results floats/sticks while the heat sheets scroll */
+#running-results-rail {
+  position: sticky !important;
+  top: 16px !important;
+  width: 100% !important;
+  max-height: calc(100vh - 32px) !important;
+  overflow-y: auto !important;
+}
+
+/* Inner body does not need to scroll separately */
+#running-results-rail .live-body {
+  max-height: none !important;
+  overflow: visible !important;
+  padding-bottom: 22px !important;
+}
+.meet-central-tile.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* === Index-style command bar classes === */
+.hero-bottom{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:22px 24px 24px}
+.info-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.info-link{font-size:18px;line-height:1;color:#166534;font-weight:800}
+.info-meta{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+.info-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #dbe7f4;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800;color:#0f172a;background:#fff}
+.info-card.live-card{background:linear-gradient(135deg,#fff7ed,#fff1f2);border-color:#fecaca}
+.info-card.live-card:hover{border-color:#fda4af}
+.info-card.primary-hub{display:block;}
+.info-card-main{display:block;text-decoration:none;color:inherit;}
+.info-action-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #dbe7f4;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800;color:#0f172a;background:#fff;text-decoration:none;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;}
+.info-action-pill:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(15,23,42,.08);border-color:#9fd6b5;}
+.info-action-pill.disabled{opacity:.55;cursor:not-allowed;}
+.live-dot{width:10px;height:10px;border-radius:999px;background:#dc2626;box-shadow:0 0 0 0 rgba(220,38,38,.5);animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(220,38,38,.4)}70%{box-shadow:0 0 0 8px rgba(220,38,38,0)}100%{box-shadow:0 0 0 0 rgba(220,38,38,0)}}
+@media(max-width:1100px){.hero-bottom{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.hero-bottom{grid-template-columns:1fr}}
+
+
+/* =========================================================
+   DASHBOARD MODULES MERGED FROM DONOR FILE
+   Safe add-on: does not touch session/event/filter logic
+   ========================================================= */
+.dashboard-modules {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 24px;
+  margin: -4px 0 24px;
+  align-items: start;
+}
+.dashboard-main-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.dashboard-side-card {
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(15,23,42,.05);
+}
+.dashboard-side-card h3 {
+  margin: 0 0 12px;
+  font-size: 22px;
+}
+.dynamic-card { position: relative; overflow: hidden; }
+.dynamic-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -30px -30px auto;
+  width: 110px;
+  height: 110px;
+  border-radius: 999px;
+  background: radial-gradient(circle,rgba(22,101,52,.07),rgba(22,101,52,0) 70%);
+  pointer-events: none;
+}
+.dynamic-card.winner-card { background: linear-gradient(135deg,#fffef5,#f8fafc); border-color:#f2e7a6; }
+.dynamic-card.feature-card { background: linear-gradient(135deg,#f8fafc,#eef8f2); border-color:#cfe6d6; }
+.dynamic-card.status-card { background: linear-gradient(135deg,#f8fafc,#eff6ff); border-color:#cfe0f7; }
+.dynamic-top { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+.dynamic-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display:grid;
+  place-items:center;
+  font-size:18px;
+  background:#fff;
+  border:1px solid rgba(15,23,42,.08);
+  box-shadow:0 4px 12px rgba(15,23,42,.05);
+}
+.just-posted-card { background:linear-gradient(135deg,#fffdf7 0%,#fffaf0 100%); border-color:#f2e7a6; }
+.just-posted-top { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+.just-posted-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid #f59e0b;
+  background:linear-gradient(135deg,#fff7cc 0%, #ffe08a 100%);
+  color:#92400e;
+  border-radius:999px;
+  padding:8px 12px;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  box-shadow:0 4px 10px rgba(245,158,11,.18);
+}
+.just-posted-badge .live-spark, .dashboard-live-dot {
+  width:10px;
+  height:10px;
+  border-radius:999px;
+  background:#ef4444;
+  box-shadow:0 0 0 0 rgba(239,68,68,.45);
+  animation: dashboardPulse 1.8s infinite;
+  flex:0 0 auto;
+}
+@keyframes dashboardPulse {
+  0%{box-shadow:0 0 0 0 rgba(239,68,68,.45)}
+  70%{box-shadow:0 0 0 8px rgba(239,68,68,0)}
+  100%{box-shadow:0 0 0 0 rgba(239,68,68,0)}
+}
+.just-posted-event { margin-top:10px; font-size:18px; font-weight:900; color:#0f172a; line-height:1.2; }
+.just-posted-subhead { margin-top:6px; font-size:13px; color:#64748b; line-height:1.4; }
+.just-posted-list { margin-top:14px; display:grid; gap:9px; }
+.just-posted-row { display:grid; grid-template-columns:86px 1fr auto; gap:10px; align-items:center; border:1px solid #e6edf3; border-radius:14px; background:#fff; padding:10px 12px; }
+.just-posted-group { display:inline-flex; align-items:center; justify-content:center; min-width:72px; padding:8px 10px; border-radius:999px; border:1px solid #dbe7f4; background:#ecfdf5; color:#065f46; font-size:11px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
+.just-posted-copy { min-width:0; display:flex; flex-direction:column; gap:2px; }
+.just-posted-name { font-size:14px; font-weight:900; line-height:1.2; }
+.just-posted-meta { font-size:12px; color:#64748b; }
+.just-posted-time { text-align:right; font-weight:900; font-size:15px; color:#0f172a; }
+.cut-hit { display:inline-flex; align-items:center; gap:6px; margin-top:5px; width:max-content; border:1px solid #fecaca; background:#fef2f2; color:#b91c1c; border-radius:999px; padding:4px 8px; font-size:11px; font-weight:900; }
+.just-posted-flash { margin-top:12px; display:inline-flex; align-items:center; gap:8px; border:1px solid #bbf7d0; background:#ecfdf5; color:#166534; border-radius:999px; padding:7px 10px; font-size:12px; font-weight:900; }
+.just-posted-actions { margin-top:14px; display:grid; gap:8px; }
+.just-posted-actions a { display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border); border-radius:12px; background:#fff; padding:10px 12px; text-decoration:none; color:#0f172a; font-size:13px; font-weight:800; }
+.latest-final-extended { margin-top:12px; display:grid; gap:8px; }
+.latest-final-extended-row { display:grid; grid-template-columns:34px 1fr auto; gap:10px; align-items:center; border:1px solid #e8eef4; border-radius:12px; padding:8px 10px; background:#fff; }
+.latest-final-extended-rank { width:34px; height:34px; border-radius:999px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:900; color:#334155; background:#f8fafc; border:1px solid #dbe2ea; }
+.latest-final-extended-copy { min-width:0; display:flex; flex-direction:column; gap:2px; }
+.latest-final-extended-copy strong { font-size:13px; line-height:1.15; }
+.latest-final-extended-copy span { font-size:12px; color:#64748b; }
+.latest-final-extended-time { text-align:right; font-weight:800; font-size:13px; color:#0f172a; }
+.latest-final-cta { margin-top:12px; }
+.latest-final-cta a { display:inline-flex; align-items:center; gap:8px; text-decoration:none; font-size:13px; font-weight:800; color:#166534; }
+.profile-line { margin-top:12px; font-size:14px; line-height:1.45; color:#334155; }
+.mini-pills { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+.mini-pills span { display:inline-flex; align-items:center; border:1px solid #dbe7f4; border-radius:999px; background:#fff; padding:6px 10px; font-size:12px; font-weight:700; }
+.status-lines { margin-top:12px; display:grid; gap:8px; }
+.status-row { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:9px 10px; border-radius:14px; background:#fff; border:1px solid #e6edf3; font-size:13px; font-weight:700; }
+.status-row span { color:#64748b; font-weight:700; text-align:right; }
+.scratch-strip-card { grid-column:1 / -1; border:1px solid #ffd9cc; background:linear-gradient(135deg,#fff8f1,#fffdfb); position:relative; }
+.scratch-strip-card::after { content:""; position:absolute; inset:auto -32px -32px auto; width:120px; height:120px; border-radius:999px; background:radial-gradient(circle,rgba(239,68,68,.08),rgba(239,68,68,0) 70%); pointer-events:none; }
+.scratch-strip-head { display:flex; justify-content:space-between; align-items:flex-start; gap:14px; flex-wrap:wrap; }
+.scratch-strip-copy { max-width:760px; }
+.scratch-strip-copy .info-value { display:flex; align-items:center; gap:10px; }
+.scratch-icon-badge { width:38px; height:38px; border-radius:12px; display:grid; place-items:center; font-size:18px; background:#fff; border:1px solid rgba(15,23,42,.08); box-shadow:0 4px 12px rgba(15,23,42,.05); }
+.scratch-mini-grid { margin-top:14px; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; }
+.scratch-mini { display:block; text-decoration:none; color:inherit; border:1px solid #e6edf3; border-radius:16px; background:#fff; padding:12px; box-shadow:0 1px 0 rgba(15,23,42,.02); transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.scratch-mini:hover { transform:translateY(-1px); box-shadow:0 8px 20px rgba(15,23,42,.06); border-color:#f59e0b; }
+.scratch-mini-top { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.scratch-mini-event { font-size:11px; text-transform:uppercase; letter-spacing:.14em; color:#64748b; font-weight:800; }
+.scratch-mini-chip { display:inline-flex; align-items:center; gap:6px; border-radius:999px; padding:5px 9px; font-size:11px; font-weight:800; border:1px solid; }
+.scratch-mini-chip.open { color:#166534; background:#ecfdf5; border-color:#bbf7d0; }
+.scratch-mini-chip.upcoming { color:#a16207; background:#fffbeb; border-color:#fde68a; }
+.scratch-mini-chip.closed { color:#991b1b; background:#fef2f2; border-color:#fecaca; }
+.scratch-mini-title { margin-top:8px; font-weight:800; font-size:14px; line-height:1.22; color:#0f172a; min-height:34px; }
+.scratch-mini-timer { margin-top:10px; font-size:20px; font-weight:800; line-height:1; color:#0f172a; }
+.scratch-mini-help { margin-top:6px; font-size:12px; line-height:1.35; color:#64748b; min-height:32px; }
+.scratch-mini-meta { margin-top:10px; display:flex; justify-content:space-between; gap:8px; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:#94a3b8; }
+.scratch-mini-action { margin-top:10px; }
+.scratch-link-btn { display:inline-flex; align-items:center; justify-content:center; width:100%; padding:8px 10px; border:none; border-radius:10px; background:linear-gradient(135deg,#14532d 0%, #166534 100%); color:#fff; font-size:12px; font-weight:800; letter-spacing:.02em; cursor:pointer; box-shadow:0 4px 10px rgba(15,23,42,.10); }
+.meet-central-brand { display:flex; align-items:center; gap:12px; margin:12px 0 16px; padding:10px 12px; border:1px solid var(--border); border-radius:18px; background:rgba(255,255,255,.72); }
+.meet-central-brand img { width:58px; height:auto; display:block; }
+.meet-central-brand strong { display:block; font-size:14px; line-height:1.1; color:#0f172a; }
+.meet-central-brand span { display:block; font-size:12px; color:#64748b; margin-top:3px; }
+.meet-central-meetbox { border:1px solid var(--border); border-radius:18px; background:#fff; padding:14px; display:grid; gap:12px; margin:6px 0 14px; }
+.meet-central-meetlogo { display:flex; justify-content:center; align-items:center; padding:8px; }
+.meet-central-meetlogo img { max-width:100%; width:220px; height:auto; display:block; }
+.meet-central-meetmeta { display:grid; gap:6px; text-align:center; }
+.meet-central-meetname { font-size:18px; font-weight:900; line-height:1.1; color:#0f172a; }
+.meet-central-meetsub { font-size:13px; color:#64748b; line-height:1.35; }
+.dashboard-quick-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.dashboard-quick-grid a { display:flex; justify-content:space-between; align-items:center; gap:10px; border:1px solid var(--border); border-radius:14px; background:#f8fafc; padding:12px 14px; color:#0f172a; font-weight:900; }
+.dashboard-quick-grid small { display:block; margin-top:2px; font-size:11px; font-weight:700; color:#64748b; }
+@media(max-width:1100px){ .dashboard-modules{grid-template-columns:1fr;} .dashboard-main-grid{grid-template-columns:1fr;} .scratch-mini-grid{grid-template-columns:repeat(3,minmax(0,1fr));} }
+@media(max-width:760px){ .scratch-mini-grid{grid-template-columns:repeat(2,minmax(0,1fr));} .dashboard-quick-grid{grid-template-columns:1fr;} }
+
+
+/* === HPAC Meet Suite locked floating controls === */
+#floatingTopBtn,#liveTrackerBtn,#slugScrollBtn{position:fixed;right:22px;z-index:9999;display:none;}
+#floatingTopBtn,#liveTrackerBtn{align-items:center;}
+#floatingTopBtn{bottom:22px;border:none;border-radius:999px;padding:13px 18px;font-size:14px;font-weight:800;letter-spacing:.02em;color:#0f172a;background:linear-gradient(135deg,#fff59d 0%, #ffe066 55%, #ffd43b 100%);box-shadow:0 10px 24px rgba(15,23,42,.18), inset 0 0 0 2px rgba(15,23,42,.08);cursor:pointer;transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;}
+#liveTrackerBtn{bottom:86px;gap:10px;max-width:280px;text-decoration:none;border-radius:16px;padding:12px 14px;background:linear-gradient(135deg,#fff7ed 0%, #fff1f2 100%);color:#0f172a;box-shadow:0 10px 24px rgba(15,23,42,.16), inset 0 0 0 1px rgba(15,23,42,.08);}
+.live-tracker-dot{width:10px;height:10px;border-radius:999px;background:#dc2626;box-shadow:0 0 0 0 rgba(220,38,38,.45);animation:liveTrackerPulse 1.8s infinite;flex:0 0 auto;}
+.live-tracker-copy{display:flex;flex-direction:column;min-width:0;}
+.live-tracker-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#b91c1c;font-weight:900;}
+.live-tracker-title{margin-top:3px;font-size:13px;font-weight:800;line-height:1.2;color:#0f172a;}
+@keyframes liveTrackerPulse{0%{box-shadow:0 0 0 0 rgba(220,38,38,.45)}70%{box-shadow:0 0 0 8px rgba(220,38,38,0)}100%{box-shadow:0 0 0 0 rgba(220,38,38,0)}}
+#slugScrollBtn{bottom:160px;z-index:9998;border:none;border-radius:999px;width:52px;height:52px;padding:0;font-size:24px;font-weight:900;color:#0f172a;background:linear-gradient(135deg,#fff59d 0%, #ffe066 55%, #ffd43b 100%);box-shadow:0 10px 24px rgba(15,23,42,.18), inset 0 0 0 2px rgba(15,23,42,.08);cursor:pointer;}
+#floatingTopBtn:hover,#liveTrackerBtn:hover,#slugScrollBtn:hover{transform:translateY(-2px) scale(1.02);}
+@media (max-width:640px){#floatingTopBtn{right:16px;bottom:16px;padding:12px 16px;font-size:13px;}#liveTrackerBtn{right:16px;bottom:74px;max-width:240px;padding:10px 12px;}#slugScrollBtn{right:16px;bottom:146px;width:48px;height:48px;font-size:22px;}.live-tracker-title{font-size:12px;}}
+
+
+/* Secondary Meet Central: live links */
+.meet-central-tile.stream-placeholder {
+  opacity: .72 !important;
+}
+.meet-central-tile.stream-placeholder::after {
+  content: "soon";
+  margin-left: auto;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #64748b;
+}
+
+</style>
+<script src="data/stx-meet-data.js"></script>
+</head>
+<body id="top">
+<div class="page">
+  <section class="hero">
+    <div class="hero-top">
+      <div class="hero-flex">
+        <div class="hero-main-copy">
+          <div class="eyebrow">HPAC Meet Suite · Data-Driven Test</div>
+          <h1 id="meetName">Heat Sheets</h1>
+          <div class="hero-sub" id="meetSub"></div>
+        </div>
+        <div class="hero-side">
+          <img class="hero-corner-logo" src="assets/logos/hpac.png" alt="HPAC logo" onerror="this.style.display='none'"/>
+          <div class="status-chip session-status">
+            <div class="status-label">Session View</div>
+            <select id="sessionSelector" class="session-select-mini" aria-label="Session View">
+              <option value="all">All Sessions</option>
+            </select>
+            <div class="session-status-help" id="sessionHelp">Showing all sessions.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="hero-bottom">
+    <div class="info-card primary-hub">
+      <a class="info-card-main" href="heat-sheets.html" data-session-aware data-base-href="heat-sheets.html">
+        <div class="info-top">
+          <div>
+            <div class="info-label">Primary Action</div>
+            <div class="info-value">Heat Sheets</div>
+          </div>
+          <div class="info-link">↗</div>
+        </div>
+        <div class="info-sub">Open the full meet program and jump directly to any event.</div>
+        <div class="info-meta">
+          <span class="info-pill" id="heroEventCount">52 events</span>
+          <span class="info-pill">Lane view</span>
+        </div>
+      </a>
+      <div class="info-sub" style="margin-top:14px; border-top:1px solid #dbe7f4; padding-top:12px;">
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:.14em; color:#475569; font-weight:900; margin-bottom:8px;">Print</div>
+        <div class="info-meta" style="margin-top:0;">
+          <a class="info-action-pill" href="print/stx-heat-sheets-print.html" target="_blank">Heat Sheets PDF</a>
+        </div>
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:.14em; color:#475569; font-weight:900; margin:12px 0 8px;">Finals</div>
+        <div class="info-meta" style="margin-top:0;">
+          <a class="info-action-pill" href="finals/finals.html">Finals Sheets</a>
+          <span class="info-action-pill disabled">Finals Sheets Compact</span>
+        </div>
+      </div>
+    </div>
+
+    <a class="info-card" href="results-hub.html">
+      <div class="info-top">
+        <div>
+          <div class="info-label">Results Hub</div>
+          <div class="info-value">Live Results</div>
+        </div>
+        <div class="info-link">↗</div>
+      </div>
+      <div class="info-sub">Jump by event into posted results instead of scrolling the full PDF.</div>
+      <div class="info-meta">
+        <span class="info-pill">Broadcast style</span>
+        <span class="info-pill">Event jump</span>
+      </div>
+    </a>
+
+    <a class="info-card live-card" id="live-section" href="#">
+      <div class="info-top">
+        <div>
+          <div class="info-label">Now Swimming</div>
+          <div class="info-value" id="nowSwimmingValue">—</div>
+        </div>
+        <div class="live-dot" aria-hidden="true"></div>
+      </div>
+      <div class="info-sub">Jump directly into the current event on heat sheets and follow the live action.</div>
+      <div class="info-meta" id="nowSwimmingMeta"></div>
+    </a>
+
+    <div class="info-card">
+      <div class="info-top">
+        <div>
+          <div class="info-label">Next Level</div>
+          <div class="info-value">Swimmer Profiles</div>
+        </div>
+        <a class="info-link" href="profiles/roster.html" style="text-decoration:none;color:inherit;">↗</a>
+      </div>
+      <div class="info-sub">Explore athlete lists, profile cards, and swimmer highlights throughout the meet.</div>
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <a href="profiles/roster.html" style="flex:1;display:block;padding:10px;border-radius:12px;border:1px solid #f0d452;background:linear-gradient(135deg,#fff59d,#ffe066);text-decoration:none;color:#0f172a;font-weight:900;font-size:13px;">
+          Athlete List
+          <div style="font-size:11px;color:#5c4a00;font-weight:700;margin-top:3px;">Entries</div>
+        </a>
+        <a href="profiles/index.html" style="flex:1;display:block;padding:10px;border-radius:12px;border:1px solid #0b3d2e;background:linear-gradient(135deg,#166534,#0b3d2e);text-decoration:none;color:#ffffff;font-weight:900;font-size:13px;">
+          Athlete Cards
+          <div style="font-size:11px;color:#d1fae5;font-weight:700;margin-top:3px;">Profiles</div>
+        </a>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  
+
+<!-- =========================================================
+     DASHBOARD MODULES MERGED FROM DONOR FILE
+     Safe dashboard layer above heat sheet controls
+     ========================================================= -->
+<section class="dashboard-modules no-print" id="meet-dashboard-modules">
+  <div class="dashboard-main-grid">
+    <div class="info-card dynamic-card just-posted-card">
+      <div class="just-posted-top">
+        <div>
+          <div class="just-posted-badge"><span class="live-spark"></span> Just Posted</div>
+          <div class="just-posted-event">Top age-group winners · Event 1</div>
+          <div class="just-posted-subhead">Latest highlights from recent events, including top finishes, standout swims, and notable performances.</div>
+        </div>
+        <div class="dynamic-icon">⚡</div>
+      </div>
+      <div class="just-posted-list">
+        <div class="just-posted-row">
+          <div class="just-posted-group">10 &amp; Under</div>
+          <div class="just-posted-copy">
+            <div class="just-posted-name"><a href="profiles/swimmer.html?name=Ferretiz%2C%20Amadea">Ferretiz, Amadea</a></div>
+            <div class="just-posted-meta">Banana Slugs-ST · Event winner</div>
+          </div>
+          <div class="just-posted-time">43.11</div>
+        </div>
+        <div class="just-posted-row">
+          <div class="just-posted-group">11–12</div>
+          <div class="just-posted-copy">
+            <div class="just-posted-name"><a href="profiles/swimmer.html?name=Gomez-Cisneros%2C%20Corina">Gomez-Cisneros, Corina</a></div>
+            <div class="just-posted-meta">Banana Slugs-ST · Age-group winner</div>
+            <div class="cut-hit">🔥 STAGS / TAGS watch</div>
+          </div>
+          <div class="just-posted-time">29.16</div>
+        </div>
+        <div class="just-posted-row">
+          <div class="just-posted-group">13–14</div>
+          <div class="just-posted-copy">
+            <div class="just-posted-name"><a href="profiles/swimmer.html?name=Gomez-Cisneros%2C%20Carlota">Gomez-Cisneros, Carlota</a></div>
+            <div class="just-posted-meta">Banana Slugs-ST · Age-group winner</div>
+          </div>
+          <div class="just-posted-time">26.57</div>
+        </div>
+      </div>
+      <div class="just-posted-flash">🔥 New records, cuts, and standout swims will appear here as results are posted</div>
+      <div class="just-posted-actions">
+        <a href="results-hub.html#event-1"><span>View Full Results</span><span>↗</span></a>
+        <a href="#event-1"><span>Open Event Heat Sheet</span><span>↗</span></a>
+      </div>
+    </div>
+
+    <div class="info-card dynamic-card winner-card">
+      <div class="dynamic-top">
+        <div>
+          <div class="info-label">Latest Final</div>
+          <div class="info-value">Event 1 · Girls 50 Free</div>
+        </div>
+        <div class="dynamic-icon">🏆</div>
+      </div>
+      <div class="info-sub">Top finishers from the most recently completed event.</div>
+      <div class="latest-final-extended">
+        <div class="latest-final-extended-row"><div class="latest-final-extended-rank">1</div><div class="latest-final-extended-copy"><strong>Ferretiz, Amadea</strong><span>Banana Slugs-ST</span></div><div class="latest-final-extended-time">43.11</div></div>
+        <div class="latest-final-extended-row"><div class="latest-final-extended-rank">2</div><div class="latest-final-extended-copy"><strong>Villarreal, Sam</strong><span>Banana Slugs-ST</span></div><div class="latest-final-extended-time">53.67</div></div>
+        <div class="latest-final-extended-row"><div class="latest-final-extended-rank">3</div><div class="latest-final-extended-copy"><strong>Nelson, Michaela</strong><span>Banana Slugs-ST</span></div><div class="latest-final-extended-time">51.23</div></div>
+        <div class="latest-final-extended-row"><div class="latest-final-extended-rank">4</div><div class="latest-final-extended-copy"><strong>Arispe, Maya</strong><span>Marlin Aquatics-ST</span></div><div class="latest-final-extended-time">55.02</div></div>
+        <div class="latest-final-extended-row"><div class="latest-final-extended-rank">5</div><div class="latest-final-extended-copy"><strong>Loera, Kat I</strong><span>MSC-ST</span></div><div class="latest-final-extended-time">55.41</div></div>
+      </div>
+      <div class="latest-final-cta"><a href="results-hub.html#event-1">Open full results ↗</a></div>
+    </div>
+
+    <div class="info-card dynamic-card feature-card">
+      <div class="dynamic-top">
+        <div>
+          <div class="info-label">Featured Swimmer</div>
+          <div class="info-value">Carlota Gomez-Cisneros</div>
+        </div>
+        <div class="dynamic-icon">🌟</div>
+      </div>
+      <div class="info-sub">Highlighted athlete based on recent performances and standout swims this session.</div>
+      <div class="profile-line">Fresh off multiple strong swims, Carlota is one of the standout performers to watch this session.</div>
+      <div class="mini-pills"><span>HPAC</span><span>Event winner</span><span>Bio ready</span></div>
+    </div>
+
+    <div class="info-card dynamic-card status-card">
+      <div class="dynamic-top">
+        <div>
+          <div class="info-label">Meet Status</div>
+          <div class="info-value">Live Session Flow</div>
+        </div>
+        <div class="dynamic-icon">🔄</div>
+      </div>
+      <div class="info-sub">Quick snapshot of the current race flow and upcoming events.</div>
+      <div class="status-lines">
+        <div class="status-row"><strong>Now Swimming</strong><span id="dashboard-now-flow">Event 1</span></div>
+        <div class="status-row"><strong>Up Next</strong><span id="dashboard-next-flow">Event 2</span></div>
+        <div class="status-row"><strong>On Deck</strong><span id="dashboard-deck-flow">Event 3</span></div>
+      </div>
+    </div>
+
+    <div class="info-card dynamic-card scratch-strip-card" id="scratch-tracker-strip">
+      <div class="scratch-strip-head">
+        <div class="scratch-strip-copy">
+          <div class="info-label">Scratch Tracker</div>
+          <div class="info-value"><span>⏱</span> Multi-event scratch windows</div>
+          <div class="info-sub">Track scratch windows across key events. Open windows show live countdowns, upcoming windows indicate timing, and closed windows remain visible for confirmation.</div>
+        </div>
+        <div class="scratch-icon-badge">⏱</div>
+      </div>
+      <div class="scratch-mini-grid" id="scratch-mini-grid"></div>
+    </div>
+  </div>
+
+  <aside class="dashboard-side-card">
+    <h3>Meet Central</h3>
+    <div class="meet-central-brand">
+      <img alt="HPAC Banana Slugs logo" src="assets/logos/hpac.png" onerror="this.style.display='none'"/>
+      <div><strong>HPAC Banana Slugs</strong><span>Official host team and meet organizer</span></div>
+    </div>
+    <div class="meet-central-meetbox">
+      <div class="meet-central-meetlogo">
+        <img alt="Meet logo" src="assets/logos/hpac.png" onerror="this.style.display='none'"/>
+      </div>
+      <div class="meet-central-meetmeta">
+        <div class="meet-central-meetname">2026 ST HPAC STX Champs South</div>
+        <div class="meet-central-meetsub">Corpus Christi Natatorium · meet identity / logo space</div>
+      </div>
+    </div>
+    <p class="info-sub">Quick access to the main meet tools, with dense event bubbles underneath for fast jumps.</p>
+    <div class="dashboard-quick-grid">
+      <a href="heat-sheets.html"><span>Heat Sheets<small>Full lane-by-lane program</small></span><span>↗</span></a>
+      <a href="results-hub.html"><span>Live Results<small>Broadcast-style posted results</small></span><span>↗</span></a>
+      <a href="psych-sheet.html"><span>Psych Sheets<small>Entry list by seed time</small></span><span>↗</span></a>
+      <a href="print/stx-heat-sheets-print.html" target="_blank"><span>Print Heat Sheets<small>PDF-ready view</small></span><span>🖨️</span></a>
+      <a href="timeline.html"><span>Timeline<small>Session order and timing</small></span><span>↗</span></a>
+      <a href="swimmer-profiles.html"><span>Swimmer Profiles<small>Bio-ready athlete pages</small></span><span>↗</span></a>
+    </div>
+  </aside>
+</section>
+
+<div class="controls no-print">
+    <div class="control-box search-control"><label>Search swimmer / event / team</label><div class="search-row"><input id="searchBox" type="search" autocomplete="off" placeholder="Try Audie, Barrett, VTAC-ST, 50 Free..."/><button class="search-action" type="button" onclick="runSearchSelection()">Search</button></div><div class="selected-search-note" id="selectedSearchNote">Choose a suggestion, then press Enter or Search to jump.</div><div id="selectedEventList" class="selected-event-list" aria-label="Selected swimmer events"></div><div id="searchSuggestions" class="search-suggestions" role="listbox" aria-label="Search suggestions"></div></div>
+
+    <div class="control-box"><label>Selected swimmer</label><a id="profileBtn" class="profile-btn disabled" href="#" aria-disabled="true">View Profile</a></div>
+    <div class="control-box"><label>Swimmer color</label><div class="color-pick-row"><input id="swimmerColorPick" type="color" value="#fff3a6"/><div class="color-help">Color for selected swimmers.</div></div><div id="swimmerColorPresets" class="color-presets" aria-label="Swimmer color presets"></div><div class="color-swatch-wrap"><span id="swimmerColorSwatch" class="color-swatch"></span><span id="swimmerColorSwatchText">#fff3a6</span></div></div>
+    <div class="control-box"><label>Highlight team</label><select id="teamSelect"><option value="">Select a team...</option></select></div>
+    <div class="control-box"><label>Team color</label><div class="color-pick-row"><input id="colorPick" type="color" value="#fff3a6"/><div class="color-help">Color for selected teams.</div></div><div id="teamColorPresets" class="color-presets" aria-label="Team color presets"></div><div class="color-swatch-wrap"><span id="colorSwatch" class="color-swatch"></span><span id="colorSwatchText">#fff3a6</span></div></div>
+    <div style="display:flex;gap:8px"><button class="btn-green" onclick="window.open('print/stx-heat-sheets-print.html','_blank')">Print</button><button class="btn-gold" onclick="clearHighlights()">Clear</button></div>
+  </div>
+
+  <div class="layout">
+    <main id="events"></main>
+<aside class="sidebar no-print">
+
+  <!-- MEET CENTRAL (COMPACT TOP GRID) -->
+<section class="panel compact-meet-central">
+  <h3>Meet Central</h3>
+
+  <div class="meet-central-grid">
+    <a class="meet-central-tile" href="results-hub.html">📊 Live</a>
+    <a class="meet-central-tile" href="heat-sheets.html">📄 Heats</a>
+    <a class="meet-central-tile" href="psych-sheet.html">🧠 Psych</a>
+    <a class="meet-central-tile" href="timeline.html">📅 Timeline</a>
+    <a class="meet-central-tile" href="print/stx-heat-sheets-print.html" target="_blank" rel="noopener">🖨️ Print</a>
+    <a class="meet-central-tile stream-placeholder" href="#running-results-rail" title="Stream link placeholder — replace with YouTube/live page when ready">🎥 Stream</a>
+  </div>
+</section>
+
+
+  <!-- EVENT JUMP -->
+  <section class="panel" id="event-jump-panel">
+    <h3>Event Jump</h3>
+    <div id="event-jump"></div>
+  </section>
+
+  <!-- RUNNING RESULTS (STICKY RAIL) -->
+  <section class="panel live-panel" id="running-results-rail">
+    <div class="live-head">
+      <div class="live-kicker">Live Heat Sheet Rail</div>
+      <div class="live-title">Running Results</div>
+      <div class="live-sub">Current event status up top, then fast podium results without leaving the heat sheet page.</div>
+    </div>
+
+    <div class="live-actions">
+      <a href="heat-sheets-running-results.html" class="live-action">Open full results view →</a>
+    </div>
+
+    <div class="live-body">
+      <div class="live-status-grid">
+
+        <div class="live-status">
+          <div class="live-label now">Now Swimming</div>
+          <div id="live-now-event">—</div>
+          <div id="live-now-meta">—</div>
+        </div>
+
+        <div class="live-status">
+          <div class="live-label next">Up Next</div>
+          <div id="live-next-event">—</div>
+          <div id="live-next-meta">—</div>
+        </div>
+
+        <div class="live-status">
+          <div class="live-label deck">On Deck</div>
+          <div id="live-deck-event">—</div>
+          <div id="live-deck-meta">—</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- HIGHLIGHT CHECK - hidden for live view -->
+<section class="panel" style="display:none;">
+  <h3>Highlight Check</h3>
+  <div id="debugBox"></div>
+</section>
+
+</aside>
+  </div>
+</div>
+
+<a href="#running-results-rail" id="liveTrackerBtn" class="no-print" aria-label="Jump to now swimming">
+  <span aria-hidden="true" class="live-tracker-dot"></span>
+  <span class="live-tracker-copy">
+    <span class="live-tracker-label">Now Swimming</span>
+    <span class="live-tracker-title">Current event rail</span>
+  </span>
+</a>
+<button aria-label="Scroll to top" id="slugScrollBtn" class="no-print" type="button" title="Scroll to top">🍌</button>
+<button id="floatingTopBtn" class="no-print" type="button" aria-label="Go to Meet Central">
+  <span class="arrow">🏠</span>Home
+</button>
+
+<script>
+(function(){
+  const slugBtn=document.getElementById('slugScrollBtn');
+  const liveBtn=document.getElementById('liveTrackerBtn');
+  const homeBtn=document.getElementById('floatingTopBtn');
+  const threshold=220;
+  function toggleControls(){const scrolled=window.scrollY||document.documentElement.scrollTop||document.body.scrollTop||0;const show=scrolled>threshold;if(slugBtn)slugBtn.style.display=show?'inline-flex':'none';if(liveBtn)liveBtn.style.display=show?'flex':'none';if(homeBtn)homeBtn.style.display=show?'inline-flex':'none';}
+  if(slugBtn){slugBtn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});}
+  if(homeBtn){homeBtn.addEventListener('click',function(){window.location.href='index.html';});}
+  window.addEventListener('scroll',toggleControls,{passive:true});window.addEventListener('load',toggleControls);
+})();
+</script>
+
+<script>
+const STORAGE_KEYS = {
+  swimmers: 'hpacSelectedSwimmerIds',
+  teams: 'hpacSelectedTeamAbbrs',
+  color: 'hpacHighlightColor',
+  swimmerColor: 'hpacSwimmerHighlightColor',
+  teamColors: 'hpacTeamHighlightColors',
+  swimmerColors: 'hpacSwimmerHighlightColors',
+  profile: 'hpacSelectedProfile'
+};
+
+// HPAC unified cross-page highlight keys written by profiles/roster.html.
+// Heat Sheets must READ these keys so roster/team/swimmer highlights stay in sync.
+const HPAC_UNIFIED_KEYS = {
+  teamName: 'hpacMeetHighlightedTeam',
+  teamColor: 'hpacMeetHighlightColor',
+  swimmerMap: 'hpacMeetSwimmerHighlightMap',
+  crossPage: 'hpacCrossPageSwimmerHighlights'
+};
+const HPAC_HIGHLIGHT_PALETTE = {
+  gold:{bg:'#fff7d0', border:'#f0d452'},
+  lime:{bg:'#eef8f1', border:'#bfe3ca'},
+  sky:{bg:'#eef7ff', border:'#b9daf8'},
+  coral:{bg:'#fff1ee', border:'#f7c5bc'},
+  lavender:{bg:'#f5f0ff', border:'#d8c8fb'},
+  mint:{bg:'#ecfffb', border:'#b7eee3'},
+  rose:{bg:'#fff1f5', border:'#f6c1d2'},
+  slate:{bg:'#f2f5f9', border:'#cdd7e3'}
+};
+function readJson(key, fallback){ try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); } catch(e){ return fallback; } }
+function writeJson(key, value){ localStorage.setItem(key, JSON.stringify(value)); }
+function getSelectedSwimmers(){ return new Set(readJson(STORAGE_KEYS.swimmers, [])); }
+function getSelectedTeams(){ return new Set(readJson(STORAGE_KEYS.teams, [])); }
+function getTeamColors(){ return readJson(STORAGE_KEYS.teamColors, {}); }
+function getSwimmerColors(){ return readJson(STORAGE_KEYS.swimmerColors, {}); }
+function getHighlightColor(){ return localStorage.getItem(STORAGE_KEYS.color) || '#fff3a6'; }
+function getSwimmerHighlightColor(){ return localStorage.getItem(STORAGE_KEYS.swimmerColor) || '#fff3a6'; }
+function shadeColor(hex, percent){ const h=String(hex||'#fff3a6').replace('#',''); if(h.length!==6) return '#d4a500'; const n=parseInt(h,16); let r=(n>>16)+percent,g=((n>>8)&255)+percent,b=(n&255)+percent; r=Math.max(0,Math.min(255,r)); g=Math.max(0,Math.min(255,g)); b=Math.max(0,Math.min(255,b)); return '#'+(b|(g<<8)|(r<<16)).toString(16).padStart(6,'0'); }
+function normalizeHpacText(value){ return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim(); }
+function normalizeHpacId(value){ return String(value || '').toLowerCase().trim(); }
+function hpacPaletteColor(value){
+  const raw=String(value || '').trim();
+  if(!raw) return null;
+  if(raw[0]==='#') return {bg:raw, border:shadeColor(raw,-90)};
+  return HPAC_HIGHLIGHT_PALETTE[raw.toLowerCase()] || null;
+}
+function getUnifiedSwimmerMap(){ return readJson(HPAC_UNIFIED_KEYS.swimmerMap, {}); }
+function getUnifiedCrossPageHighlights(){ return readJson(HPAC_UNIFIED_KEYS.crossPage, {}); }
+function getEntryTeamName(entry){
+  const direct = entry.team || entry.teamName || '';
+  if(direct) return direct;
+  const abbr = String(entry.abbr || '').trim();
+  if(!abbr || !Array.isArray(window.HPAC_ATHLETES || HPAC_ATHLETES)) return '';
+  const found = HPAC_ATHLETES.find(a => String(a.abbr || '').trim() === abbr);
+  return found ? (found.team || '') : '';
+}
+function getEntryRosterIdFromCrossPage(entry){
+  const cross = getUnifiedCrossPageHighlights();
+  const entryName = normalizeHpacText(entry.displayName || entry.name || '');
+  const entryTeam = normalizeHpacText(getEntryTeamName(entry) || entry.team || entry.abbr || '');
+  for(const item of Object.values(cross || {})){
+    if(!item) continue;
+    const itemName = normalizeHpacText(item.name || item.displayName || '');
+    const itemTeam = normalizeHpacText(item.team || item.abbr || '');
+    if(itemName && itemName === entryName){
+      if(!entryTeam || !itemTeam || entryTeam === itemTeam || entryTeam.includes(itemTeam) || itemTeam.includes(entryTeam)){
+        return item.id || '';
+      }
+    }
+  }
+  return '';
+}
+function getUnifiedSwimmerHighlightColor(entry){
+  const map = getUnifiedSwimmerMap();
+  const candidates = [
+    entry.id, entry.rosterId, entry.swimmerId, entry.swimmerKey, entry.uss,
+    swimmerId(entry), getEntryRosterIdFromCrossPage(entry)
+  ].map(normalizeHpacId).filter(Boolean);
+  for(const id of candidates){
+    if(Object.prototype.hasOwnProperty.call(map, id)) return hpacPaletteColor(map[id]);
+  }
+  // Last fallback: match map id through cross-page bridge by swimmer name/team.
+  const bridgeId = normalizeHpacId(getEntryRosterIdFromCrossPage(entry));
+  if(bridgeId && Object.prototype.hasOwnProperty.call(map, bridgeId)) return hpacPaletteColor(map[bridgeId]);
+  return null;
+}
+function getUnifiedTeamHighlightColor(entry){
+  const selectedTeam = localStorage.getItem(HPAC_UNIFIED_KEYS.teamName) || '';
+  if(!selectedTeam) return null;
+  const selected = normalizeHpacText(selectedTeam);
+  const entryTeam = normalizeHpacText(getEntryTeamName(entry));
+  const entryAbbr = normalizeHpacText(entry.abbr || '');
+  if(selected && (selected === entryTeam || selected === entryAbbr || entryTeam.includes(selected) || selected.includes(entryTeam))){
+    return hpacPaletteColor(localStorage.getItem(HPAC_UNIFIED_KEYS.teamColor) || 'gold');
+  }
+  return null;
+}
+
+function setHighlightColor(color){ localStorage.setItem(STORAGE_KEYS.color, color); document.documentElement.style.setProperty('--highlight-color', color); document.documentElement.style.setProperty('--highlight-border', shadeColor(color,-90)); const sw=document.getElementById('colorSwatch'); const txt=document.getElementById('colorSwatchText'); const pick=document.getElementById('colorPick'); if(pick && pick.value!==color) pick.value=color; if(sw){ sw.style.background=color; sw.style.borderColor=shadeColor(color,-90); } if(txt){ txt.textContent=color; } }
+function updateSwimmerColorUi(color){ const sw=document.getElementById('swimmerColorSwatch'); const txt=document.getElementById('swimmerColorSwatchText'); const pick=document.getElementById('swimmerColorPick'); if(pick && pick.value!==color) pick.value=color; if(sw){ sw.style.background=color; sw.style.borderColor=shadeColor(color,-90); } if(txt){ txt.textContent=color; } }
+function setSwimmerHighlightColor(color){ localStorage.setItem(STORAGE_KEYS.swimmerColor, color); updateSwimmerColorUi(color); if(pendingSearchSelection && pendingSearchSelection.type==='swimmer' && pendingSearchSelection.id){ const colors=getSwimmerColors(); colors[pendingSearchSelection.id]=color; writeJson(STORAGE_KEYS.swimmerColors, colors); } }
+function syncSwimmerColorPicker(id){ const colors=getSwimmerColors(); updateSwimmerColorUi((id && colors[id]) || getSwimmerHighlightColor()); }
+function getActiveSwimmerColor(id){ const colors=getSwimmerColors(); return (id && colors[id]) || getSwimmerHighlightColor(); }
+function swimmerId(entry){ return entry.uss || entry.swimmerKey || ''; }
+function getEntryHighlightColor(entry){
+  // Priority 1: swimmer-specific highlight from the roster/profile unified map.
+  const swimmerColor = getUnifiedSwimmerHighlightColor(entry);
+  if(swimmerColor) return swimmerColor;
+
+  // Priority 2: team highlight from the roster/profile unified team settings.
+  const teamColor = getUnifiedTeamHighlightColor(entry);
+  if(teamColor) return teamColor;
+
+  // Backward compatibility only for highlights created directly inside Heat Sheets.
+  const id=swimmerId(entry), sc=getSwimmerColors(), tc=getTeamColors(), ss=getSelectedSwimmers(), ts=getSelectedTeams();
+  if(id && ss.has(id)) return hpacPaletteColor(sc[id]) || hpacPaletteColor(getHighlightColor());
+  if(entry.abbr && ts.has(entry.abbr)) return hpacPaletteColor(tc[entry.abbr]) || hpacPaletteColor(getHighlightColor());
+  return null;
+}
+function highlightStyle(entry){ const color=getEntryHighlightColor(entry); if(!color) return ''; return ` style="--row-highlight-color:${escapeHtml(color.bg)};--row-highlight-border:${escapeHtml(color.border)}"`; }
+function isHighlighted(entry){ return !!getEntryHighlightColor(entry); }
+function setSelectedProfile(id,name){ if(!id) return; localStorage.setItem(STORAGE_KEYS.profile, JSON.stringify({id,name})); renderProfileButton(); }
+function getSelectedProfile(){ return readJson(STORAGE_KEYS.profile, null); }
+function profileUrl(id,name){ return 'profiles/swimmer.html?id='+encodeURIComponent(id||'')+'&name='+encodeURIComponent(name||''); }
+function renderProfileButton(){ const btn=document.getElementById('profileBtn'); if(!btn) return; const p=getSelectedProfile(); if(!p||!p.id){ btn.textContent='View Profile'; btn.href='#'; btn.classList.add('disabled'); btn.setAttribute('aria-disabled','true'); return; } btn.textContent='View Profile'; btn.href=profileUrl(p.id,p.name); btn.classList.remove('disabled'); btn.removeAttribute('aria-disabled'); }
+function addSwimmer(entry){ const id=swimmerId(entry); if(!id) return; const selected=getSelectedSwimmers(); selected.add(id); writeJson(STORAGE_KEYS.swimmers, Array.from(selected)); const colors=getSwimmerColors(); colors[id]=getActiveSwimmerColor(id); writeJson(STORAGE_KEYS.swimmerColors, colors); setSelectedProfile(id, entry.displayName || entry.name || ''); syncSwimmerColorPicker(id); }
+function toggleSwimmer(entry){ const id=swimmerId(entry); if(!id) return; const selected=getSelectedSwimmers(), colors=getSwimmerColors(); if(selected.has(id)){ selected.delete(id); delete colors[id]; } else { selected.add(id); colors[id]=getActiveSwimmerColor(id); setSelectedProfile(id, entry.displayName || entry.name || ''); syncSwimmerColorPicker(id); } writeJson(STORAGE_KEYS.swimmers, Array.from(selected)); writeJson(STORAGE_KEYS.swimmerColors, colors); renderAll(); }
+function addTeam(abbr){ if(!abbr) return; const selected=getSelectedTeams(); selected.add(abbr); writeJson(STORAGE_KEYS.teams, Array.from(selected)); const colors=getTeamColors(); colors[abbr]=getHighlightColor(); writeJson(STORAGE_KEYS.teamColors, colors); }
+function toggleTeam(abbr){ if(!abbr) return; const selected=getSelectedTeams(), colors=getTeamColors(); if(selected.has(abbr)){ selected.delete(abbr); delete colors[abbr]; } else { selected.add(abbr); colors[abbr]=getHighlightColor(); } writeJson(STORAGE_KEYS.teams, Array.from(selected)); writeJson(STORAGE_KEYS.teamColors, colors); const teamSelect=document.getElementById('teamSelect'); if(teamSelect) teamSelect.value = selected.has(abbr) ? abbr : ''; renderAll(); }
+function clearHighlights(){ writeJson(STORAGE_KEYS.swimmers, []); writeJson(STORAGE_KEYS.teams, []); writeJson(STORAGE_KEYS.teamColors, {}); writeJson(STORAGE_KEYS.swimmerColors, {}); const teamSelect=document.getElementById('teamSelect'); if(teamSelect) teamSelect.value=''; const searchBox=document.getElementById('searchBox'); if(searchBox) searchBox.value=''; currentSearch=''; selectedSearchLabel=''; pendingSearchSelection=null; updateSelectedSearchNote(); renderSelectedEventList(); selectedSession='all'; const sessionSelector=document.getElementById('sessionSelector'); if(sessionSelector) sessionSelector.value='all'; const sessionHelp=document.getElementById('sessionHelp'); if(sessionHelp) sessionHelp.textContent='Showing all sessions.'; localStorage.removeItem(STORAGE_KEYS.profile); localStorage.removeItem(STORAGE_KEYS.swimmerColor); updateSwimmerColorUi(getSwimmerHighlightColor()); renderProfileButton(); closeSuggestions(); renderAll(); }
+function escapeHtml(s){ return String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function eventAnchor(n){ return `event-${n}`; }
+function safeDomId(s){ return String(s||'').replace(/[^a-zA-Z0-9_-]/g,'_'); }
+function rowId(ev,h,en,index){ return 'row-'+safeDomId(`${ev.eventNumber}-${h.heatNumber || h.heatLabel}-${en.lane || index}-${swimmerId(en) || en.displayName || en.name}`); }
+let currentSearch='', selectedSearchLabel='', selectedSession='all', pendingSearchSelection=null;
+const COLOR_PRESETS=['#fff3a6','#22c55e','#60a5fa','#f87171','#facc15','#2dd4bf','#f9a8d4','#d1d5db'];
+
+function renderColorPresets(targetId, activeColor, onPick){
+  const holder=document.getElementById(targetId);
+  if(!holder) return;
+  holder.innerHTML=COLOR_PRESETS.map(c=>`<button type="button" class="color-preset ${c.toLowerCase()===String(activeColor).toLowerCase()?'active':''}" style="background:${c}" data-color="${c}" aria-label="Use color ${c}"></button>`).join('');
+  holder.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>onPick(btn.dataset.color)));
+}
+function refreshColorPresetStates(){
+  renderColorPresets('teamColorPresets', getHighlightColor(), color=>{ setHighlightColor(color); const activeTeam=document.getElementById('teamSelect')?.value||''; if(activeTeam && getSelectedTeams().has(activeTeam)){ const colors=getTeamColors(); colors[activeTeam]=color; writeJson(STORAGE_KEYS.teamColors, colors); } renderAll(); });
+  renderColorPresets('swimmerColorPresets', getSwimmerHighlightColor(), color=>{ setSwimmerHighlightColor(color); renderAll(); });
+}
+
+
+// ===============================
+// HPAC PHASE 2 POLISH: AUTO-SCROLL TO FIRST EVENT
+// Surgical helper only. No layout/header changes.
+// ===============================
+function hpacClearJumpFocus(){
+  document.querySelectorAll('.hpac-jump-focus').forEach(row => row.classList.remove('hpac-jump-focus'));
+}
+
+function hpacFocusJumpRow(row){
+  if(!row) return;
+  hpacClearJumpFocus();
+  row.classList.add('hpac-jump-focus');
+  setTimeout(()=>row.classList.remove('hpac-jump-focus'), 3600);
+}
+
+function hpacScrollToFirstEventTarget(rowIdValue, anchorIdValue){
+  try {
+    let rowTarget = null;
+    let eventTarget = null;
+
+    if(rowIdValue){
+      rowTarget = document.getElementById(rowIdValue);
+    }
+
+    if(anchorIdValue){
+      eventTarget = document.getElementById(anchorIdValue);
+    }
+
+    // Best experience: land directly on the swimmer lane row.
+    if(rowTarget){
+      rowTarget.scrollIntoView({ behavior:'smooth', block:'center' });
+      hpacFocusJumpRow(rowTarget);
+      return;
+    }
+
+    // Fallback: if the exact row id changed, use first visible highlighted row inside the requested event.
+    if(eventTarget){
+      rowTarget = eventTarget.querySelector('tr.highlighted');
+      if(rowTarget){
+        rowTarget.scrollIntoView({ behavior:'smooth', block:'center' });
+        hpacFocusJumpRow(rowTarget);
+        return;
+      }
+      eventTarget.scrollIntoView({ behavior:'smooth', block:'start' });
+      return;
+    }
+
+    // Last fallback: first visible highlighted swimmer row anywhere.
+    rowTarget = document.querySelector('tr.highlighted');
+    if(rowTarget){
+      rowTarget.scrollIntoView({ behavior:'smooth', block:'center' });
+      hpacFocusJumpRow(rowTarget);
+    }
+  } catch(e){
+    console.log('HPAC auto-scroll skipped:', e);
+  }
+}
+
+function hpacFindTargetRowForJump(swimmerIdValue, swimmerNameValue, eventNumberValue){
+  const targetId = String(swimmerIdValue || '').toUpperCase();
+  const targetName = normalizeForSearch(swimmerNameValue || '');
+  const targetNameRaw = String(swimmerNameValue || '').trim();
+  const eventNumber = String(eventNumberValue || '');
+  const matches = [];
+
+  HPAC_EVENTS.forEach(ev => (ev.heats || []).forEach(h => (h.entries || []).forEach((en, index) => {
+    if(eventNumber && String(ev.eventNumber) !== eventNumber) return;
+    const enId = String(swimmerId(en) || '').toUpperCase();
+    const enName = normalizeForSearch(en.displayName || en.name || '');
+    const idMatches = targetId && enId && enId === targetId;
+    const nameMatches = targetName && enName && (enName === targetName || hpacNameMatches(en.displayName || en.name || '', targetNameRaw));
+    if(idMatches || nameMatches){
+      matches.push({ ev, h, en, index, row: rowId(ev,h,en,index), anchor: eventAnchor(ev.eventNumber) });
+    }
+  })));
+
+  if(matches.length) return matches[0];
+  return null;
+}
+
+function consumeProfileHeatSheetJump(){
+  let payload=null;
+  try { payload = JSON.parse(localStorage.getItem('hpacProfileHeatSheetJump') || 'null'); } catch(e) { payload=null; }
+
+  // Support direct links too: heat-sheets.html?id=USS&name=Swimmer&event=9
+  const params = new URLSearchParams(window.location.search);
+  const urlId = params.get('id') || params.get('swimmer') || '';
+  const urlName = params.get('name') || '';
+  const urlEvent = params.get('event') || '';
+
+  // URL parameters are the most reliable source for profile -> heat sheet jumps.
+  // Always let the clicked link override any older saved jump payload.
+  if(urlId || urlName || urlEvent) {
+    payload = Object.assign({}, payload || {}, {
+      id: urlId || (payload && payload.id) || '',
+      name: urlName || (payload && payload.name) || '',
+      eventNumber: urlEvent || (payload && (payload.eventNumber || payload.event)) || '',
+      ts: Date.now()
+    });
+  }
+
+  if(!payload) return;
+  localStorage.removeItem('hpacProfileHeatSheetJump');
+
+  const targetId = String(payload.id || payload.rosterId || '').toUpperCase();
+  const targetName = normalizeForSearch(payload.name || '');
+  const targetNameRaw = String(payload.name || '').trim();
+  const targetEventNumber = String(payload.eventNumber || payload.event || '').trim();
+
+  let matches = [];
+  if(targetId){
+    matches = getSwimmerOccurrences(targetId);
+  }
+  if(!matches.length && targetName){
+    HPAC_EVENTS.forEach(ev => (ev.heats || []).forEach(h => (h.entries || []).forEach((en, index) => {
+      const enName = normalizeForSearch(en.displayName || en.name || '');
+      const enId = String(swimmerId(en) || '').toUpperCase();
+      if(enName === targetName || hpacNameMatches(en.displayName || en.name || '', targetNameRaw) || (targetId && enId === targetId)) {
+        matches.push({ ev, h, en, index, row: rowId(ev,h,en,index), anchor: eventAnchor(ev.eventNumber) });
+      }
+    })));
+  }
+  if(!matches.length) {
+    // Even if the swimmer row cannot be matched, still honor the requested event jump.
+    if(targetEventNumber) {
+      selectedSession = 'all';
+      const sessionSelector = document.getElementById('sessionSelector');
+      if(sessionSelector) sessionSelector.value = 'all';
+      const sessionHelp = document.getElementById('sessionHelp');
+      if(sessionHelp) sessionHelp.textContent = 'Showing all sessions.';
+      currentSearch = '';
+      renderAll();
+      setTimeout(()=>hpacScrollToFirstEventTarget('', eventAnchor(targetEventNumber)), 220);
+    }
+    return;
+  }
+
+  const eventMatchesForSwimmer = targetEventNumber
+    ? matches.filter(m => String(m.ev.eventNumber) === targetEventNumber)
+    : [];
+  // If a specific event was requested, force the heat sheet into All Sessions so
+  // the target event is visible even if the user last viewed Saturday/Sunday finals.
+  if(targetEventNumber) {
+    selectedSession = 'all';
+    const sessionSelector = document.getElementById('sessionSelector');
+    if(sessionSelector) sessionSelector.value = 'all';
+    const sessionHelp = document.getElementById('sessionHelp');
+    if(sessionHelp) sessionHelp.textContent = 'Showing all sessions.';
+  }
+
+  const first = eventMatchesForSwimmer[0] || matches[0];
+  const label = first.en.displayName || first.en.name || payload.name || 'Selected swimmer';
+  pendingSearchSelection = {
+    type:'swimmer',
+    id: swimmerId(first.en),
+    label,
+    sub: `${first.en.abbr || ''} • ${matches.length} event${matches.length===1?'':'s'}`,
+    en:first.en,
+    entry:first.en,
+    row:first.row,
+    anchor:first.anchor,
+    requestedEventNumber: targetEventNumber
+  };
+  selectedSearchLabel = label;
+  currentSearch = '';
+  const searchBox = document.getElementById('searchBox');
+  if(searchBox) searchBox.value = label;
+  addSwimmer(first.en);
+  updateSelectedSearchNote();
+  renderSelectedEventList();
+  renderAll();
+  setTimeout(()=>{
+    const freshTarget = hpacFindTargetRowForJump(swimmerId(first.en) || targetId, label || payload.name, targetEventNumber || first.ev.eventNumber);
+    const rowToUse = freshTarget ? freshTarget.row : first.row;
+    const anchorToUse = targetEventNumber ? eventAnchor(targetEventNumber) : (freshTarget ? freshTarget.anchor : first.anchor);
+    hpacScrollToFirstEventTarget(rowToUse, anchorToUse);
+  }, 260);
+}
+
+function init(){ document.getElementById('meetName').textContent=HPAC_MEET_CONFIG.meetName||'Heat Sheets'; document.getElementById('meetSub').textContent=`${HPAC_MEET_CONFIG.location || ''} · ${HPAC_MEET_CONFIG.dates || ''}`; const eventCountEl = document.getElementById('eventCount'); if(eventCountEl) eventCountEl.textContent = HPAC_EVENTS.length; const heroEventCountEl = document.getElementById('heroEventCount'); if(heroEventCountEl) heroEventCountEl.textContent = HPAC_EVENTS.length + ' events'; const athleteCountEl = document.getElementById('athleteCount'); if(athleteCountEl) athleteCountEl.textContent = HPAC_ATHLETES.length; document.getElementById('colorPick').value=getHighlightColor(); setHighlightColor(getHighlightColor()); const swimmerColorPick=document.getElementById('swimmerColorPick'); if(swimmerColorPick){ swimmerColorPick.value=getSwimmerHighlightColor(); updateSwimmerColorUi(getSwimmerHighlightColor()); } const teams=Array.from(new Set(HPAC_ATHLETES.map(a=>a.abbr).filter(Boolean))).sort(); document.getElementById('teamSelect').innerHTML='<option value="">Select a team...</option>'+teams.map(t=>`<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join(''); document.getElementById('teamSelect').addEventListener('change', e=>{ if(e.target.value){ addTeam(e.target.value); renderAll(); } }); initSessionSelect(); renderProfileButton(); document.getElementById('colorPick').addEventListener('input', e=>{ setHighlightColor(e.target.value); const activeTeam=document.getElementById('teamSelect')?.value||''; if(activeTeam && getSelectedTeams().has(activeTeam)){ const colors=getTeamColors(); colors[activeTeam]=e.target.value; writeJson(STORAGE_KEYS.teamColors, colors); } renderAll(); }); if(swimmerColorPick){ swimmerColorPick.addEventListener('input', e=>{ setSwimmerHighlightColor(e.target.value); renderAll(); }); } const searchBox=document.getElementById('searchBox'); searchBox.addEventListener('input', e=>{ selectedSearchLabel=''; pendingSearchSelection=null; updateSelectedSearchNote(); renderSelectedEventList(); currentSearch=e.target.value.toLowerCase().trim(); updateSearchSuggestions(); renderEvents(); }); searchBox.addEventListener('focus', updateSearchSuggestions); searchBox.addEventListener('keydown', handleSearchKeydown); document.addEventListener('click', e=>{ if(!e.target.closest('.search-control')) closeSuggestions(); }); updateSelectedSearchNote(); refreshColorPresetStates(); renderAll(); setTimeout(consumeProfileHeatSheetJump, 120); }
+function initSessionSelect(){
+  const sel = document.getElementById('sessionSelector');
+  const help = document.getElementById('sessionHelp');
+  if(!sel) return;
+
+  const sessionObjects =
+    (HPAC_MEET_CONFIG.sessions && HPAC_MEET_CONFIG.sessions.length)
+      ? HPAC_MEET_CONFIG.sessions
+      : [{key:'all', label:'All Sessions', type:'all'}];
+
+  HPAC_EVENTS.forEach(ev=>{
+    const n = ev.eventNumber;
+    const phases = new Set();
+    let hasAM = false, hasPM = false;
+
+    (ev.heats||[]).forEach(h=>{
+      if(h.phase) phases.add(h.phase);
+      if(h.startTime){
+        if(h.startTime.includes('AM')) hasAM = true;
+        if(h.startTime.includes('PM')) hasPM = true;
+      }
+    });
+
+    // Friday Night Distance — events 1-6, PM only, no prelims/finals phase
+    if(n >= 1 && n <= 6){
+      ev._sessionKey = 'fri-distance';
+
+    // Saturday events (7–28):
+    //   7-20 have both AM Prelims and PM Finals
+    //   21-28 are relays with AM Finals only → saturday finals session
+    } else if(n >= 7 && n <= 28){
+      if(hasPM && phases.has('Prelims')) {
+        // Multi-phase: belongs to BOTH sessions — render under prelims primarily,
+        // finals filter will still show it via the heat-level phase.
+        // We track both keys using an array.
+        ev._sessionKeys = ['sat-prelims', 'sat-finals'];
+        ev._sessionKey  = 'sat-prelims'; // primary for display
+      } else {
+        // Relays (21-28) AM-only Finals
+        ev._sessionKey = 'sat-finals';
+        ev._sessionKeys = ['sat-finals'];
+      }
+
+    // Sunday events (29–54):
+    //   29 = 500 Free, AM only, no phase → sun-prelims
+    //   31-44 have both AM Prelims and PM Finals
+    //   45-54 are relays, AM Finals only → sunday finals
+    } else if(n === 29 || n === 30){
+      ev._sessionKey  = 'sun-prelims';
+      ev._sessionKeys = ['sun-prelims'];
+
+    } else if(n >= 31 && n <= 44){
+      if(hasPM && phases.has('Prelims')){
+        ev._sessionKeys = ['sun-prelims', 'sun-finals'];
+        ev._sessionKey  = 'sun-prelims';
+      } else {
+        ev._sessionKey  = 'sun-finals';
+        ev._sessionKeys = ['sun-finals'];
+      }
+
+    } else if(n >= 45 && n <= 54){
+      ev._sessionKey  = 'sun-finals';
+      ev._sessionKeys = ['sun-finals'];
+
+    // Time-trial splits (200s) — Saturday night PM Finals
+    } else if(n >= 200 && n <= 299){
+      ev._sessionKey  = 'sat-finals';
+      ev._sessionKeys = ['sat-finals'];
+
+    // Timed trials (500s, 600s) — Sunday AM Finals
+    } else if(n >= 500 && n <= 699){
+      ev._sessionKey  = 'sun-finals';
+      ev._sessionKeys = ['sun-finals'];
+
+    // Fallback for anything unexpected
+    } else {
+      ev._sessionKey  = hasPM ? 'sat-finals' : 'sat-prelims';
+      ev._sessionKeys = [ev._sessionKey];
+    }
+
+    // Normalize: always have _sessionKeys array
+    if(!ev._sessionKeys) ev._sessionKeys = [ev._sessionKey];
+  });
+
+  sel.innerHTML = sessionObjects
+    .map(s=>`<option value="${escapeHtml(s.key)}">${escapeHtml(s.label)}</option>`)
+    .join('');
+
+  sel.value = selectedSession;
+
+  sel.addEventListener('change', e=>{
+    selectedSession = e.target.value || 'all';
+
+    if(help){
+      const label = sel.options[sel.selectedIndex]?.textContent || 'All Sessions';
+      help.textContent = selectedSession === 'all'
+        ? 'Showing all sessions.'
+        : `Showing ${label}.`;
+    }
+
+    renderAll();
+    renderSelectedEventList();
+  });
+
+  if(help){
+    help.textContent = 'Showing all sessions.';
+  }
+}
+function closeSuggestions(){ const box=document.getElementById('searchSuggestions'); if(box) box.classList.remove('open'); }
+function normalizeText(s){ return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim(); }
+
+// HPAC v9: shared profile/search jump normalizer.
+// Supports both "First Last" and Hy-Tek "Last, First" name formats.
+function normalizeForSearch(value){ return normalizeText(value); }
+function hpacNameVariants(value){
+  const raw = String(value || '').trim();
+  const variants = new Set([normalizeText(raw)]);
+  if(raw.includes(',')){
+    const parts = raw.split(',');
+    const last = (parts[0] || '').trim();
+    const first = parts.slice(1).join(' ').trim();
+    if(first && last) variants.add(normalizeText(first + ' ' + last));
+  } else {
+    const words = raw.split(/\s+/).filter(Boolean);
+    if(words.length >= 2){
+      const first = words[0];
+      const last = words.slice(1).join(' ');
+      variants.add(normalizeText(last + ' ' + first));
+      variants.add(normalizeText(last + ', ' + first));
+    }
+  }
+  return Array.from(variants).filter(Boolean);
+}
+function hpacNameMatches(a,b){
+  const av = hpacNameVariants(a);
+  const bv = hpacNameVariants(b);
+  return av.some(x => bv.includes(x));
+}
+
+function getAllEntries(){ const out=[]; HPAC_EVENTS.forEach(ev=>ev.heats.forEach(h=>h.entries.forEach((en,index)=>out.push({ev,h,en,index})))); return out; }
+function buildSearchSuggestions(query){ const q=normalizeText(query); if(!q) return []; const suggestions=[], seen=new Set(), qParts=q.split(' ').filter(Boolean); for(const item of getAllEntries()){ const en=item.en, id=swimmerId(en)||`${en.abbr}|${en.displayName||en.name}|${en.age}`, display=en.displayName||en.name, displayNorm=normalizeText(display), hay=normalizeText(`${display} ${en.name} ${en.firstName} ${en.lastName} ${en.abbr} ${en.team} ${en.seed} ${en.uss}`); const match=displayNorm.startsWith(q)||qParts.every(part=>hay.includes(part)); if(match && !seen.has('swimmer:'+id)){ seen.add('swimmer:'+id); suggestions.push({type:'swimmer',label:display,sub:`${en.abbr || ''} · Event ${item.ev.eventNumber} · ${item.h.heatLabel || ('Heat '+item.h.heatNumber)} · Lane ${en.lane || '—'}`,anchor:eventAnchor(item.ev.eventNumber),row:rowId(item.ev,item.h,en,item.index),id,entry:en}); } if(suggestions.length>=8) break; } HPAC_EVENTS.forEach(ev=>{ const hay=normalizeText(`event ${ev.eventNumber} ${ev.eventName}`); if(suggestions.length<12 && hay.includes(q) && !seen.has('event:'+ev.eventNumber)){ seen.add('event:'+ev.eventNumber); suggestions.push({type:'event',label:`Event ${ev.eventNumber}`,sub:ev.eventName,anchor:eventAnchor(ev.eventNumber)}); }}); const teams=Array.from(new Set(HPAC_ATHLETES.map(a=>`${a.abbr}|${a.team}`).filter(Boolean))).sort(); teams.forEach(t=>{ const [abbr,team]=t.split('|'), hay=normalizeText(`${abbr} ${team}`); if(suggestions.length<15 && hay.includes(q) && !seen.has('team:'+abbr)){ seen.add('team:'+abbr); suggestions.push({type:'team',label:abbr,sub:team||'Team highlight',team:abbr}); }}); return suggestions; }
+function getSwimmerOccurrences(id){
+  const out=[];
+  if(!id) return out;
+
+  HPAC_EVENTS.forEach(ev=>{
+    if(!eventMatches(ev)) return;
+
+    const visibleHeats = getVisibleHeatsForEvent(ev);
+
+    visibleHeats.forEach(h=>{
+      h.entries.forEach((en,index)=>{
+        if(swimmerId(en)===id){
+          out.push({
+            ev,
+            h,
+            en,
+            index,
+            row:rowId(ev,h,en,index),
+            anchor:eventAnchor(ev.eventNumber)
+          });
+        }
+      });
+    });
+  });
+
+  return out;
+}
+function getOrderedSwimmerOccurrencesForPendingSelection(){
+  if(!pendingSearchSelection || pendingSearchSelection.type!=='swimmer') return [];
+  const matches = getSwimmerOccurrences(pendingSearchSelection.id);
+  const requested = String(pendingSearchSelection.requestedEventNumber || '').trim();
+  if(!requested) return matches;
+  return matches.slice().sort((a,b) => {
+    const ae = String(a.ev.eventNumber) === requested ? 0 : 1;
+    const be = String(b.ev.eventNumber) === requested ? 0 : 1;
+    return ae - be;
+  });
+}
+function renderSelectedEventList(){ const box=document.getElementById('selectedEventList'); if(!box) return; if(!pendingSearchSelection || pendingSearchSelection.type!=='swimmer'){ box.innerHTML=''; box.classList.remove('open'); return; } const matches=getOrderedSwimmerOccurrencesForPendingSelection(); if(!matches.length){ box.innerHTML='<button type="button" disabled>No visible events in this session</button>'; box.classList.add('open'); return; } box.innerHTML=matches.map((m,idx)=>`<button type="button" onclick="jumpToSelectedSwimmerEvent(${idx})">Event ${escapeHtml(m.ev.eventNumber)} · ${escapeHtml(m.ev.eventName.replace(/^(Girls|Boys)\s+/,'').slice(0,28))}${m.ev.eventName.length>28?'…':''}</button>`).join(''); box.classList.add('open'); }
+function jumpToSelectedSwimmerEvent(index){ if(!pendingSearchSelection || pendingSearchSelection.type!=='swimmer') return; const matches=getOrderedSwimmerOccurrencesForPendingSelection(); const m=matches[index] || matches[0]; if(!m) return; addSwimmer(m.en); currentSearch=''; selectedSearchLabel=pendingSearchSelection.label; const searchBox=document.getElementById('searchBox'); if(searchBox) searchBox.value=pendingSearchSelection.label; renderAll(); setTimeout(()=>{ const freshTarget=hpacFindTargetRowForJump(swimmerId(m.en), pendingSearchSelection.label, m.ev.eventNumber); hpacScrollToFirstEventTarget(freshTarget ? freshTarget.row : m.row, freshTarget ? freshTarget.anchor : m.anchor); }, 120); }
+function updateSelectedSearchNote(){ const note=document.getElementById('selectedSearchNote'); if(!note) return; if(pendingSearchSelection && pendingSearchSelection.type==='swimmer') note.textContent=`Selected: ${pendingSearchSelection.label}. Press Enter/Search for first event, or choose an event below.`; else if(pendingSearchSelection && pendingSearchSelection.type==='event') note.textContent=`Selected: ${pendingSearchSelection.label}. Press Enter or Search to jump.`; else if(pendingSearchSelection && pendingSearchSelection.type==='team') note.textContent=`Selected team: ${pendingSearchSelection.label}. Press Enter or Search to apply.`; else note.textContent='Choose a suggestion, then press Enter or Search to jump.'; }
+function setPendingSearchSelection(it){ pendingSearchSelection=it; const searchBox=document.getElementById('searchBox'); if(searchBox) searchBox.value=it.label; currentSearch=''; selectedSearchLabel=it.label; if(it.type==='swimmer'){ setSelectedProfile(it.id, it.label); syncSwimmerColorPicker(it.id); } updateSelectedSearchNote(); renderSelectedEventList(); closeSuggestions(); renderProfileButton(); renderEvents(); }
+function runSearchSelection(){ let it=pendingSearchSelection; const searchBox=document.getElementById('searchBox'); if(!it){ const items=buildSearchSuggestions(searchBox?.value||''); if(items.length) it=items[0]; } if(!it) return; if(it.type==='team'){ const teamSelect=document.getElementById('teamSelect'); if(teamSelect) teamSelect.value=it.team; addTeam(it.team); currentSearch=''; selectedSearchLabel=it.label; if(searchBox) searchBox.value=it.label; pendingSearchSelection=it; updateSelectedSearchNote(); renderAll(); closeSuggestions(); return; } if(it.type==='swimmer'){ const matches=getSwimmerOccurrences(it.id); const first=matches[0]; if(first){ it.row=first.row; it.anchor=first.anchor; it.entry=first.en; } addSwimmer(it.entry); currentSearch=''; selectedSearchLabel=it.label; if(searchBox) searchBox.value=it.label; pendingSearchSelection=it; } else { currentSearch=''; selectedSearchLabel=it.label; if(searchBox) searchBox.value=it.label; pendingSearchSelection=it; } updateSelectedSearchNote(); renderAll(); renderSelectedEventList(); closeSuggestions(); setTimeout(()=>hpacScrollToFirstEventTarget(it.row, it.anchor), 100); }
+function updateSearchSuggestions(){ const box=document.getElementById('searchSuggestions'), input=document.getElementById('searchBox'); if(!box||!input) return; const items=buildSearchSuggestions(input.value); if(!items.length){ box.innerHTML=''; box.classList.remove('open'); return; } box.innerHTML=items.map((it,idx)=>`<button type="button" class="search-suggestion" data-index="${idx}" onclick="selectSearchSuggestion(${idx})"><span class="sugg-main"><span class="sugg-title">${escapeHtml(it.label)}</span><span class="sugg-sub">${escapeHtml(it.sub)}</span></span><span class="sugg-type">${escapeHtml(it.type)}</span></button>`).join(''); window.__hpacSearchSuggestions=items; box.classList.add('open'); }
+function selectSearchSuggestion(index){ const items=window.__hpacSearchSuggestions||[], it=items[index]; if(!it) return; setPendingSearchSelection(it); }
+function handleSearchKeydown(e){ if(e.key==='Escape'){ closeSuggestions(); return; } if(e.key==='Enter'){ e.preventDefault(); if(!pendingSearchSelection){ const items=window.__hpacSearchSuggestions||buildSearchSuggestions(document.getElementById('searchBox')?.value||''); if(items.length) pendingSearchSelection=items[0]; } runSearchSelection(); } }
+function renderAll(){ setHighlightColor(getHighlightColor()); if(!(pendingSearchSelection && pendingSearchSelection.type==='swimmer')) updateSwimmerColorUi(getSwimmerHighlightColor()); renderProfileButton(); renderSelectedEventList(); renderEvents(); renderJump(); renderDebug(); }
+function eventMatches(ev){ if(selectedSession!=='all'){ const keys = ev._sessionKeys || (ev._sessionKey ? [ev._sessionKey] : []); if(keys.length && !keys.includes(selectedSession)) return false; } if(!currentSearch) return true; const hay=`${ev.eventNumber} ${ev.eventName} ${ev.teams.join(' ')} `.toLowerCase(); if(hay.includes(currentSearch)) return true; return ev.heats.some(h=>h.entries.some(en=>`${en.name} ${en.displayName} ${en.abbr} ${en.team} ${en.seed}`.toLowerCase().includes(currentSearch))); }
+function heatMatchesSession(ev, h){
+  if(selectedSession === 'all') return true;
+
+  const label = String(h.heatLabel || '').toLowerCase();
+  const phase = String(h.phase || '').toLowerCase();
+  const time = String(h.startTime || '').toLowerCase();
+
+  const isPrelimHeat =
+    phase.includes('prelim') ||
+    label.includes('prelim') ||
+    time.includes('am');
+
+  const isFinalHeat =
+    phase.includes('final') ||
+    label.includes('final') ||
+    label.includes('championship') ||
+    label.includes('consolation') ||
+    time.includes('pm');
+
+  if(selectedSession.includes('prelim')) return isPrelimHeat && !isFinalHeat;
+  if(selectedSession.includes('final')) return isFinalHeat;
+
+  return true;
+}
+
+function getVisibleHeatsForEvent(ev){
+  return (ev.heats || []).filter(h => heatMatchesSession(ev, h));
+}
+
+function renderJump(){ document.getElementById('event-jump').innerHTML=HPAC_EVENTS.filter(eventMatches).map(ev=>`<a href="#${eventAnchor(ev.eventNumber)}"><strong>Event ${ev.eventNumber}</strong><span>${escapeHtml(ev.eventName)}</span></a>`).join(''); }
+function updateRunningRail(events){
+  const now = events[0];
+  const next = events[1];
+  const deck = events[2];
+
+  function setRail(prefix, ev){
+    const eventEl = document.getElementById(`live-${prefix}-event`);
+    const metaEl  = document.getElementById(`live-${prefix}-meta`);
+    if(!eventEl || !metaEl) return;
+
+    if(!ev){
+      eventEl.textContent = '—';
+      metaEl.textContent  = '';
+      return;
+    }
+
+eventEl.innerHTML = `
+  <div style="font-weight:900; font-size:14px; margin-bottom:2px;">
+    Event ${ev.eventNumber}
+  </div>
+  <div style="font-size:13px;">
+    ${ev.eventName}
+  </div>
+`;
+
+metaEl.innerHTML = `
+  <div style="font-size:12px; color:#64748b;">
+    ${ev.totalEntries} swimmers • ${ev.heats.length} heat${ev.heats.length === 1 ? '' : 's'}
+  </div>
+`;  }
+
+  setRail('now', now);
+  setRail('next', next);
+  setRail('deck', deck);
+}
+
+function renderEvents(){ 
+  const wrap = document.getElementById('events');
+
+  const events = HPAC_EVENTS
+    .filter(eventMatches)
+    .map(ev => {
+      const visibleHeats = getVisibleHeatsForEvent(ev);
+      return {...ev, visibleHeats};
+    })
+    .filter(ev => selectedSession === 'all' || ev.visibleHeats.length > 0);
+
+  updateRunningRail(events.map(ev => ({
+    ...ev,
+    heats: ev.visibleHeats,
+    totalEntries: ev.visibleHeats.reduce((sum,h)=>sum + (h.entries ? h.entries.length : 0), 0)
+  })));
+
+  wrap.innerHTML = events.map(ev => {
+    const visibleHeats = ev.visibleHeats || ev.heats || [];
+    const visibleEntries = visibleHeats.reduce((sum,h)=>sum + (h.entries ? h.entries.length : 0), 0);
+
+    return `
+      <section class="event-card" id="${eventAnchor(ev.eventNumber)}">
+        <div class="event-top">
+          <div>
+            <div class="kicker">Event ${ev.eventNumber}</div>
+            <h2>${escapeHtml(ev.eventName)}</h2>
+          </div>
+          <div class="badge">${visibleEntries} entries · ${visibleHeats.length} heat sections</div>
+        </div>
+
+        <div class="event-meta">
+          <div class="meta-pill">
+            <strong>Standards</strong>
+            ${ev.standards.slice(0,4).map(s => `${escapeHtml(s.label)} ${escapeHtml(s.time)}`).join(' · ') || '—'}
+          </div>
+
+          <div class="meta-pill">
+            <strong>Teams</strong>
+            ${ev.teams.slice(0,8).join(', ') || '—'}
+          </div>
+
+          <div class="meta-pill">
+            <strong>Notes</strong>
+            Click a swimmer name to favorite/highlight.
+          </div>
+        </div>
+
+        <div class="heats-wrap">
+          ${visibleHeats.map(h => renderHeat(ev,h)).join('')}
+        </div>
+      </section>
+    `;
+  }).join('') || `
+    <section class="panel">
+      <h3>No matches</h3>
+      <p>Clear the search box or choose All Sessions.</p>
+    </section>
+  `;
+}
+
+function renderHeat(ev,h){ return `<div class="heat-card"><div class="heat-head"><span>${escapeHtml(h.heatLabel)}</span><small>${escapeHtml(h.startTime || '')}</small></div><table><thead><tr><th>Ln</th><th>Swimmer</th><th>Age</th><th>Team</th><th>Seed</th></tr></thead><tbody>${h.entries.map((en,index)=>`<tr id="${rowId(ev,h,en,index)}" class="${isHighlighted(en) ? 'highlighted' : ''}"${highlightStyle(en)}><td>${escapeHtml(en.lane)}</td><td class="swimmer"><button type="button" onclick='toggleSwimmer(${JSON.stringify(en).replaceAll("'","&#39;")})'>${escapeHtml(en.name)}${getSelectedSwimmers().has(swimmerId(en)) ? ' ⭐' : ''}</button></td><td>${escapeHtml(en.age)}</td><td><button type="button" onclick="toggleTeam('${escapeHtml(en.abbr)}')" style="padding:0;background:transparent;color:#166534;font-weight:900">${escapeHtml(en.abbr)}</button></td><td class="seed">${escapeHtml(en.seed)}</td></tr>`).join('')}</tbody></table></div>`; }
+
+function renderDebug(){ const swimmers=Array.from(getSelectedSwimmers()), teams=Array.from(getSelectedTeams()), tc=getTeamColors(), sc=getSwimmerColors(); document.getElementById('debugBox').textContent=`Selected swimmer IDs (${swimmers.length}):\n${swimmers.map(id=>`${id} ${sc[id] ? '('+sc[id]+')' : ''}`).join('\n') || '—'}\n\nSelected teams (${teams.length}):\n${teams.map(t=>`${t} ${tc[t] ? '('+tc[t]+')' : ''}`).join('\n') || '—'}`; }
+
+window.addEventListener('load', init);
+
+
+</script>
+
+
+<script>
+(function(){
+  const wrap = document.getElementById('scratch-mini-grid');
+  if(!wrap) return;
+  const items = [
+    {id:'event-1', eventLabel:'Event 1', title:'Girls 11-18 1650 Free', mode:'open', posted_offset_min:-6},
+    {id:'event-2', eventLabel:'Event 2', title:'Boys 11-18 1650 Free', mode:'open', posted_offset_min:-18},
+    {id:'event-3', eventLabel:'Event 3', title:'Girls 10 & Under 500 Free', mode:'upcoming', opens_in_min:4},
+    {id:'event-4', eventLabel:'Event 4', title:'Boys 10 & Under 500 Free', mode:'closed', posted_offset_min:-37},
+    {id:'event-5', eventLabel:'Event 5', title:'Girls 11-18 400 IM', mode:'upcoming', opens_in_min:16}
+  ];
+  const fmt = new Intl.DateTimeFormat([], {hour:'numeric', minute:'2-digit'});
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function renderCard(item){
+    const a = document.createElement('a');
+    a.className = 'scratch-mini';
+    a.href = '#' + item.id;
+    a.setAttribute('data-scratch-id', item.id);
+    a.innerHTML = `
+      <div class="scratch-mini-top">
+        <div class="scratch-mini-event">${item.eventLabel}</div>
+        <div class="scratch-mini-chip">Status</div>
+      </div>
+      <div class="scratch-mini-title">${item.title}</div>
+      <div class="scratch-mini-timer">--:--</div>
+      <div class="scratch-mini-help">Tracking scratch status…</div>
+      <div class="scratch-mini-meta"><span class="posted">Posted --:--</span><span class="deadline">Close --:--</span></div>
+      <div class="scratch-mini-action"><button class="scratch-link-btn" type="button">Scratch Link</button></div>`;
+    const btn = a.querySelector('.scratch-link-btn');
+    if(btn){ btn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); alert('Scratch link placeholder for ' + item.eventLabel); }); }
+    return a;
+  }
+  wrap.innerHTML = '';
+  items.forEach(item => wrap.appendChild(renderCard(item)));
+  function update(){
+    const now = Date.now();
+    items.forEach(item => {
+      const card = wrap.querySelector(`[data-scratch-id="${item.id}"]`);
+      if(!card) return;
+      const chip = card.querySelector('.scratch-mini-chip');
+      const timer = card.querySelector('.scratch-mini-timer');
+      const help = card.querySelector('.scratch-mini-help');
+      const posted = card.querySelector('.posted');
+      const deadline = card.querySelector('.deadline');
+      let status = 'upcoming', postedAt = null, deadlineAt = null, timerText = '', helpText = '';
+      if(item.mode === 'open'){
+        postedAt = now + item.posted_offset_min * 60000;
+        deadlineAt = postedAt + 30 * 60000;
+        const remain = Math.max(0, deadlineAt - now);
+        const mins = Math.floor(remain / 60000);
+        const secs = Math.floor((remain % 60000) / 1000);
+        status = remain > 0 ? 'open' : 'closed';
+        timerText = status === 'open' ? `${pad(mins)}:${pad(secs)}` : 'Closed';
+        helpText = status === 'open' ? `Scratches close at ${fmt.format(deadlineAt)}.` : `Scratch window closed at ${fmt.format(deadlineAt)}.`;
+      } else if(item.mode === 'upcoming'){
+        const opensAt = now + item.opens_in_min * 60000;
+        postedAt = opensAt; deadlineAt = opensAt + 30 * 60000;
+        const until = Math.max(0, opensAt - now);
+        const mins = Math.floor(until / 60000);
+        const secs = Math.floor((until % 60000) / 1000);
+        status = 'upcoming'; timerText = `${pad(mins)}:${pad(secs)}`;
+        helpText = `Expected to open when results post at ${fmt.format(opensAt)}.`;
+      } else {
+        postedAt = now + item.posted_offset_min * 60000;
+        deadlineAt = postedAt + 30 * 60000;
+        status = 'closed'; timerText = 'Closed'; helpText = `Locked at ${fmt.format(deadlineAt)}.`;
+      }
+      chip.className = 'scratch-mini-chip ' + status;
+      chip.textContent = status === 'open' ? 'Open' : (status === 'upcoming' ? 'Upcoming' : 'Closed');
+      timer.textContent = timerText;
+      help.textContent = helpText;
+      posted.textContent = postedAt ? `Posted ${fmt.format(postedAt)}` : 'Posted --:--';
+      deadline.textContent = deadlineAt ? `Close ${fmt.format(deadlineAt)}` : 'Close --:--';
+    });
+  }
+  update();
+  setInterval(update, 1000);
+})();
+</script>
+
+
+<!-- HPAC SHARED MEET HEADER SYNC START -->
+<script>
+(function() {
+  const PAGE_LABEL = "Heat Sheets";
+
+  function setText(selector, text) {
+    document.querySelectorAll(selector).forEach(function(el) {
+      if (el) el.textContent = text;
+    });
+  }
+
+  function runMeetHeaderSync() {
+    const cfg = window.HPAC_MEET_CONFIG;
+    if (!cfg) return;
+
+    const meetName = cfg.meetName || "HPAC Meet Suite";
+    const location = cfg.location || "";
+    const dates = cfg.dates || "";
+    const subtitle = [location, dates].filter(Boolean).join(" · ");
+    const fullTitle = PAGE_LABEL ? `${meetName} — ${PAGE_LABEL}` : meetName;
+
+    // Browser tab title
+    document.title = fullTitle;
+
+    // Main page header/title
+    const mainTitle = document.getElementById("meetName") || document.querySelector(".hero h1, h1");
+    if (mainTitle) mainTitle.textContent = fullTitle;
+
+    // Main page subtitle area
+    const mainSub = document.getElementById("meetSub") || document.querySelector(".hero-sub, .sub, .title-sub");
+    if (mainSub && subtitle) mainSub.textContent = subtitle;
+
+    // Meet Central / dashboard identity cards
+    setText(".meet-central-meetname", meetName);
+    setText(".meet-central-meetsub", subtitle || meetName);
+
+    // Common logo hooks
+    document.querySelectorAll(".hero-corner-logo, .meet-central-brand img").forEach(function(img) {
+      if (cfg.logo && img && !img.dataset.keepLogo) img.src = cfg.logo;
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", runMeetHeaderSync);
+  } else {
+    runMeetHeaderSync();
+  }
+})();
+</script>
+<!-- HPAC SHARED MEET HEADER SYNC END -->
+
+
+<!-- HPAC FINALS SESSION HANDOFF FIX START -->
+<script>
+(function(){
+  function currentHeatSheetSession(){
+    var sel = document.getElementById('sessionSelector');
+    var value = sel && sel.value ? sel.value : 'all';
+    if(value !== 'sat-finals' && value !== 'sun-finals'){
+      // If user is not on a finals session, let Finals page show all finals.
+      value = 'all';
+    }
+    return value;
+  }
+
+  function saveFinalsSession(session){
+    try {
+      localStorage.setItem('hpacSelectedSession', session);
+      localStorage.setItem('hpacFinalsSelectedSession', session);
+      localStorage.setItem('hpac_session', session);
+    } catch(e) {}
+  }
+
+  function wireFinalsLinks(){
+    document.querySelectorAll('a[href="finals/finals.html"]').forEach(function(link){
+      if(link.dataset.hpacFinalsSessionWired === 'true') return;
+      link.dataset.hpacFinalsSessionWired = 'true';
+      link.addEventListener('click', function(){
+        saveFinalsSession(currentHeatSheetSession());
+      });
+    });
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', wireFinalsLinks);
+  } else {
+    wireFinalsLinks();
+  }
+})();
+</script>
+<!-- HPAC FINALS SESSION HANDOFF FIX END -->
+
+</body>
+</html>

@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>HPAC LCQ Session Timeline</title>
+<style>
+:root {--green-950:#052e22;--green-800:#166534;--gold-600:#d4a500;--bg:#eef3f7;--card:#fff;--muted:#64748b;--border:#d9e2ea;--text:#0f172a;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#edf3f7 0%,#f7fafc 100%);color:var(--text)}
+a{color:inherit;text-decoration:none}
+.page{max-width:1200px;margin:0 auto;padding:24px}
+.hero,.timeline-panel,.sidebar-panel{background:#fff;border:1px solid var(--border);border-radius:28px;overflow:hidden;box-shadow:0 8px 24px rgba(15,23,42,.05)}
+.hero{margin-bottom:24px}
+.hero-top{background:linear-gradient(90deg,var(--green-950) 0%,var(--green-800) 58%,var(--gold-600) 100%);color:#fff;padding:34px 32px}
+.hero-flex{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:18px}
+.brand img{width:84px;height:auto;border-radius:12px;background:rgba(255,255,255,.08)}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.28em;color:rgba(255,255,255,.8)}
+h1{margin:8px 0 10px;font-size:clamp(34px,5vw,56px);line-height:1}
+.hero-sub{font-size:20px;color:rgba(255,255,255,.92)}
+.status-card{min-width:250px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.12);border-radius:22px;padding:16px 18px}
+.status-title{font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:rgba(255,255,255,.75)}
+.status-main{margin-top:8px;font-size:20px;font-weight:800}
+.hero-bottom{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:22px 24px 24px}
+.info-card{border:1px solid var(--border);border-radius:18px;padding:16px;background:#f8fafc}
+.info-label{font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:#475569;margin-bottom:8px}
+.info-value{font-size:18px;font-weight:800}
+.info-sub{margin-top:6px;color:var(--muted);font-size:14px;line-height:1.45}
+.timeline-shell{display:grid;grid-template-columns:1fr 320px;gap:24px}
+.panel-head{padding:18px 22px;background:#f8fafc;border-bottom:1px solid var(--border)}
+.panel-head h2{margin:0;font-size:30px}
+.panel-sub{margin-top:6px;color:var(--muted);font-size:14px}
+.timeline{position:relative;padding:24px 22px 28px}
+.timeline::before{content:"";position:absolute;left:162px;top:18px;bottom:18px;width:3px;background:linear-gradient(180deg,#dbe5ee 0%, #c7d4e2 100%);border-radius:999px}
+.timeline-item{position:relative;display:grid;grid-template-columns:140px 44px 1fr;gap:0;align-items:start;margin-bottom:18px}
+.time-col{padding-top:6px}
+.time-pill{display:inline-block;min-width:108px;text-align:center;border-radius:999px;padding:10px 14px;font-weight:800;background:#0f172a;color:#fff;font-size:14px}
+.line-col{display:flex;justify-content:center}
+.dot{width:16px;height:16px;border-radius:999px;background:linear-gradient(135deg,#166534 0%,#d4a500 100%);border:3px solid #fff;box-shadow:0 0 0 2px #d8e2ea;margin-top:10px}
+.break-dot{background:#f59e0b}
+.content-col{padding-left:2px}
+.event-card{border:1px solid var(--border);border-radius:22px;background:#fff;padding:18px 18px 16px;box-shadow:0 2px 8px rgba(15,23,42,.03)}
+.event-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.event-eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#166534;font-weight:800}
+.event-icon{font-size:20px}
+.event-title{margin-top:8px;font-size:22px;font-weight:800;line-height:1.25}
+.event-meta{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+.event-meta span{border:1px solid var(--border);border-radius:999px;background:#f8fafc;padding:8px 12px;font-size:13px;color:#334155;font-weight:700}
+.break-card{border:1px solid #f2ddb0;border-radius:22px;background:#fffbeb;padding:18px}
+.break-title{font-size:18px;font-weight:800;color:#92400e}
+.break-meta{margin-top:8px;font-size:14px;color:#b45309;font-weight:700}
+.sidebar-panel{padding:22px}
+.sidebar-panel h3{margin:0;font-size:24px}
+.panel-sub{margin:6px 0 14px;color:var(--muted);font-size:14px;line-height:1.45}
+.smart-stack{display:grid;gap:10px;margin-bottom:14px}
+.smart-card{border:1px solid var(--border);border-radius:18px;background:#f8fafc;padding:14px 16px}
+.smart-label{font-size:11px;text-transform:uppercase;letter-spacing:.16em;font-weight:800;color:#64748b;margin-bottom:8px}
+.smart-label.now{color:#b91c1c}
+.smart-label.next{color:#a16207}
+.smart-label.start{color:#166534}
+.smart-main{font-size:18px;font-weight:800;line-height:1.25}
+.smart-sub{margin-top:6px;color:var(--muted);font-size:13px;line-height:1.45}
+.qa-links{display:grid;gap:10px}
+.qa-link{display:flex;align-items:center;justify-content:space-between;gap:14px;text-decoration:none;border:1px solid var(--border);border-radius:16px;background:#f8fafc;padding:14px 16px;color:var(--text);transition:background .15s ease,border-color .15s ease,transform .15s ease}
+.qa-link:hover{background:#f1f5f9;border-color:#cbd5e1;transform:translateY(-1px)}
+.qa-text{display:flex;flex-direction:column;gap:2px}
+.qa-text span:first-child{font-weight:800;font-size:16px}
+.qa-sub{font-size:13px;color:var(--muted)}
+.qa-arrow{font-size:20px;color:#166534;font-weight:800;line-height:1}
+.tip-list{display:grid;gap:10px;margin-top:14px}
+.tip-item{border:1px solid var(--border);border-radius:16px;background:#f8fafc;padding:12px 14px;font-size:14px;line-height:1.45}
+@media (max-width:980px){.hero-bottom{grid-template-columns:1fr 1fr} .timeline-shell{grid-template-columns:1fr}}
+@media (max-width:720px){.hero-bottom{grid-template-columns:1fr} .timeline::before{left:24px} .timeline-item{grid-template-columns:1fr;padding-left:42px} .time-col{padding-top:0;margin-bottom:8px} .line-col{position:absolute;left:0;top:0;width:48px;justify-content:flex-start} .content-col{padding-left:0} .time-pill{min-width:unset}}
+
+.hero-top{position:relative}
+.hero-corner-logo{
+  position:absolute; right:28px; top:20px; width:120px; max-width:22vw; height:auto;
+  filter:drop-shadow(0 8px 18px rgba(0,0,0,.18));
+}
+.meet-central-brand{
+  display:flex; align-items:center; gap:12px; margin:12px 0 16px;
+  padding:10px 12px; border:1px solid var(--border, var(--line, #d9e2ea));
+  border-radius:18px; background:rgba(255,255,255,.72);
+}
+.meet-central-brand img{
+  width:58px; height:auto; display:block;
+}
+.meet-central-brand strong{
+  display:block; font-size:14px; line-height:1.1; color:var(--text, var(--ink, #0f172a));
+}
+.meet-central-brand span{
+  display:block; font-size:12px; color:var(--muted, #64748b); margin-top:3px;
+}
+@media (max-width:900px){
+  .hero-corner-logo{width:92px; top:16px; right:18px}
+  .meet-central-brand img{width:48px}
+}
+
+.command-bar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding:18px 24px 0}
+.info-card{display:block;border:1px solid var(--border,#d9e2ea);border-radius:18px;padding:16px;background:#f8fafc;text-decoration:none;color:inherit;transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease}
+.info-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(15,23,42,.08);border-color:#cbd5e1}
+.info-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.info-label{font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:#475569;margin-bottom:8px}
+.info-value{font-size:18px;font-weight:800}
+.info-link{font-size:18px;line-height:1;color:#0f172a}
+.info-sub{margin-top:6px;color:var(--muted,#64748b);font-size:14px;line-height:1.45}
+.info-meta{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+.info-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #dbe7f4;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800;color:#0f172a;background:#fff}
+.live-card{background:linear-gradient(135deg,#fff7ed,#fff1f2);border-color:#fecaca}
+.live-dot{width:10px;height:10px;border-radius:999px;background:#dc2626;box-shadow:0 0 0 0 rgba(220,38,38,.5);animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(220,38,38,.55)}70%{box-shadow:0 0 0 8px rgba(220,38,38,0)}100%{box-shadow:0 0 0 0 rgba(220,38,38,0)}}
+@media (max-width:1100px){.command-bar{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.command-bar{grid-template-columns:1fr;padding:16px 16px 0}.info-value{font-size:17px}}
+
+.event-jump-card{height:100%}
+.rich-links{align-content:start}
+.quick-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-height:420px;overflow:auto;padding-right:6px}
+.quick-links a,.rich-jump{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-align:left;border:1px solid var(--border);background:#fff;color:#065f46;border-radius:16px;padding:12px 14px;min-height:72px;box-shadow:0 1px 0 rgba(15,23,42,.02);transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;text-decoration:none}
+.quick-links a:hover,.rich-jump:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(15,23,42,.06);border-color:#9fd3b2}
+.jump-num{font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#065f46}
+.jump-title{margin-top:4px;font-weight:800;font-size:15px;line-height:1.2;color:#0f172a}
+.jump-panel-title{font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:#475569;margin-bottom:12px}
+.jump-panel{border:1px solid var(--border);border-radius:18px;padding:16px;background:#f8fafc}
+
+.jump-panel{margin:14px 0}
+.jump-panel .quick-links{grid-template-columns:repeat(2,minmax(0,1fr));max-height:360px}
+.timeline-item.combined-item .dot{background:linear-gradient(135deg,#f97316 0%,#facc15 100%);box-shadow:0 0 0 3px rgba(249,115,22,.18)}
+.event-card.combined-event-card{background:linear-gradient(135deg,#fff7cc 0%,#ffe08a 100%);border:3px solid #facc15;box-shadow:0 0 0 4px rgba(250,204,21,.16),0 12px 26px rgba(15,23,42,.07)}
+.combined-chip{display:inline-flex;align-items:center;gap:8px;margin-top:12px;background:#ea580c;color:#fff;border-radius:999px;padding:7px 12px;font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;box-shadow:0 6px 14px rgba(234,88,12,.22)}
+.combined-subline{margin-top:10px;display:block;border-radius:14px;background:rgba(255,255,255,.65);border:2px dashed rgba(234,88,12,.55);padding:10px 12px;font-size:13px;font-weight:800;color:#9a3412}
+.event-title .combined-word{display:inline-block;margin-left:8px;padding:4px 9px;border-radius:999px;background:#fb923c;color:#fff;font-size:.58em;letter-spacing:.12em;text-transform:uppercase;vertical-align:middle;box-shadow:0 4px 10px rgba(249,115,22,.22)}
+
+/* Combined event click-to-highlight */
+.combined-chip,.combined-banner{cursor:pointer}
+.combined-chip:focus-visible,.combined-banner:focus-visible{
+  outline:3px solid rgba(249,115,22,.45);
+  outline-offset:3px;
+}
+.combined-linked-target{
+  position:relative;
+  box-shadow:0 0 0 4px rgba(249,115,22,.22),0 18px 34px rgba(15,23,42,.12) !important;
+  transition:box-shadow .2s ease, transform .2s ease;
+}
+.combined-linked-target::after{
+  content:"LINKED COMBINED EVENT";
+  position:absolute;
+  right:14px;
+  top:12px;
+  z-index:3;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.14em;
+  color:#fff;
+  background:linear-gradient(135deg,#f97316 0%,#ea580c 100%);
+  box-shadow:0 8px 18px rgba(249,115,22,.24);
+}
+@keyframes combinedPulse{
+  0%{transform:translateY(0);box-shadow:0 0 0 0 rgba(249,115,22,.38),0 18px 34px rgba(15,23,42,.12)}
+  50%{transform:translateY(-2px);box-shadow:0 0 0 8px rgba(249,115,22,0),0 22px 38px rgba(15,23,42,.14)}
+  100%{transform:translateY(0);box-shadow:0 0 0 0 rgba(249,115,22,0),0 18px 34px rgba(15,23,42,.12)}
+}
+.combined-linked-pulse{animation:combinedPulse .9s ease 2}
+
+/* === HPAC Meet Suite locked floating controls === */
+#floatingTopBtn,
+#liveTrackerBtn,
+#slugScrollBtn{
+  position:fixed;
+  right:22px;
+  z-index:9999;
+  display:none;
+}
+#floatingTopBtn,
+#liveTrackerBtn{
+  align-items:center;
+}
+#floatingTopBtn{
+  bottom:22px;
+  border:none;
+  border-radius:999px;
+  padding:13px 18px;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:.02em;
+  color:#0f172a;
+  background:linear-gradient(135deg,#fff59d 0%, #ffe066 55%, #ffd43b 100%);
+  box-shadow:0 10px 24px rgba(15,23,42,.18), inset 0 0 0 2px rgba(15,23,42,.08);
+  cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+#floatingTopBtn:hover{
+  transform:translateY(-2px) scale(1.02);
+  box-shadow:0 14px 28px rgba(15,23,42,.22), inset 0 0 0 2px rgba(15,23,42,.10);
+}
+#floatingTopBtn:active{ transform:translateY(0); }
+#floatingTopBtn .arrow{
+  margin-right:8px;
+  font-weight:900;
+}
+
+#liveTrackerBtn{
+  bottom:86px;
+  gap:10px;
+  max-width:280px;
+  text-decoration:none;
+  border-radius:16px;
+  padding:12px 14px;
+  background:linear-gradient(135deg,#fff7ed 0%, #fff1f2 100%);
+  color:#0f172a;
+  box-shadow:0 10px 24px rgba(15,23,42,.16), inset 0 0 0 1px rgba(15,23,42,.08);
+  transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+#liveTrackerBtn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 14px 28px rgba(15,23,42,.20), inset 0 0 0 1px rgba(15,23,42,.10);
+}
+.live-tracker-dot{
+  width:10px;
+  height:10px;
+  border-radius:999px;
+  background:#dc2626;
+  box-shadow:0 0 0 0 rgba(220,38,38,.45);
+  animation:liveTrackerPulse 1.8s infinite;
+  flex:0 0 auto;
+}
+.live-tracker-copy{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
+.live-tracker-label{
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  color:#b91c1c;
+  font-weight:900;
+}
+.live-tracker-title{
+  margin-top:3px;
+  font-size:13px;
+  font-weight:800;
+  line-height:1.2;
+  color:#0f172a;
+}
+@keyframes liveTrackerPulse{
+  0%{box-shadow:0 0 0 0 rgba(220,38,38,.45)}
+  70%{box-shadow:0 0 0 8px rgba(220,38,38,0)}
+  100%{box-shadow:0 0 0 0 rgba(220,38,38,0)}
+}
+
+#slugScrollBtn{
+  bottom:160px;
+  z-index:9998;
+  border:none;
+  border-radius:999px;
+  width:52px;
+  height:52px;
+  padding:0;
+  font-size:24px;
+  font-weight:900;
+  color:#0f172a;
+  background:linear-gradient(135deg,#fff59d 0%, #ffe066 55%, #ffd43b 100%);
+  box-shadow:0 10px 24px rgba(15,23,42,.18), inset 0 0 0 2px rgba(15,23,42,.08);
+  cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+#slugScrollBtn:hover{
+  transform:translateY(-2px) scale(1.03);
+  box-shadow:0 14px 28px rgba(15,23,42,.22), inset 0 0 0 2px rgba(15,23,42,.10);
+}
+#slugScrollBtn:active{ transform:translateY(0); }
+
+body.index-controls #liveTrackerBtn{ bottom:22px; }
+body.index-controls #slugScrollBtn{ bottom:94px; }
+
+@media (max-width:640px){
+  #floatingTopBtn{ right:16px; bottom:16px; padding:12px 16px; font-size:13px; }
+  #liveTrackerBtn{ right:16px; bottom:74px; max-width:240px; padding:10px 12px; }
+  #slugScrollBtn{ right:16px; bottom:146px; width:48px; height:48px; font-size:22px; }
+  body.index-controls #liveTrackerBtn{ bottom:16px; }
+  body.index-controls #slugScrollBtn{ bottom:86px; }
+  .live-tracker-title{ font-size:12px; }
+}
+
+/* === HPAC Print Session Report Button === */
+.print-session-card {
+  background:linear-gradient(135deg,#fffdf0 0%,#fff7c2 55%,#ffe066 100%);
+  border-color:#f0d452;
+}
+.print-session-card .info-label { color:#7c5a00; }
+.print-session-card .info-value { color:#0f172a; }
+.print-session-card .info-link { color:#7c5a00; }
+.print-session-card:hover {
+  border-color:#d4a500;
+  box-shadow:0 12px 28px rgba(212,165,0,.18);
+}
+.print-session-btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  width:100%;
+  margin-top:12px;
+  border-radius:14px;
+  padding:11px 12px;
+  background:linear-gradient(135deg,#0b3d2e,#166534);
+  color:#ffffff;
+  font-size:13px;
+  font-weight:900;
+  text-decoration:none;
+  box-shadow:0 8px 18px rgba(15,23,42,.14);
+}
+.print-session-btn:hover { transform:translateY(-1px); }
+
+/* === HPAC Timeline Print Report Block === */
+.print-report-card{
+  display:block;
+  border:1px solid #f0d452;
+  border-radius:18px;
+  padding:16px;
+  background:linear-gradient(135deg,#fffdf0 0%,#fff7c2 55%,#ffe066 100%);
+  color:#0f172a;
+  text-decoration:none;
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.print-report-card:hover{
+  transform:translateY(-2px);
+  border-color:#d4a500;
+  box-shadow:0 12px 28px rgba(212,165,0,.18);
+}
+.print-report-card .info-label{color:#7c5a00}
+.print-report-card .info-value{color:#0f172a}
+.print-report-card .info-sub{color:#5c4a00}
+.print-report-cta{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:12px;
+  border-radius:14px;
+  padding:10px 12px;
+  background:linear-gradient(135deg,#0b3d2e,#166534);
+  color:#fff;
+  font-size:13px;
+  font-weight:900;
+  box-shadow:0 8px 18px rgba(15,23,42,.14);
+}
+.print-report-cta span:last-child{
+  font-size:17px;
+}
+
+
+
+/* === HPAC shared session selector for Timeline === */
+.timeline-session-card{
+  min-width:280px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.12);
+  border-radius:22px;
+  padding:16px 18px;
+  color:#fff;
+}
+.timeline-session-card .session-label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.22em;
+  color:rgba(255,255,255,.75);
+  font-weight:900;
+}
+.timeline-session-card select{
+  margin-top:9px;
+  width:100%;
+  border:none;
+  border-radius:13px;
+  padding:10px 12px;
+  font-size:15px;
+  font-weight:900;
+  color:#0f172a;
+  background:#fff;
+  outline:none;
+}
+.timeline-session-card .session-help{
+  margin-top:8px;
+  font-size:13px;
+  line-height:1.35;
+  color:rgba(255,255,255,.88);
+}
+.timeline-empty-state{
+  display:none;
+  margin:22px;
+  border:1px dashed var(--border,#d9e2ea);
+  border-radius:20px;
+  padding:22px;
+  background:#f8fafc;
+  color:#64748b;
+  font-weight:800;
+  text-align:center;
+}
+.timeline-empty-state.show{display:block;}
+.timeline-item.session-hidden{display:none!important;}
+.quick-links a.session-hidden{display:none!important;}
+@media (max-width:720px){.timeline-session-card{width:100%;min-width:0;}}
+
+
+
+/* === HPAC Timeline Header Alignment Fix v2 ===
+   Keeps the session selector on the right side of the hero header. */
+.hero-top .hero-flex{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) 340px !important;
+  align-items:start !important;
+  gap:26px !important;
+}
+.hero-top .brand{
+  min-width:0 !important;
+  align-items:flex-start !important;
+}
+.hero-top .brand > div{
+  min-width:0 !important;
+}
+.hero-top .timeline-session-card{
+  width:100% !important;
+  max-width:340px !important;
+  min-width:0 !important;
+  justify-self:end !important;
+  align-self:start !important;
+  margin-top:0 !important;
+}
+@media(max-width:900px){
+  .hero-top .hero-flex{
+    grid-template-columns:1fr !important;
+  }
+  .hero-top .timeline-session-card{
+    justify-self:start !important;
+    max-width:420px !important;
+  }
+}
+
+
+
+/* === HPAC Timeline header polish: align session selector with logo/title stack === */
+.hero-side{
+  padding-top:16px !important;
+}
+@media(max-width:1050px){
+  .hero-side{padding-top:0 !important;}
+}
+
+</style>
+<script src="data/stx-meet-data.js"></script>
+</head>
+<body class="has-home-controls">
+<div class="page">
+<section class="hero">
+<div class="hero-top">
+<div class="hero-flex">
+<div class="brand">
+<img alt="Banana Slugs logo" src="assets/logos/hpac.png"/>
+<div>
+<div class="eyebrow">HPAC Banana Slugs</div>
+<h1>Session Timeline</h1>
+<div class="hero-sub">2026 Last Chance Qualifier · Saturday Session 1</div>
+</div>
+</div>
+<div class="timeline-session-card">
+  <div class="session-label">Session View</div>
+  <select id="timelineSessionSelector" aria-label="Timeline session view">
+    <option value="all">All Sessions</option>
+  </select>
+  <div class="session-help" id="timelineSessionHelp">Showing all sessions.</div>
+</div>
+</div>
+</div>
+<div class="command-bar">
+<a class="info-card" href="heat-sheets.html">
+<div class="info-top">
+<div>
+<div class="info-label">Primary Action</div>
+<div class="info-value">Heat Sheets</div>
+</div>
+<div class="info-link">↗</div>
+</div>
+<div class="info-sub">Open the full lane-by-lane meet program and jump straight into any event.</div>
+<div class="info-meta">
+<span class="info-pill">34 events</span>
+<span class="info-pill">Lane view</span>
+</div>
+</a>
+<a class="info-card" href="results-hub.html">
+<div class="info-top">
+<div>
+<div class="info-label">Results Hub</div>
+<div class="info-value">Live Results</div>
+</div>
+<div class="info-link">↗</div>
+</div>
+<div class="info-sub">Jump by event into posted results with the broadcast-style results layout.</div>
+<div class="info-meta">
+<span class="info-pill">Broadcast style</span>
+<span class="info-pill">Event jump</span>
+</div>
+</a>
+<a class="info-card live-card" href="heat-sheets.html#event-1">
+<div class="info-top">
+<div>
+<div class="info-label">Now Swimming</div>
+<div class="info-value">Event 1 · Girls 50 Free</div>
+</div>
+<div aria-hidden="true" class="live-dot"></div>
+</div>
+<div class="info-sub">Jump straight into the live event view on heat sheets with the running results rail on the right.</div>
+<div class="info-meta">
+<span class="info-pill">19 entries</span>
+<span class="info-pill">3 heats</span>
+<span class="info-pill">11:00 AM</span>
+</div>
+</a>
+<div class="info-card">
+  <div class="info-top">
+    <div>
+      <div class="info-label">Next Level</div>
+      <div class="info-value">Swimmer Profiles</div>
+    </div>
+    <a class="info-link" href="profiles/roster.html" style="text-decoration:none;color:inherit;">↗</a>
+  </div>
+
+  <div class="info-sub">
+    Access swimmer profiles with events, heats, lanes, and results.s, photos, featured swimmers, and athlete highlights.
+  </div>
+
+  <div style="display:flex;gap:8px;margin-top:12px;">
+    <a href="profiles/roster.html"
+       style="
+         flex:1;
+         display:block;
+         padding:10px;
+         border-radius:12px;
+         border:1px solid #f0d452;
+         background:linear-gradient(135deg,#fff59d,#ffe066);
+         text-decoration:none;
+         color:#0f172a;
+         font-weight:900;
+         font-size:13px;
+       ">
+      Athlete List
+      <div style="font-size:11px;color:#5c4a00;font-weight:700;margin-top:3px;">
+        Entries
+      </div>
+    </a>
+
+    <a href="profiles/index.html"
+       style="
+         flex:1;
+         display:block;
+         padding:10px;
+         border-radius:12px;
+         border:1px solid #0b3d2e;
+         background:linear-gradient(135deg,#166534,#0b3d2e);
+         text-decoration:none;
+         color:#ffffff;
+         font-weight:900;
+         font-size:13px;
+       ">
+      Athlete Cards
+      <div style="font-size:11px;color:#d1fae5;font-weight:700;margin-top:3px;">
+        Profiles
+      </div>
+    </a>
+  </div>
+</div>
+</div>
+<div class="hero-bottom">
+<div class="info-card"><div class="info-label">Session</div><div class="info-value">Saturday · Session 1</div><div class="info-sub">Day 1 of meet with finals format.</div></div>
+<div class="info-card"><div class="info-label">Warm-Up Count</div><div class="info-value">47</div><div class="info-sub">Swimmer count listed for warm-ups.</div></div>
+<div class="info-card"><div class="info-label">Entry / Heat Totals</div><div class="info-value">179 / 41</div><div class="info-sub">Pulled from the Hy-Tek session report.</div></div>
+<a class="print-report-card" href="print/saturday-prelims-referee-session-report.html" target="_blank" rel="noopener">
+<div class="info-label">Printable Report</div>
+<div class="info-value">Print Session Report</div>
+<div class="info-sub">Referee/admin one-page working sheet with handwritten actual-start column.</div>
+<div class="print-report-cta"><span>Open Print View</span><span>🖨️</span></div>
+</a>
+</div>
+</section>
+<div class="timeline-shell">
+<section class="timeline-panel">
+<div class="panel-head">
+<h2>Session Flow</h2>
+<div class="panel-sub">Clean vertical timeline with events, starts, breaks, and combined-event flags.</div>
+</div>
+<div class="timeline">
+<div class="timeline-empty-state" id="timelineEmptyState">No events are listed for this session yet.</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">11:00 AM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-1" data-event-number="1"><div class="event-top"><div class="event-eyebrow">Event 1</div>
+<div class="event-icon">🏁</div>
+</div>
+<div class="event-title">Girls 50 Freestyle</div>
+<div class="event-meta">
+<span>19 entries</span>
+<span>3 heats</span>
+<span>11:00 AM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">11:05 AM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-2" data-event-number="2"><div class="event-top"><div class="event-eyebrow">Event 2</div>
+<div class="event-icon">🏁</div>
+</div>
+<div class="event-title">Boys 50 Freestyle</div>
+<div class="event-meta">
+<span>19 entries</span>
+<span>3 heats</span>
+<span>11:05 AM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item combined-item">
+<div class="time-col"><div class="time-pill">11:10 AM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card combined-event-card" data-event-number="3" id="event-3" data-combined-group="3-4" data-combined-events="3,4"><div class="event-top"><div class="event-eyebrow">Event 3</div>
+<div class="event-icon">↩️</div>
+</div>
+<div class="event-title">Girls 11 &amp; Over 200 Backstroke<span class="combined-word">COMBINED</span></div>
+<div class="combined-chip" title="These events are swum together in the same heat." role="button" tabindex="0" data-combined-group="3-4" data-combined-events="3,4" aria-label="Show combined events 3 and 4">🔗 COMBINED EVENT</div><div class="combined-subline">These events are swum together in the same heat.</div><div class="event-meta">
+<span>1 entries</span>
+<span>1 heats</span>
+<span>11:10 AM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item combined-item">
+<div class="time-col"><div class="time-pill">11:13 AM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card combined-event-card" data-event-number="4" id="event-4" data-combined-group="3-4" data-combined-events="3,4"><div class="event-top"><div class="event-eyebrow">Event 4</div>
+<div class="event-icon">↩️</div>
+</div>
+<div class="event-title">Boys 11 &amp; Over 200 Backstroke<span class="combined-word">COMBINED</span></div>
+<div class="combined-chip" title="These events are swum together in the same heat." role="button" tabindex="0" data-combined-group="3-4" data-combined-events="3,4" aria-label="Show combined events 3 and 4">🔗 COMBINED EVENT</div><div class="combined-subline">These events are swum together in the same heat.</div><div class="event-meta">
+<span>1 entries</span>
+<span>1 heats</span>
+<span>11:13 AM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item break">
+<div class="time-col"><div class="time-pill">Break</div></div>
+<div class="line-col"><div class="dot break-dot"></div></div>
+<div class="content-col">
+<div class="break-card">
+<div class="break-title">Session Break</div>
+<div class="break-meta">3 Minutes</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">11:21 AM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-5" data-event-number="5"><div class="event-top"><div class="event-eyebrow">Event 5</div>
+<div class="event-icon">💥</div>
+</div>
+<div class="event-title">Girls 50 Breaststroke</div>
+<div class="event-meta">
+<span>8 entries</span>
+<span>1 heats</span>
+<span>11:21 AM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">11:23 AM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-6" data-event-number="6"><div class="event-top"><div class="event-eyebrow">Event 6</div>
+<div class="event-icon">💥</div>
+</div>
+<div class="event-title">Boys 50 Breaststroke</div>
+<div class="event-meta">
+<span>8 entries</span>
+<span>1 heats</span>
+<span>11:23 AM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item break">
+<div class="time-col"><div class="time-pill">Break</div></div>
+<div class="line-col"><div class="dot break-dot"></div></div>
+<div class="content-col">
+<div class="break-card">
+<div class="break-title">Session Break</div>
+<div class="break-meta">3 Minutes</div>
+</div>
+</div>
+</div>
+<div class="timeline-item combined-item">
+<div class="time-col"><div class="time-pill">11:27 AM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card combined-event-card" id="event-7" data-event-number="7" data-combined-group="7-8" data-combined-events="7,8"><div class="event-top"><div class="event-eyebrow">Event 7</div>
+<div class="event-icon">🏁</div>
+</div>
+<div class="event-title">Girls 500 Freestyle<span class="combined-word">COMBINED</span></div>
+<div class="combined-chip" title="These events are swum together in the same heat." role="button" tabindex="0" data-combined-group="7-8" data-combined-events="7,8" aria-label="Show combined events 7 and 8">🔗 COMBINED EVENT</div><div class="combined-subline">These events are swum together in the same heat.</div><div class="event-meta">
+<span>2 entries</span>
+<span>1 heats</span>
+<span>11:27 AM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item combined-item">
+<div class="time-col"><div class="time-pill">11:35 AM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card combined-event-card" id="event-8" data-event-number="8" data-combined-group="7-8" data-combined-events="7,8"><div class="event-top"><div class="event-eyebrow">Event 8</div>
+<div class="event-icon">🏁</div>
+</div>
+<div class="event-title">Boys 500 Freestyle<span class="combined-word">COMBINED</span></div>
+<div class="combined-chip" title="These events are swum together in the same heat." role="button" tabindex="0" data-combined-group="7-8" data-combined-events="7,8" aria-label="Show combined events 7 and 8">🔗 COMBINED EVENT</div><div class="combined-subline">These events are swum together in the same heat.</div><div class="event-meta">
+<span>2 entries</span>
+<span>1 heats</span>
+<span>11:35 AM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item break">
+<div class="time-col"><div class="time-pill">Break</div></div>
+<div class="line-col"><div class="dot break-dot"></div></div>
+<div class="content-col">
+<div class="break-card">
+<div class="break-title">Session Break</div>
+<div class="break-meta">2 Minutes</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">11:43 AM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" data-event-number="9" id="event-9"><div class="event-top"><div class="event-eyebrow">Event 9</div>
+<div class="event-icon">🦋</div>
+</div>
+<div class="event-title">Girls 100 Butterfly</div>
+<div class="event-meta">
+<span>3 entries</span>
+<span>1 heats</span>
+<span>11:43 AM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">11:45 AM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" data-event-number="10" id="event-10"><div class="event-top"><div class="event-eyebrow">Event 10</div>
+<div class="event-icon">🦋</div>
+</div>
+<div class="event-title">Boys 100 Butterfly</div>
+<div class="event-meta">
+<span>8 entries</span>
+<span>1 heats</span>
+<span>11:45 AM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">11:48 AM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" data-event-number="11" id="event-11"><div class="event-top"><div class="event-eyebrow">Event 11</div>
+<div class="event-icon">💥</div>
+</div>
+<div class="event-title">Girls 11 &amp; Over 200 Breaststroke</div>
+<div class="event-meta">
+<span>0 entries</span>
+<span>0 heats</span>
+<span>11:48 AM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">11:48 AM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" data-event-number="12" id="event-12"><div class="event-top"><div class="event-eyebrow">Event 12</div>
+<div class="event-icon">💥</div>
+</div>
+<div class="event-title">Boys 11 &amp; Over 200 Breaststroke</div>
+<div class="event-meta">
+<span>1 entries</span>
+<span>1 heats</span>
+<span>11:48 AM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item break">
+<div class="time-col"><div class="time-pill">Break</div></div>
+<div class="line-col"><div class="dot break-dot"></div></div>
+<div class="content-col">
+<div class="break-card">
+<div class="break-title">Session Break</div>
+<div class="break-meta">5 Minutes</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">11:57 AM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-13" data-event-number="13"><div class="event-top"><div class="event-eyebrow">Event 13</div>
+<div class="event-icon">↩️</div>
+</div>
+<div class="event-title">Girls 100 Backstroke</div>
+<div class="event-meta">
+<span>1 entries</span>
+<span>1 heats</span>
+<span>11:57 AM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">11:59 AM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-14" data-event-number="14"><div class="event-top"><div class="event-eyebrow">Event 14</div>
+<div class="event-icon">↩️</div>
+</div>
+<div class="event-title">Boys 100 Backstroke</div>
+<div class="event-meta">
+<span>4 entries</span>
+<span>1 heats</span>
+<span>11:59 AM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">12:01 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-15" data-event-number="15"><div class="event-top"><div class="event-eyebrow">Event 15</div>
+<div class="event-icon">⚡</div>
+</div>
+<div class="event-title">Girls 200 IM</div>
+<div class="event-meta">
+<span>3 entries</span>
+<span>1 heats</span>
+<span>12:01 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">12:05 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-16" data-event-number="16"><div class="event-top"><div class="event-eyebrow">Event 16</div>
+<div class="event-icon">⚡</div>
+</div>
+<div class="event-title">Boys 200 IM</div>
+<div class="event-meta">
+<span>2 entries</span>
+<span>1 heats</span>
+<span>12:05 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item break">
+<div class="time-col"><div class="time-pill">Break</div></div>
+<div class="line-col"><div class="dot break-dot"></div></div>
+<div class="content-col">
+<div class="break-card">
+<div class="break-title">Session Break</div>
+<div class="break-meta">3 Minutes</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">12:11 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" data-event-number="17" id="event-17"><div class="event-top"><div class="event-eyebrow">Event 17</div>
+<div class="event-icon">🦋</div>
+</div>
+<div class="event-title">Girls 50 Butterfly</div>
+<div class="event-meta">
+<span>13 entries</span>
+<span>2 heats</span>
+<span>12:11 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">12:15 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" data-event-number="18" id="event-18"><div class="event-top"><div class="event-eyebrow">Event 18</div>
+<div class="event-icon">🦋</div>
+</div>
+<div class="event-title">Boys 50 Butterfly</div>
+<div class="event-meta">
+<span>9 entries</span>
+<span>2 heats</span>
+<span>12:15 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">12:18 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-19" data-event-number="19"><div class="event-top"><div class="event-eyebrow">Event 19</div>
+<div class="event-icon">🏁</div>
+</div>
+<div class="event-title">Girls 200 Freestyle</div>
+<div class="event-meta">
+<span>1 entries</span>
+<span>1 heats</span>
+<span>12:18 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">12:21 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-20" data-event-number="20"><div class="event-top"><div class="event-eyebrow">Event 20</div>
+<div class="event-icon">🏁</div>
+</div>
+<div class="event-title">Boys 200 Freestyle</div>
+<div class="event-meta">
+<span>6 entries</span>
+<span>1 heats</span>
+<span>12:21 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item break">
+<div class="time-col"><div class="time-pill">Break</div></div>
+<div class="line-col"><div class="dot break-dot"></div></div>
+<div class="content-col">
+<div class="break-card">
+<div class="break-title">Session Break</div>
+<div class="break-meta">3 Minutes</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">12:28 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-21" data-event-number="21"><div class="event-top"><div class="event-eyebrow">Event 21</div>
+<div class="event-icon">💥</div>
+</div>
+<div class="event-title">Girls 100 Breaststroke</div>
+<div class="event-meta">
+<span>2 entries</span>
+<span>1 heats</span>
+<span>12:28 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">12:30 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-22" data-event-number="22"><div class="event-top"><div class="event-eyebrow">Event 22</div>
+<div class="event-icon">💥</div>
+</div>
+<div class="event-title">Boys 100 Breaststroke</div>
+<div class="event-meta">
+<span>6 entries</span>
+<span>1 heats</span>
+<span>12:30 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item break">
+<div class="time-col"><div class="time-pill">Break</div></div>
+<div class="line-col"><div class="dot break-dot"></div></div>
+<div class="content-col">
+<div class="break-card">
+<div class="break-title">Session Break</div>
+<div class="break-meta">2 Minutes</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">12:35 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-23" data-event-number="23"><div class="event-top"><div class="event-eyebrow">Event 23</div>
+<div class="event-icon">↩️</div>
+</div>
+<div class="event-title">Girls 50 Backstroke</div>
+<div class="event-meta">
+<span>11 entries</span>
+<span>2 heats</span>
+<span>12:35 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">12:39 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-24" data-event-number="24"><div class="event-top"><div class="event-eyebrow">Event 24</div>
+<div class="event-icon">↩️</div>
+</div>
+<div class="event-title">Boys 50 Backstroke</div>
+<div class="event-meta">
+<span>7 entries</span>
+<span>1 heats</span>
+<span>12:39 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">12:41 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" data-event-number="25" id="event-25"><div class="event-top"><div class="event-eyebrow">Event 25</div>
+<div class="event-icon">🦋</div>
+</div>
+<div class="event-title">Girls 11 &amp; Over 200 Butterfly</div>
+<div class="event-meta">
+<span>1 entries</span>
+<span>1 heats</span>
+<span>12:41 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">12:44 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" data-event-number="26" id="event-26"><div class="event-top"><div class="event-eyebrow">Event 26</div>
+<div class="event-icon">🦋</div>
+</div>
+<div class="event-title">Boys 11 &amp; Over 200 Butterfly</div>
+<div class="event-meta">
+<span>0 entries</span>
+<span>0 heats</span>
+<span>12:44 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item break">
+<div class="time-col"><div class="time-pill">Break</div></div>
+<div class="line-col"><div class="dot break-dot"></div></div>
+<div class="content-col">
+<div class="break-card">
+<div class="break-title">Session Break</div>
+<div class="break-meta">5 Minutes</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">12:49 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-27" data-event-number="27"><div class="event-top"><div class="event-eyebrow">Event 27</div>
+<div class="event-icon">🏁</div>
+</div>
+<div class="event-title">Girls 100 Freestyle</div>
+<div class="event-meta">
+<span>11 entries</span>
+<span>2 heats</span>
+<span>12:49 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">12:53 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-28" data-event-number="28"><div class="event-top"><div class="event-eyebrow">Event 28</div>
+<div class="event-icon">🏁</div>
+</div>
+<div class="event-title">Boys 100 Freestyle</div>
+<div class="event-meta">
+<span>16 entries</span>
+<span>3 heats</span>
+<span>12:53 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">12:59 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" data-event-number="29" id="event-29"><div class="event-top"><div class="event-eyebrow">Event 29</div>
+<div class="event-icon">⚡</div>
+</div>
+<div class="event-title">Girls 11 &amp; Over 400 IM</div>
+<div class="event-meta">
+<span>0 entries</span>
+<span>0 heats</span>
+<span>12:59 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">12:59 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" data-event-number="30" id="event-30"><div class="event-top"><div class="event-eyebrow">Event 30</div>
+<div class="event-icon">⚡</div>
+</div>
+<div class="event-title">Boys 11 &amp; Over 400 IM</div>
+<div class="event-meta">
+<span>1 entries</span>
+<span>1 heats</span>
+<span>12:59 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">01:05 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-31" data-event-number="31"><div class="event-top"><div class="event-eyebrow">Event 31</div>
+<div class="event-icon">⚡</div>
+</div>
+<div class="event-title">Girls 100 IM</div>
+<div class="event-meta">
+<span>6 entries</span>
+<span>1 heats</span>
+<span>01:05 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="time-col"><div class="time-pill">01:08 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card" id="event-32" data-event-number="32"><div class="event-top"><div class="event-eyebrow">Event 32</div>
+<div class="event-icon">⚡</div>
+</div>
+<div class="event-title">Boys 100 IM</div>
+<div class="event-meta">
+<span>4 entries</span>
+<span>1 heats</span>
+<span>01:08 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item combined-item">
+<div class="time-col"><div class="time-pill">01:10 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card combined-event-card" data-event-number="33" id="event-33" data-combined-group="33-34" data-combined-events="33,34"><div class="event-top"><div class="event-eyebrow">Event 33</div>
+<div class="event-icon">🏁</div>
+</div>
+<div class="event-title">Girls 11 &amp; Over 1650 Freestyle<span class="combined-word">COMBINED</span></div>
+<div class="combined-chip" title="These events are swum together in the same heat." role="button" tabindex="0" data-combined-group="33-34" data-combined-events="33,34" aria-label="Show combined events 33 and 34">🔗 COMBINED EVENT</div><div class="combined-subline">These events are swum together in the same heat.</div><div class="event-meta">
+<span>2 entries</span>
+<span>1 heats</span>
+<span>01:10 PM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="timeline-item combined-item">
+<div class="time-col"><div class="time-pill">01:35 PM</div></div>
+<div class="line-col"><div class="dot"></div></div>
+<div class="content-col">
+<div class="event-card combined-event-card" data-event-number="34" id="event-34" data-combined-group="33-34" data-combined-events="33,34"><div class="event-top"><div class="event-eyebrow">Event 34</div>
+<div class="event-icon">🏁</div>
+</div>
+<div class="event-title">Boys 11 &amp; Over 1650 Freestyle<span class="combined-word">COMBINED</span></div>
+<div class="combined-chip" title="These events are swum together in the same heat." role="button" tabindex="0" data-combined-group="33-34" data-combined-events="33,34" aria-label="Show combined events 33 and 34">🔗 COMBINED EVENT</div><div class="combined-subline">These events are swum together in the same heat.</div><div class="event-meta">
+<span>1 entries</span>
+<span>1 heats</span>
+<span>01:35 PM</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<aside class="sidebar-panel">
+<h3>Meet Central</h3><div class="meet-central-brand"><img alt="HPAC Banana Slugs logo" src="assets/logos/hpac.png"/><div><strong>HPAC Banana Slugs</strong><span>Host branding locked for this portal build</span></div></div>
+<div class="panel-sub">Live-aware rail for coaches, parents, and deck staff following the session flow.</div>
+<div class="smart-stack">
+<div class="smart-card">
+<div class="smart-label now">Now Swimming</div>
+<div class="smart-main">Event 1 · Girls 50 Freestyle</div>
+<div class="smart-sub">11:00 AM · 19 entries · 3 heats</div>
+</div>
+<div class="smart-card">
+<div class="smart-label next">Up Next</div>
+<div class="smart-main">Event 2 · Boys 50 Freestyle</div>
+<div class="smart-sub">11:05 AM · 19 entries · 3 heats</div>
+</div>
+<div class="smart-card">
+<div class="smart-label start">Session Start</div>
+<div class="smart-main">11:00 AM</div>
+<div class="smart-sub">Timeline begins with event 1 and rolls directly into event 2.</div>
+</div>
+</div>
+<div class="jump-panel"><div class="jump-panel-title">Meet Central · Event Jump Links</div><div class="quick-links rich-links"><a href="#event-1"><span class="jump-num">Event 1</span><span class="jump-title">Girls 50 Free</span></a><a href="#event-2"><span class="jump-num">Event 2</span><span class="jump-title">Boys 50 Free</span></a><a href="#event-3"><span class="jump-num">Event 3</span><span class="jump-title">Girls 11&amp;O 200 Back</span></a><a href="#event-4"><span class="jump-num">Event 4</span><span class="jump-title">Boys 11&amp;O 200 Back</span></a><a href="#event-5"><span class="jump-num">Event 5</span><span class="jump-title">Girls 50 Breast</span></a><a href="#event-6"><span class="jump-num">Event 6</span><span class="jump-title">Boys 50 Breast</span></a><a href="#event-7"><span class="jump-num">Event 7</span><span class="jump-title">Girls 500 Free</span></a><a href="#event-8"><span class="jump-num">Event 8</span><span class="jump-title">Boys 500 Free</span></a><a href="#event-9"><span class="jump-num">Event 9</span><span class="jump-title">Girls 100 Fly</span></a><a href="#event-10"><span class="jump-num">Event 10</span><span class="jump-title">Boys 100 Fly</span></a><a href="#event-12"><span class="jump-num">Event 12</span><span class="jump-title">Boys 11&amp;O 200 Breast</span></a><a href="#event-13"><span class="jump-num">Event 13</span><span class="jump-title">Girls 100 Back</span></a><a href="#event-14"><span class="jump-num">Event 14</span><span class="jump-title">Boys 100 Back</span></a><a href="#event-15"><span class="jump-num">Event 15</span><span class="jump-title">Girls 200 IM</span></a><a href="#event-16"><span class="jump-num">Event 16</span><span class="jump-title">Boys 200 IM</span></a><a href="#event-17"><span class="jump-num">Event 17</span><span class="jump-title">Girls 50 Fly</span></a><a href="#event-18"><span class="jump-num">Event 18</span><span class="jump-title">Boys 50 Fly</span></a><a href="#event-19"><span class="jump-num">Event 19</span><span class="jump-title">Girls 200 Free</span></a><a href="#event-20"><span class="jump-num">Event 20</span><span class="jump-title">Boys 200 Free</span></a><a href="#event-21"><span class="jump-num">Event 21</span><span class="jump-title">Girls 100 Breast</span></a><a href="#event-22"><span class="jump-num">Event 22</span><span class="jump-title">Boys 100 Breast</span></a><a href="#event-23"><span class="jump-num">Event 23</span><span class="jump-title">Girls 50 Back</span></a><a href="#event-24"><span class="jump-num">Event 24</span><span class="jump-title">Boys 50 Back</span></a><a href="#event-25"><span class="jump-num">Event 25</span><span class="jump-title">Girls 11&amp;O 200 Fly</span></a><a href="#event-27"><span class="jump-num">Event 27</span><span class="jump-title">Girls 100 Free</span></a><a href="#event-28"><span class="jump-num">Event 28</span><span class="jump-title">Boys 100 Free</span></a><a href="#event-30"><span class="jump-num">Event 30</span><span class="jump-title">Boys 11&amp;O 400 IM</span></a><a href="#event-31"><span class="jump-num">Event 31</span><span class="jump-title">Girls 100 IM</span></a><a href="#event-32"><span class="jump-num">Event 32</span><span class="jump-title">Boys 100 IM</span></a><a href="#event-33"><span class="jump-num">Event 33</span><span class="jump-title">Girls 11&amp;O 1650 Free</span></a><a href="#event-34"><span class="jump-num">Event 34</span><span class="jump-title">Boys 11&amp;O 1650 Free</span></a></div></div><div class="qa-links">
+<a class="qa-link" href="heat-sheets.html">
+<span class="qa-text"><span>Heat Sheets</span><span class="qa-sub">Full lane-by-lane program</span></span>
+<span class="qa-arrow">→</span>
+</a>
+<a class="qa-link" href="psych-sheet.html">
+<span class="qa-text"><span>Psych Sheet</span><span class="qa-sub">Full meet seeded preview</span></span>
+<span class="qa-arrow">→</span>
+</a>
+<a class="qa-link" href="timeline.html">
+<span class="qa-text"><span>Timeline</span><span class="qa-sub">Session flow, breaks, and event order</span></span>
+<span class="qa-arrow">→</span>
+</a>
+
+<a class="qa-link" href="print/saturday-prelims-referee-session-report.html" rel="noopener" target="_blank">
+<span class="qa-text"><span>Print Session Report</span><span class="qa-sub">Referee/admin one-page PDF view</span></span>
+<span class="qa-arrow">🖨️</span>
+</a>
+
+<a class="qa-link" href="results-hub.html">
+<span class="qa-text"><span>Results Hub</span><span class="qa-sub">Broadcast-style event results</span></span>
+<span class="qa-arrow">→</span>
+</a>
+<a class="qa-link" href="official-results.pdf" rel="noopener" target="_blank">
+<span class="qa-text"><span>Official PDF</span><span class="qa-sub">Original Hy-Tek results export</span></span>
+<span class="qa-arrow">↗</span>
+</a>
+<a class="qa-link" href="#">
+<span class="qa-text"><span>Live Stream</span><span class="qa-sub">YouTube or stream link placeholder</span></span>
+<span class="qa-arrow">→</span>
+</a>
+</div>
+</aside>
+</div>
+</div>
+
+<a href="#event-1" id="liveTrackerBtn" aria-label="Jump to now swimming">
+<span aria-hidden="true" class="live-tracker-dot"></span>
+<span class="live-tracker-copy">
+<span class="live-tracker-label">Now Swimming</span>
+<span class="live-tracker-title">Event 1 · Girls 50 Free</span>
+</span>
+</a>
+<button aria-label="Scroll to top" id="slugScrollBtn" type="button" title="Scroll to top">🍌</button>
+<button id="floatingTopBtn" type="button" aria-label="Go to Meet Central">
+<span class="arrow">🏠</span>Home
+</button>
+
+<script>
+(function(){
+  const slugBtn = document.getElementById('slugScrollBtn');
+  const liveBtn = document.getElementById('liveTrackerBtn');
+  const homeBtn = document.getElementById('floatingTopBtn');
+  const threshold = 220;
+
+  function toggleControls(){
+    const scrolled = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const show = scrolled > threshold;
+    if(slugBtn) slugBtn.style.display = show ? 'inline-flex' : 'none';
+    if(liveBtn) liveBtn.style.display = show ? 'flex' : 'none';
+    if(homeBtn) homeBtn.style.display = show ? 'inline-flex' : 'none';
+  }
+
+  if(slugBtn){
+    slugBtn.addEventListener('click', function(){
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  if(homeBtn){
+    homeBtn.addEventListener('click', function(){
+      window.location.href = 'index.html';
+    });
+  }
+
+  window.addEventListener('scroll', toggleControls, { passive: true });
+  window.addEventListener('load', toggleControls);
+})();
+</script>
+
+<script>
+(function(){
+  function clearLinked(){
+    document.querySelectorAll('.combined-linked-target,.combined-linked-pulse').forEach(function(el){
+      el.classList.remove('combined-linked-target','combined-linked-pulse');
+    });
+    var toast = document.getElementById('combined-link-toast');
+    if(toast){ toast.classList.remove('show'); }
+  }
+
+  function ensureToast(){
+    var toast = document.getElementById('combined-link-toast');
+    if(toast) return toast;
+    toast = document.createElement('div');
+    toast.id = 'combined-link-toast';
+    toast.setAttribute('aria-live','polite');
+    toast.style.position = 'fixed';
+    toast.style.left = '50%';
+    toast.style.bottom = '26px';
+    toast.style.transform = 'translateX(-50%) translateY(12px)';
+    toast.style.zIndex = '10000';
+    toast.style.padding = '10px 14px';
+    toast.style.borderRadius = '999px';
+    toast.style.background = 'rgba(15,23,42,.92)';
+    toast.style.color = '#fff';
+    toast.style.fontSize = '13px';
+    toast.style.fontWeight = '800';
+    toast.style.letterSpacing = '.02em';
+    toast.style.boxShadow = '0 10px 24px rgba(15,23,42,.24)';
+    toast.style.opacity = '0';
+    toast.style.pointerEvents = 'none';
+    toast.style.transition = 'opacity .18s ease, transform .18s ease';
+    document.body.appendChild(toast);
+    return toast;
+  }
+
+  function showToast(message){
+    var toast = ensureToast();
+    toast.textContent = message;
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+    toast.classList.add('show');
+    clearTimeout(toast._hideTimer);
+    toast._hideTimer = setTimeout(function(){
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(-50%) translateY(12px)';
+      toast.classList.remove('show');
+    }, 1700);
+  }
+
+  function getEventCardFromTrigger(trigger){
+    return trigger.closest('.event-card');
+  }
+
+  function getScrollTarget(targets, trigger){
+    var currentCard = getEventCardFromTrigger(trigger);
+    if(currentCard){
+      var partner = targets.find(function(el){ return el !== currentCard; });
+      if(partner) return partner;
+      return currentCard;
+    }
+    var viewportCenter = window.scrollY + (window.innerHeight / 2);
+    var best = targets[0];
+    var bestDist = Infinity;
+    targets.forEach(function(el){
+      var rect = el.getBoundingClientRect();
+      var top = rect.top + window.scrollY;
+      var dist = Math.abs(top - viewportCenter);
+      if(dist < bestDist){
+        best = el;
+        bestDist = dist;
+      }
+    });
+    return best;
+  }
+
+  function activateCombined(group, trigger){
+    if(!group) return;
+    var seen = new Set();
+    var targets = Array.from(document.querySelectorAll('[data-combined-group="'+group+'"]')).filter(function(el){
+      if(!(el.classList.contains('event-card') || (el.tagName === 'SECTION' && el.classList.contains('event-card')))) return false;
+      if(seen.has(el)) return false;
+      seen.add(el);
+      return true;
+    });
+    if(!targets.length) return;
+    clearLinked();
+    targets.forEach(function(el){
+      el.classList.add('combined-linked-target','combined-linked-pulse');
+    });
+    var scrollTarget = getScrollTarget(targets, trigger);
+    if(scrollTarget){
+      scrollTarget.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+    var nums = targets.map(function(el){
+      return el.getAttribute('data-event-number') || ((el.id || '').match(/event-(\d+)/)||[])[1];
+    }).filter(Boolean);
+    if(nums.length >= 2){
+      showToast('Linked combined events: ' + nums.join(' & '));
+    } else {
+      showToast('Linked combined events highlighted');
+    }
+    window.setTimeout(function(){
+      targets.forEach(function(el){ el.classList.remove('combined-linked-pulse'); });
+    }, 2200);
+  }
+
+  function bindTrigger(trigger){
+    if(trigger.__combinedBound) return;
+    trigger.__combinedBound = true;
+    function run(e){
+      if(e) e.preventDefault();
+      activateCombined(trigger.getAttribute('data-combined-group'), trigger);
+    }
+    trigger.addEventListener('click', run);
+    trigger.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ run(e); }
+    });
+  }
+
+  // Assign combined groups from banners on heat/psych pages
+  function closestEventCard(el){ return el.closest('.event-card'); }
+  function extractGroupFromText(text){
+    var m = (text || '').match(/EVENTS?\s+(\d+)\s*&\s*(\d+)\s+ARE\s+COMBINED/i);
+    return m ? [m[1] + '-' + m[2], m[1], m[2]] : null;
+  }
+
+  document.querySelectorAll('.combined-banner').forEach(function(banner){
+    var info = extractGroupFromText((banner.textContent || '').replace(/\s+/g,' ').trim());
+    if(!info) return;
+    var group = info[0], a = info[1], b = info[2];
+    banner.setAttribute('data-combined-group', group);
+    banner.setAttribute('data-combined-events', a + ',' + b);
+    banner.setAttribute('role', 'button');
+    if(!banner.hasAttribute('tabindex')) banner.setAttribute('tabindex','0');
+    var card = closestEventCard(banner);
+    if(card){
+      card.setAttribute('data-combined-group', group);
+      card.setAttribute('data-combined-events', a + ',' + b);
+    }
+    ['#event-' + a, '#event-' + b].forEach(function(sel){
+      var target = document.querySelector(sel);
+      if(target){
+        target.setAttribute('data-combined-group', group);
+        target.setAttribute('data-combined-events', a + ',' + b);
+      }
+    });
+  });
+
+  // Timeline fallback: pair consecutive combined cards when attrs are missing
+  var combinedCards = Array.from(document.querySelectorAll('.event-card.combined-event-card'));
+  for(var i=0;i<combinedCards.length;i+=2){
+    var first = combinedCards[i], second = combinedCards[i+1];
+    if(!first || !second) continue;
+    var a = first.getAttribute('data-event-number') || ((first.textContent.match(/Event\s+(\d+)/)||[])[1]);
+    var b = second.getAttribute('data-event-number') || ((second.textContent.match(/Event\s+(\d+)/)||[])[1]);
+    if(!a || !b) continue;
+    var group = a + '-' + b;
+    [first, second].forEach(function(card){
+      if(!card.getAttribute('data-combined-group')){
+        card.setAttribute('data-combined-group', group);
+        card.setAttribute('data-combined-events', a + ',' + b);
+      }
+      var chip = card.querySelector('.combined-chip');
+      if(chip){
+        chip.setAttribute('data-combined-group', group);
+        chip.setAttribute('data-combined-events', a + ',' + b);
+        chip.setAttribute('role', 'button');
+        if(!chip.hasAttribute('tabindex')) chip.setAttribute('tabindex','0');
+      }
+    });
+  }
+
+  document.querySelectorAll('.combined-chip,[data-combined-group].combined-banner,.combined-banner').forEach(bindTrigger);
+})();
+</script>
+
+<script>
+(function(){
+  function hpacFixAthleteRoutes(){
+    document.querySelectorAll('a[href="roster.html"], a[href="./roster.html"], a[href="swimmer-profiles.html"], a[href="./swimmer-profiles.html"]').forEach(a => {
+      a.setAttribute('href', 'profiles/roster.html');
+    });
+
+    document.querySelectorAll('a[href="swimmer.html"], a[href="./swimmer.html"], a[href="profiles/swimmer.html"], a[href="./profiles/swimmer.html"]').forEach(a => {
+      const label = (a.textContent || '').toLowerCase();
+      if (label.includes('card') || label.includes('profile')) {
+        a.setAttribute('href', 'profiles/index.html');
+      } else {
+        a.setAttribute('href', 'profiles/index.html');
+      }
+    });
+
+    document.querySelectorAll('a[href^="swimmer.html?"], a[href^="./swimmer.html?"], a[href^="swimmer-profiles.html?"], a[href^="./swimmer-profiles.html?"]').forEach(a => {
+      const href = a.getAttribute('href') || '';
+      const query = href.includes('?') ? href.slice(href.indexOf('?')) : '';
+      a.setAttribute('href', 'profiles/swimmer.html' + query);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', hpacFixAthleteRoutes);
+  hpacFixAthleteRoutes();
+})();
+</script>
+
+
+
+
+<!-- HPAC TIMELINE SESSION SELECTOR SYNC START -->
+<script>
+(function(){
+  let selectedTimelineSession = localStorage.getItem('hpacSelectedSession') || 'all';
+
+  function escapeHtml(s){
+    return String(s ?? '').replace(/[&<>"']/g, function(m){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];
+    });
+  }
+
+  function getSessions(){
+    return (window.HPAC_MEET_CONFIG && Array.isArray(window.HPAC_MEET_CONFIG.sessions) && window.HPAC_MEET_CONFIG.sessions.length)
+      ? window.HPAC_MEET_CONFIG.sessions
+      : [{key:'all', label:'All Sessions', type:'all'}];
+  }
+
+  function getSessionLabel(key){
+    const found = getSessions().find(function(s){ return s.key === key; });
+    return found ? found.label : 'All Sessions';
+  }
+
+  // IMPORTANT:
+  // This timeline now uses the SAME data-driven session rules as Heat Sheets.
+  // It does NOT use the old hardcoded LCQ/static timeline list.
+  function applySessionKeys(){
+    (window.HPAC_EVENTS || []).forEach(function(ev){
+      const n = Number(ev.eventNumber);
+      const phases = new Set();
+      let hasPM = false;
+
+      (ev.heats || []).forEach(function(h){
+        if(h.phase) phases.add(String(h.phase));
+        if(String(h.startTime || '').includes('PM')) hasPM = true;
+      });
+
+      if(n >= 1 && n <= 6){
+        ev._sessionKey = 'fri-distance';
+        ev._sessionKeys = ['fri-distance'];
+
+      } else if(n >= 7 && n <= 28){
+        if(hasPM && phases.has('Prelims')){
+          ev._sessionKey = 'sat-prelims';
+          ev._sessionKeys = ['sat-prelims', 'sat-finals'];
+        } else {
+          ev._sessionKey = 'sat-finals';
+          ev._sessionKeys = ['sat-finals'];
+        }
+
+      } else if(n === 29 || n === 30){
+        ev._sessionKey = 'sun-prelims';
+        ev._sessionKeys = ['sun-prelims'];
+
+      } else if(n >= 31 && n <= 44){
+        if(hasPM && phases.has('Prelims')){
+          ev._sessionKey = 'sun-prelims';
+          ev._sessionKeys = ['sun-prelims', 'sun-finals'];
+        } else {
+          ev._sessionKey = 'sun-finals';
+          ev._sessionKeys = ['sun-finals'];
+        }
+
+      } else if(n >= 45 && n <= 54){
+        ev._sessionKey = 'sun-finals';
+        ev._sessionKeys = ['sun-finals'];
+
+      } else if(n >= 200 && n <= 299){
+        ev._sessionKey = 'sat-finals';
+        ev._sessionKeys = ['sat-finals'];
+
+      } else if(n >= 500 && n <= 699){
+        ev._sessionKey = 'sun-finals';
+        ev._sessionKeys = ['sun-finals'];
+
+      } else {
+        ev._sessionKey = hasPM ? 'sat-finals' : 'sat-prelims';
+        ev._sessionKeys = [ev._sessionKey];
+      }
+    });
+  }
+
+  function heatMatchesSession(ev, h){
+    if(selectedTimelineSession === 'all') return true;
+
+    const label = String(h.heatLabel || '').toLowerCase();
+    const phase = String(h.phase || '').toLowerCase();
+    const time = String(h.startTime || '').toLowerCase();
+
+    const isPrelimHeat =
+      phase.includes('prelim') ||
+      label.includes('prelim') ||
+      time.includes('am');
+
+    const isFinalHeat =
+      phase.includes('final') ||
+      label.includes('final') ||
+      label.includes('championship') ||
+      label.includes('consolation') ||
+      time.includes('pm');
+
+    if(selectedTimelineSession.includes('prelim')) return isPrelimHeat && !isFinalHeat;
+    if(selectedTimelineSession.includes('final')) return isFinalHeat;
+    return true;
+  }
+
+  function getVisibleHeatsForEvent(ev){
+    return (ev.heats || []).filter(function(h){ return heatMatchesSession(ev, h); });
+  }
+
+  function eventMatchesSession(ev){
+    if(selectedTimelineSession === 'all') return true;
+    const keys = ev._sessionKeys || (ev._sessionKey ? [ev._sessionKey] : []);
+    if(!keys.includes(selectedTimelineSession)) return false;
+    return getVisibleHeatsForEvent(ev).length > 0;
+  }
+
+  function getTimelineEvents(){
+    applySessionKeys();
+
+    return (window.HPAC_EVENTS || [])
+      .filter(eventMatchesSession)
+      .map(function(ev){
+        return {
+          ev: ev,
+          visibleHeats: getVisibleHeatsForEvent(ev)
+        };
+      })
+      .filter(function(item){
+        return selectedTimelineSession === 'all' || item.visibleHeats.length > 0;
+      })
+      .sort(function(a,b){ return Number(a.ev.eventNumber) - Number(b.ev.eventNumber); });
+  }
+
+  function firstTime(heats){
+    const h = (heats || []).find(function(x){ return String(x.startTime || '').trim(); });
+    return h ? h.startTime : '—';
+  }
+
+  function countEntries(heats){
+    return (heats || []).reduce(function(sum,h){ return sum + ((h.entries || []).length); }, 0);
+  }
+
+  function sessionNoteForEvent(ev){
+    const keys = ev._sessionKeys || [];
+    if(selectedTimelineSession !== 'all') return getSessionLabel(selectedTimelineSession);
+    if(keys.length > 1) return keys.map(getSessionLabel).join(' / ');
+    return getSessionLabel(ev._sessionKey || 'all');
+  }
+
+  function renderTimeline(){
+    const timeline = document.querySelector('.timeline');
+    if(!timeline) return;
+
+    const items = getTimelineEvents();
+    const html = items.map(function(item){
+      const ev = item.ev;
+      const heats = item.visibleHeats.length ? item.visibleHeats : (ev.heats || []);
+      const entries = countEntries(heats);
+      const heatCount = heats.length;
+      const combined = heats.some(function(h){ return h.combinedWith; });
+      const time = firstTime(heats);
+
+      return `
+        <div class="timeline-item">
+          <div class="time-col"><span class="time-pill">${escapeHtml(time)}</span></div>
+          <div class="line-col"><div class="dot${combined ? ' break-dot' : ''}"></div></div>
+          <div class="content-col">
+            <div class="event-card" id="event-${escapeHtml(ev.eventNumber)}" data-event-number="${escapeHtml(ev.eventNumber)}">
+              <div class="event-top">
+                <div>
+                  <div class="event-eyebrow">Event ${escapeHtml(ev.eventNumber)}${combined ? ' · COMBINED' : ''}</div>
+                  <div class="event-title">${escapeHtml(ev.eventName || '')}</div>
+                </div>
+                <div class="event-icon">🏊</div>
+              </div>
+              <div class="event-meta">
+                <span>${entries} entries</span>
+                <span>${heatCount} heat${heatCount === 1 ? '' : 's'}</span>
+                <span>${escapeHtml(sessionNoteForEvent(ev))}</span>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+
+    timeline.innerHTML = html || '<div class="event-empty-state">No timeline events are listed for this session yet.</div>';
+
+    const empty = document.getElementById('timelineEmptyState');
+    if(empty) empty.classList.toggle('show', items.length === 0);
+
+    updateQuickLinks(items);
+    updatePanelSub(items.length);
+    updateSummaryCards(items);
+    updateSmartCards(items);
+  }
+
+  function updateQuickLinks(items){
+    const links = document.querySelector('.quick-links.rich-links');
+    if(!links) return;
+
+    links.innerHTML = items.map(function(item){
+      const ev = item.ev;
+      return `<a href="#event-${escapeHtml(ev.eventNumber)}"><span class="jump-num">Event ${escapeHtml(ev.eventNumber)}</span><span class="jump-title">${escapeHtml(ev.eventName || '')}</span></a>`;
+    }).join('');
+  }
+
+  function updatePanelSub(count){
+    const panelSub = document.querySelector('.timeline-panel .panel-sub');
+    if(!panelSub) return;
+
+    const label = getSessionLabel(selectedTimelineSession);
+    panelSub.textContent = selectedTimelineSession === 'all'
+      ? `Clean vertical timeline with ${count} events from the active meet data.`
+      : `Showing ${count} timeline events for ${label}.`;
+  }
+
+  function updateSummaryCards(items){
+    const sessionCard = Array.from(document.querySelectorAll('.hero-bottom .info-card')).find(function(card){
+      return (card.querySelector('.info-label')?.textContent || '').trim().toLowerCase() === 'session';
+    });
+    if(sessionCard){
+      const value = sessionCard.querySelector('.info-value');
+      const sub = sessionCard.querySelector('.info-sub');
+      if(value) value.textContent = getSessionLabel(selectedTimelineSession);
+      if(sub) sub.textContent = selectedTimelineSession === 'all'
+        ? 'Showing all sessions from the meet data.'
+        : 'Filtered directly from the same session system used by Heat Sheets.';
+    }
+
+    const totalCard = Array.from(document.querySelectorAll('.hero-bottom .info-card')).find(function(card){
+      return (card.querySelector('.info-label')?.textContent || '').trim().toLowerCase() === 'entry / heat totals';
+    });
+    if(totalCard){
+      const entries = items.reduce(function(sum,item){ return sum + countEntries(item.visibleHeats.length ? item.visibleHeats : item.ev.heats); }, 0);
+      const heats = items.reduce(function(sum,item){ return sum + (item.visibleHeats.length ? item.visibleHeats.length : (item.ev.heats || []).length); }, 0);
+      const value = totalCard.querySelector('.info-value');
+      if(value) value.textContent = `${entries} / ${heats}`;
+    }
+
+    const heatSheetsPill = document.querySelector('.command-bar .info-card .info-pill');
+    if(heatSheetsPill) heatSheetsPill.textContent = `${items.length} events`;
+  }
+
+  function cardTitle(item){
+    if(!item) return '—';
+    return `Event ${item.ev.eventNumber} · ${item.ev.eventName}`;
+  }
+
+  function cardMeta(item){
+    if(!item) return '—';
+    const heats = item.visibleHeats.length ? item.visibleHeats : (item.ev.heats || []);
+    return `${countEntries(heats)} entries · ${heats.length} heat${heats.length === 1 ? '' : 's'}`;
+  }
+
+  function updateSmartCards(items){
+    const now = items[0], next = items[1], third = items[2];
+    const smartCards = document.querySelectorAll('.smart-card');
+
+    if(smartCards[0]){
+      smartCards[0].querySelector('.smart-main').textContent = cardTitle(now);
+      smartCards[0].querySelector('.smart-sub').textContent = cardMeta(now);
+    }
+    if(smartCards[1]){
+      smartCards[1].querySelector('.smart-main').textContent = cardTitle(next);
+      smartCards[1].querySelector('.smart-sub').textContent = cardMeta(next);
+    }
+    if(smartCards[2]){
+      smartCards[2].querySelector('.smart-main').textContent = third ? cardTitle(third) : (now ? 'Session active' : 'No events shown');
+      smartCards[2].querySelector('.smart-sub').textContent = third ? cardMeta(third) : 'Timeline is filtered by the selected session.';
+    }
+
+    const liveBtn = document.getElementById('liveTrackerBtn');
+    if(liveBtn && now){
+      liveBtn.href = '#event-' + now.ev.eventNumber;
+      const title = liveBtn.querySelector('.live-tracker-title');
+      if(title) title.textContent = cardTitle(now);
+    }
+
+    const nowCard = document.querySelector('.command-bar .live-card');
+    if(nowCard && now){
+      nowCard.href = 'heat-sheets.html#event-' + now.ev.eventNumber;
+      const val = nowCard.querySelector('.info-value');
+      if(val) val.textContent = cardTitle(now);
+      const meta = nowCard.querySelector('.info-meta');
+      if(meta){
+        const heats = now.visibleHeats.length ? now.visibleHeats : (now.ev.heats || []);
+        meta.innerHTML = `
+          <span class="info-pill">${countEntries(heats)} entries</span>
+          <span class="info-pill">${heats.length} heat${heats.length === 1 ? '' : 's'}</span>
+          <span class="info-pill">${escapeHtml(firstTime(heats))}</span>`;
+      }
+    }
+  }
+
+  function initTimelineSessionSelector(){
+    const sel = document.getElementById('timelineSessionSelector');
+    const help = document.getElementById('timelineSessionHelp');
+    if(!sel) return;
+
+    const sessions = getSessions();
+    sel.innerHTML = sessions.map(function(s){
+      return `<option value="${escapeHtml(s.key)}">${escapeHtml(s.label)}</option>`;
+    }).join('');
+
+    if(!sessions.some(function(s){ return s.key === selectedTimelineSession; })) selectedTimelineSession = 'all';
+    sel.value = selectedTimelineSession;
+
+    function updateHelp(){
+      const label = sel.selectedOptions[0]?.textContent || 'All Sessions';
+      if(help) help.textContent = selectedTimelineSession === 'all' ? 'Showing all sessions.' : `Showing ${label}.`;
+    }
+
+    sel.addEventListener('change', function(e){
+      selectedTimelineSession = e.target.value || 'all';
+      localStorage.setItem('hpacSelectedSession', selectedTimelineSession);
+      updateHelp();
+      renderTimeline();
+    });
+
+    updateHelp();
+    renderTimeline();
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initTimelineSessionSelector);
+  } else {
+    initTimelineSessionSelector();
+  }
+})();
+</script>
+<!-- HPAC TIMELINE SESSION SELECTOR SYNC END -->
+
+<!-- HPAC SHARED MEET HEADER SYNC START -->
+<script>
+(function() {
+  const PAGE_LABEL = "Timeline";
+
+  function setText(selector, text) {
+    document.querySelectorAll(selector).forEach(function(el) {
+      if (el) el.textContent = text;
+    });
+  }
+
+  function runMeetHeaderSync() {
+    const cfg = window.HPAC_MEET_CONFIG;
+    if (!cfg) return;
+
+    const meetName = cfg.meetName || "HPAC Meet Suite";
+    const location = cfg.location || "";
+    const dates = cfg.dates || "";
+    const subtitle = [location, dates].filter(Boolean).join(" · ");
+    const fullTitle = PAGE_LABEL ? `${meetName} — ${PAGE_LABEL}` : meetName;
+
+    // Browser tab title
+    document.title = fullTitle;
+
+    // Main page header/title
+    const mainTitle = document.getElementById("meetName") || document.querySelector(".hero h1, h1");
+    if (mainTitle) mainTitle.textContent = fullTitle;
+
+    // Main page subtitle area
+    const mainSub = document.getElementById("meetSub") || document.querySelector(".hero-sub, .sub, .title-sub");
+    if (mainSub && subtitle) mainSub.textContent = subtitle;
+
+    // Meet Central / dashboard identity cards
+    setText(".meet-central-meetname", meetName);
+    setText(".meet-central-meetsub", subtitle || meetName);
+
+    // Common logo hooks
+    document.querySelectorAll(".hero-corner-logo, .meet-central-brand img").forEach(function(img) {
+      if (cfg.logo && img && !img.dataset.keepLogo) img.src = cfg.logo;
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", runMeetHeaderSync);
+  } else {
+    runMeetHeaderSync();
+  }
+})();
+</script>
+<!-- HPAC SHARED MEET HEADER SYNC END -->
+</body>
+</html>

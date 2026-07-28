@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Archivo+Black&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-canvas text-ink-900 font-sans antialiased;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-card/90 backdrop-blur-md border border-line;
+  }
+  .glass-card {
+    @apply bg-card border border-line rounded-2xl shadow-sm;
+  }
+  .olympic-bar {
+    @apply bg-gradient-to-r from-green-950 via-green-800 to-green-950 border-y-2 border-gold-600;
+  }
+  .lower-third {
+    @apply bg-card border-l-4 border-gold-600 px-4 py-3 rounded-r-lg shadow-sm;
+  }
+  .event-chip {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium;
+  }
+  .highlight-row {
+    @apply bg-gold-100 border-l-4 border-gold-600;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(22, 101, 52, 0.25);
+    border-radius: 3px;
+  }
+}

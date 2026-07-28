@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>STX Printable Heat Sheets</title>
+<style>
+:root {
+  --green-dark:#0B5A42;--gold:#C8AB58;--gold-light:#D4BC78;--tan-box:#EDE0C8;--tan-dark:#C5AD80;--gray-box:#DCE4EB;--gray-header:#CED8E0;--divider:#B8C8D4;--event-strip:#1C3D52;--text-dark:#1a1a1a;--text-light:#666;--highlight-color:#fff3a6;--highlight-border:#d4a500;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f4f2;color:var(--text-dark);font-family:Georgia,serif;font-size:7.5pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.toolbar{position:sticky;top:0;z-index:10;background:#0f172a;color:#fff;padding:10px 14px;font-family:Arial,sans-serif;display:flex;gap:10px;align-items:center;justify-content:center}
+.toolbar button,.toolbar a{border:0;border-radius:999px;padding:9px 14px;font-weight:900;background:#ffe066;color:#0f172a;text-decoration:none;cursor:pointer}
+.page{width:8.5in;min-height:11in;margin:0.2in auto;background:#fff;padding:0.12in 0.2in;box-shadow:0 4px 18px rgba(0,0,0,.12)}
+.page-header{display:flex;align-items:stretch;border-radius:7px;overflow:hidden;margin-bottom:5px;background:var(--gold)}
+.header-green{background:var(--green-dark);flex:1;padding:7px 12px;border-radius:7px 0 0 7px;display:flex;flex-direction:column;justify-content:center}
+.header-green h1{font-size:17pt;font-weight:bold;color:#fff;letter-spacing:.01em;line-height:1.1;margin:0 0 1px}
+.header-green .subtitle{font-size:8pt;font-weight:bold;color:var(--gold-light);letter-spacing:.04em;text-transform:uppercase;margin-bottom:2px}
+.header-green .meta{font-size:7pt;color:rgba(255,255,255,.85);letter-spacing:.02em}
+.header-logo{width:88px;background:var(--gold);display:flex;align-items:center;justify-content:center;padding:5px 7px;border-radius:0 7px 7px 0}
+.header-logo img{width:72px;height:72px;object-fit:contain;filter:drop-shadow(0 1px 3px rgba(0,0,0,.2))}
+.event-block{margin-bottom:4px;break-inside:avoid-page}
+.event-strip{background:var(--event-strip);color:#fff;padding:2px 8px;border-radius:4px 4px 0 0;display:flex;align-items:center;justify-content:space-between}
+.event-strip .event-label{font-size:7.5pt;font-weight:bold;letter-spacing:.03em;text-transform:uppercase}
+.event-strip .event-note{font-size:7pt;color:rgba(255,255,255,.7);font-style:italic}
+.info-row{display:flex;gap:5px;margin-bottom:4px}
+.records-box{flex:1;background:var(--tan-box);border-radius:0 0 6px 6px;padding:3px 7px;border:1px solid var(--tan-dark);border-top:none}
+.box-title{font-size:7.5pt;font-weight:bold;margin-bottom:2px;padding-bottom:2px;border-bottom:.5px solid var(--tan-dark)}
+.records-inline{font-size:6.5pt;margin-bottom:2px;display:flex;align-items:center;flex-wrap:wrap;gap:2px 5px}
+.std-inline-age{font-weight:bold;color:var(--green-dark);font-size:6.5pt}
+.std-inline-time{font-size:6.5pt;margin-right:2px}
+.event-info-box{width:155px;flex-shrink:0;background:var(--gray-box);border-radius:0 0 6px 6px;border:1px solid var(--divider);border-top:none;overflow:hidden;display:flex;flex-direction:column}
+.event-info-header{background:var(--gray-header);padding:3px 8px;font-size:7.5pt;font-weight:bold;color:var(--event-strip);border-bottom:1px solid var(--divider)}
+.event-info-body{padding:2px 6px;display:flex;flex-direction:column;gap:1px;flex:1}
+.info-line{display:flex;justify-content:space-between;font-size:6pt;gap:4px}
+.info-key{font-weight:bold;color:#333;white-space:nowrap} .info-val{text-align:right}
+.heats-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.heat-box{border:1px solid var(--divider);border-radius:5px;overflow:hidden;background:#fff;break-inside:avoid}
+.heat-header{background:#fff;padding:2px 7px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--divider)}
+.heat-title{font-size:7.5pt;font-weight:bold;color:var(--green-dark)} .heat-time{font-size:6.5pt;color:var(--text-light);font-style:italic}
+.heat-cols,.swimmer-row{display:grid;grid-template-columns:16px 1fr 28px 46px 34px 1fr;padding:1px 7px;align-items:baseline}
+.heat-cols{background:var(--gray-box);border-bottom:.5px solid var(--divider)}
+.heat-cols span{font-size:6.5pt;font-weight:bold;color:#333;text-transform:uppercase;letter-spacing:.03em}
+.swimmer-row span{font-size:6.5pt;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.col-club{font-size:6pt!important} .col-notes{position:relative;color:var(--text-light);padding-right:8px}
+.col-notes::after{content:'';display:block;position:absolute;bottom:1px;left:0;width:55%;border-bottom:.8px solid #888}
+.highlighted span{background:var(--row-highlight-color,var(--highlight-color))!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.swimmer-row.highlighted{background:var(--row-highlight-color,var(--highlight-color))!important;box-shadow:inset 4px 0 0 var(--row-highlight-border,var(--highlight-border,#d4a500));-webkit-print-color-adjust:exact;print-color-adjust:exact}
+@page{size:letter;margin:.15in .2in}
+@media print{
+  body{background:white;margin:0}
+  .toolbar{display:none!important}
+  .page{width:100%;min-height:auto;margin:0;padding:.12in .18in;box-shadow:none;page-break-after:always}
+  .page:last-child{page-break-after:avoid}
+}
+</style>
+<script src="../data/stx-meet-data.js"></script>
+</head>
+<body>
+<div class="toolbar">
+  <strong>Printable Heat Sheets</strong>
+  <button onclick="window.print()">Print / Save PDF</button>
+  <a href="../stx-heat-sheets.html">Back to Web Heat Sheets</a>
+</div>
+<div id="pages"></div>
+<script>
+
+const HPAC_PRINT_TEAM_NAMES = {"AAAA-ST": "Alamo Area Aquatics", "AHAC-ST": "Alamo Heights Aquatic Club", "ASC-ST": "Austin Swim Club", "BAS-ST": "Brownsville Aquatics", "BEAQ-ST": "Boerne Elite Aquatics", "C3S-ST": "C3 Swim Club", "CLOV-ST": "Clover Aquatics", "FCAST-ST": "First Colony Swim Team Aquatics", "HOT-ST": "Heart of Texas Swim Team", "HPAC-ST": "High Performance Aquatic Club", "LCA-ST": "Lone Star Aquatics", "MMA-ST": "Mission Marlin Aquatics", "MSC-ST": "McAllen Swim Club", "SASA-ST": "Streamline Aquatics", "SEAL-ST": "Harlingen CISD SEAL Team", "SRG-ST": "Surge Aquatics", "SYS-ST": "Schertz YMCA Swim Team", "UN-ST": "Unattached", "UNAT-ST": "UNATTACHED", "VTAC-ST": "Victoria Texas Aquatic Club", "VTX-ST": "Laredo Vortex Aquatics", "WAVE-ST": "San Antonio Wave", "WEST-ST": "WEST", "WOW-ST": "Whitecaps of Westlake", "WWAC-ST": "Winning Waters Aquatics Club", "YMCA-ST": "YMCA Swim Alliance"};
+const HPAC_UNIFIED_KEYS = {
+  teamName: 'hpacMeetHighlightedTeam',
+  teamColor: 'hpacMeetHighlightColor',
+  swimmerMap: 'hpacMeetSwimmerHighlightMap',
+  crossPage: 'hpacCrossPageSwimmerHighlights',
+  favorites: 'hpacMeetFavorites'
+};
+const HPAC_HIGHLIGHT_PALETTE = {
+  gold:{bg:'#fff7d0', border:'#f0d452'},
+  lime:{bg:'#eef8f1', border:'#bfe3ca'},
+  sky:{bg:'#eef7ff', border:'#b9daf8'},
+  coral:{bg:'#fff1ee', border:'#f7c5bc'},
+  lavender:{bg:'#f5f0ff', border:'#d8c8fb'},
+  mint:{bg:'#ecfffb', border:'#b7eee3'},
+  rose:{bg:'#fff1f5', border:'#f6c1d2'},
+  slate:{bg:'#f2f5f9', border:'#cdd7e3'}
+};
+function readJson(key, fallback){ try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); } catch(e){ return fallback; } }
+function shadeColor(hex, percent){ const h=String(hex||'#fff3a6').replace('#',''); if(h.length!==6) return '#d4a500'; const n=parseInt(h,16); let r=(n>>16)+percent,g=((n>>8)&255)+percent,b=(n&255)+percent; r=Math.max(0,Math.min(255,r)); g=Math.max(0,Math.min(255,g)); b=Math.max(0,Math.min(255,b)); return '#'+(b|(g<<8)|(r<<16)).toString(16).padStart(6,'0'); }
+function hpacPaletteColor(value){
+  const raw=String(value || '').trim();
+  if(!raw) return null;
+  if(raw[0]==='#') return {bg:raw, border:shadeColor(raw,-90)};
+  return HPAC_HIGHLIGHT_PALETTE[raw.toLowerCase()] || null;
+}
+function normalizeHpacId(value){ return String(value || '').trim().toLowerCase(); }
+function normalizeHpacText(value){ return String(value || '').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,' '); }
+function nameVariants(value){
+  const raw=String(value || '').trim();
+  const vars=[normalizeHpacText(raw)];
+  if(raw.includes(',')){
+    const parts=raw.split(',');
+    const last=parts[0].trim();
+    const first=parts.slice(1).join(',').trim();
+    if(first && last) vars.push(normalizeHpacText(first + ' ' + last));
+  }
+  return Array.from(new Set(vars.filter(Boolean)));
+}
+function getUnifiedSwimmerMap(){ return readJson(HPAC_UNIFIED_KEYS.swimmerMap, {}); }
+function getUnifiedCrossPageHighlights(){ return readJson(HPAC_UNIFIED_KEYS.crossPage, {}); }
+function getTeamFullName(abbr){ return HPAC_PRINT_TEAM_NAMES[String(abbr || '').trim()] || ''; }
+function getEntryTeamName(entry){
+  const direct = entry.team || entry.teamName || '';
+  if(direct) return direct;
+  const abbr = String(entry.abbr || entry.teamAbbr || entry.dataset?.team || '').trim();
+  if(getTeamFullName(abbr)) return getTeamFullName(abbr);
+  if(typeof HPAC_ATHLETES !== 'undefined' && Array.isArray(HPAC_ATHLETES)){
+    const found = HPAC_ATHLETES.find(a => String(a.abbr || '').trim() === abbr);
+    if(found) return found.team || '';
+  }
+  return '';
+}
+function getEntryRosterIdFromCrossPage(entry){
+  const cross = getUnifiedCrossPageHighlights();
+  const entryNames = nameVariants(entry.displayName || entry.name || entry.swimmerName || entry.dataset?.swimmerName || '');
+  const entryTeam = normalizeHpacText(getEntryTeamName(entry) || entry.team || entry.teamName || entry.abbr || entry.dataset?.team || '');
+  const entryAbbr = normalizeHpacText(entry.abbr || entry.teamAbbr || entry.dataset?.team || '');
+  for(const item of Object.values(cross || {})){
+    if(!item) continue;
+    const itemNames = nameVariants(item.name || item.displayName || '');
+    const itemTeam = normalizeHpacText(item.team || item.abbr || '');
+    const nameMatches = entryNames.some(n => itemNames.includes(n));
+    if(!nameMatches) continue;
+    if(!entryTeam || !itemTeam || entryTeam === itemTeam || entryAbbr === itemTeam || entryTeam.includes(itemTeam) || itemTeam.includes(entryTeam)){
+      return item.id || '';
+    }
+  }
+  return '';
+}
+function getUnifiedSwimmerHighlightColor(entry){
+  const map = getUnifiedSwimmerMap();
+  const candidates = [entry.id, entry.rosterId, entry.swimmerId, entry.swimmerKey, entry.uss, getEntryRosterIdFromCrossPage(entry)].map(normalizeHpacId).filter(Boolean);
+  for(const id of candidates){ if(Object.prototype.hasOwnProperty.call(map, id)) return hpacPaletteColor(map[id]); }
+  return null;
+}
+function getUnifiedTeamHighlightColor(entry){
+  const selectedTeam = localStorage.getItem(HPAC_UNIFIED_KEYS.teamName) || '';
+  if(!selectedTeam) return null;
+  const selected = normalizeHpacText(selectedTeam);
+  const entryTeam = normalizeHpacText(getEntryTeamName(entry));
+  const entryAbbr = normalizeHpacText(entry.abbr || entry.teamAbbr || entry.dataset?.team || '');
+  if(selected && (selected === entryTeam || selected === entryAbbr || entryTeam.includes(selected) || selected.includes(entryTeam))){
+    return hpacPaletteColor(localStorage.getItem(HPAC_UNIFIED_KEYS.teamColor) || 'gold');
+  }
+  return null;
+}
+function getEntryHighlightColor(entry){
+  const swimmerColor = getUnifiedSwimmerHighlightColor(entry);
+  if(swimmerColor) return swimmerColor;
+  const teamColor = getUnifiedTeamHighlightColor(entry);
+  if(teamColor) return teamColor;
+  return null;
+}
+
+function highlightStyle(entry){ const color=getEntryHighlightColor(entry); if(!color) return ''; return ` style="--row-highlight-color:${escapeHtml(color.bg)};--row-highlight-border:${escapeHtml(color.border)}"`; }
+function isHighlighted(entry){ return !!getEntryHighlightColor(entry); }
+
+function escapeHtml(s){ return String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function init(){ renderPrint(); }
+function renderAll(){ renderPrint(); }
+function renderPrint(){
+  const pages = document.getElementById('pages');
+  let html = '';
+  let pageOpen = false, count = 0, lastEvent = null;
+  function openPage(){ html += `<section class="page">${headerHtml()}`; pageOpen = true; count = 0; lastEvent = null; }
+  function closePage(){ if(pageOpen) { html += `</section>`; pageOpen=false; } }
+  openPage();
+  HPAC_EVENTS.forEach(ev => {
+    let eventStartedOnPage = false;
+    ev.heats.forEach((h, idx) => {
+      if(count >= 10) { closePage(); openPage(); eventStartedOnPage=false; }
+      if(!eventStartedOnPage || lastEvent !== ev.eventNumber) {
+        html += eventHeader(ev); eventStartedOnPage = true; lastEvent = ev.eventNumber;
+      }
+      if(count % 2 === 0) html += `<div class="heats-grid">`;
+      html += heatHtml(h);
+      count++;
+      if(count % 2 === 0) html += `</div>`;
+    });
+    if(count % 2 !== 0) { html += `</div>`; count++; }
+  });
+  closePage();
+  pages.innerHTML = html;
+}
+function headerHtml(){
+  return `<div class="page-header"><div class="header-green"><h1>${escapeHtml(HPAC_MEET_CONFIG.meetName || 'Heat Sheets')}</h1><div class="subtitle">Heat Sheets &mdash; ${escapeHtml(HPAC_MEET_CONFIG.sessionName || 'Meet Program')}</div><div class="meta">${escapeHtml(HPAC_MEET_CONFIG.location || '')} &bull; ${escapeHtml(HPAC_MEET_CONFIG.dates || '')}</div></div><div class="header-logo"><img src="../assets/logos/hpac.png" alt="logo" onerror="this.style.display='none'"/></div></div>`;
+}
+function eventHeader(ev){
+  return `<div class="event-block"><div class="event-strip"><div class="event-label">Event ${ev.eventNumber} &mdash; ${escapeHtml(ev.eventName)}</div><div class="event-note">${ev.heats.length} heat sections</div></div><div class="info-row"><div class="records-box"><div class="box-title">Records / Standards</div><div class="records-inline">${ev.standards.slice(0,8).map(s => `<span class="std-inline-age">${escapeHtml(s.label)}</span> <span class="std-inline-time">${escapeHtml(s.time)}</span>`).join(' ') || 'Standards available when exported.'}</div></div><div class="event-info-box"><div class="event-info-header">Event Info</div><div class="event-info-body"><div class="info-line"><span class="info-key">Heat Sections:</span><span class="info-val">${ev.heats.length}</span></div><div class="info-line"><span class="info-key">Entries:</span><span class="info-val">${ev.totalEntries}</span></div><div class="info-line"><span class="info-key">Sponsored by:</span><span class="info-val">STX Champs</span></div></div></div></div></div>`;
+}
+function heatHtml(h){
+  return `<div class="heat-box"><div class="heat-header"><span class="heat-title">${escapeHtml(h.heatLabel)}</span><span class="heat-time">${escapeHtml(h.startTime || '')}</span></div><div class="heat-cols"><span>LN</span><span>Swimmer</span><span>Age</span><span>Club</span><span>Seed</span><span>Notes</span></div>${h.entries.map(en => `<div class="swimmer-row ${isHighlighted(en) ? 'highlighted' : ''}"${highlightStyle(en)}><span>${escapeHtml(en.lane)}</span><span>${escapeHtml(en.name)}</span><span>${escapeHtml(en.age)}</span><span class="col-club">${escapeHtml(en.abbr)}</span><span>${escapeHtml(en.seed)}</span><span class="col-notes">N:</span></div>`).join('')}</div>`;
+}
+window.addEventListener('load', init);
+</script>
+</body>
+</html>

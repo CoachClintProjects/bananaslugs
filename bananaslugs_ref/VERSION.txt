@@ -1,0 +1,4 @@
+HPAC Meet Suite – Heat Sheets DEV
+Last updated: April 29
+Status: Header synced, sessions working, dashboard merged
+Next step: restore scratch tracker
